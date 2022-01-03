@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/PlayerWalkingWood.mp3-712ea4e70cfdb4bfc1be08a677db6651.mp3str"
+
+[deps]
+
+source_file="res://Assets/Player/PlayerWalkingWood.mp3"
+dest_files=[ "res://.import/PlayerWalkingWood.mp3-712ea4e70cfdb4bfc1be08a677db6651.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

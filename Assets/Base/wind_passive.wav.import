@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/wind_passive.wav-b03fd612ac687337dd08460ac63dbac3.sample"
+
+[deps]
+
+source_file="res://Assets/Base/wind_passive.wav"
+dest_files=[ "res://.import/wind_passive.wav-b03fd612ac687337dd08460ac63dbac3.sample" ]
+
+[params]
+
+force/8_bit=true
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=true
+compress/mode=0

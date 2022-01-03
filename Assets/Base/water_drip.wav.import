@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/water_drip.wav-9015397778476ea5608b91ce876ce671.sample"
+
+[deps]
+
+source_file="res://Assets/Base/water_drip.wav"
+dest_files=[ "res://.import/water_drip.wav-9015397778476ea5608b91ce876ce671.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

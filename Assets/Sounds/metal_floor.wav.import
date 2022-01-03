@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/metal_floor.wav-cdc1a760e45124b30353b5c9a44dfbf0.sample"
+
+[deps]
+
+source_file="res://Assets/Sounds/metal_floor.wav"
+dest_files=[ "res://.import/metal_floor.wav-cdc1a760e45124b30353b5c9a44dfbf0.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

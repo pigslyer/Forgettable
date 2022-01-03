@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/wooden_floor.wav-07a81e18a3d612171b0a15ff9770b5f5.sample"
+
+[deps]
+
+source_file="res://Assets/Sounds/wooden_floor.wav"
+dest_files=[ "res://.import/wooden_floor.wav-07a81e18a3d612171b0a15ff9770b5f5.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

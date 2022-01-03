@@ -1,0 +1,2 @@
+hand cranked flashlight
+mechanical door (open and closer sprites, with name plate thing or something that one could read a name off of, as well as a door opening thing and keycard receptor)

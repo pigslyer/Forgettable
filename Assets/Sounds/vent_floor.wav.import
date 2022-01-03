@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/vent_floor.wav-2ebb21d88799785a025e81e5ff1ca7ae.sample"
+
+[deps]
+
+source_file="res://Assets/Sounds/vent_floor.wav"
+dest_files=[ "res://.import/vent_floor.wav-2ebb21d88799785a025e81e5ff1ca7ae.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

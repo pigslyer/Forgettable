@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/knife_swish.wav-221eb07ad041e75a9d91c8ebfaa4245b.sample"
+
+[deps]
+
+source_file="res://Assets/Enemies/knife_swish.wav"
+dest_files=[ "res://.import/knife_swish.wav-221eb07ad041e75a9d91c8ebfaa4245b.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=true
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=false
+edit/loop=false
+compress/mode=0

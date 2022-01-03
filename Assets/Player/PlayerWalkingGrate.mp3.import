@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/PlayerWalkingGrate.mp3-7a1e31b3e8ff98b2f0a894afbc03c865.mp3str"
+
+[deps]
+
+source_file="res://Assets/Player/PlayerWalkingGrate.mp3"
+dest_files=[ "res://.import/PlayerWalkingGrate.mp3-7a1e31b3e8ff98b2f0a894afbc03c865.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

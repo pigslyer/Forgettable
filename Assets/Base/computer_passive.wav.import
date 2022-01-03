@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/computer_passive.wav-0b21c6a4e416b2567ea829426514742f.sample"
+
+[deps]
+
+source_file="res://Assets/Base/computer_passive.wav"
+dest_files=[ "res://.import/computer_passive.wav-0b21c6a4e416b2567ea829426514742f.sample" ]
+
+[params]
+
+force/8_bit=true
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=true
+compress/mode=0

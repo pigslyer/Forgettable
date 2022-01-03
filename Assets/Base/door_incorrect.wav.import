@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/door_incorrect.wav-fe8a92460c2cfd218fe3499a57c2118e.sample"
+
+[deps]
+
+source_file="res://Assets/Base/door_incorrect.wav"
+dest_files=[ "res://.import/door_incorrect.wav-fe8a92460c2cfd218fe3499a57c2118e.sample" ]
+
+[params]
+
+force/8_bit=true
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=1

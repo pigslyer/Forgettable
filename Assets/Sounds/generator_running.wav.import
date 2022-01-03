@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/generator_running.wav-e99fdc95c027e3aa84a0f5d6ba46c181.sample"
+
+[deps]
+
+source_file="res://Assets/Sounds/generator_running.wav"
+dest_files=[ "res://.import/generator_running.wav-e99fdc95c027e3aa84a0f5d6ba46c181.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=true
+compress/mode=0

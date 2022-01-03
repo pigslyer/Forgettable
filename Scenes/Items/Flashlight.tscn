@@ -1,0 +1,32 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Scenes/Objects/Flicker.gd" type="Script" id=1]
+[ext_resource path="res://Assets/CampiArt/flashlight.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Base/testcone5.png" type="Texture" id=3]
+[ext_resource path="res://Scenes/Items/ItemBase.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/Items/Flashlight.gd" type="Script" id=5]
+[ext_resource path="res://Assets/Player/FlashLightToggle.wav" type="AudioStream" id=6]
+
+[node name="Flashlight" instance=ExtResource( 4 )]
+texture = ExtResource( 2 )
+script = ExtResource( 5 )
+item_name = "Flashlight"
+item_tooltip = "An old flashlight, charged via hand-crank. I do not know the reason someone kept it
+in this facility."
+item_size = Vector2( 3, 2 )
+
+[node name="Beam" type="Light2D" parent="." index="1"]
+enabled = false
+texture = ExtResource( 3 )
+offset = Vector2( 212, 0 )
+script = ExtResource( 1 )
+int_min = 0.9
+int_max = 1.6
+smoothing = 20
+
+[node name="Click" type="AudioStreamPlayer2D" parent="." index="2"]
+stream = ExtResource( 6 )
+bus = "SFX"
+
+[node name="Crank" type="AudioStreamPlayer2D" parent="." index="3"]
+bus = "SFX"
