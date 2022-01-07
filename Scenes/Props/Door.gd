@@ -14,6 +14,10 @@ export (bool) var powered = true;
 export (String,MULTILINE) var no_power_line = "The door isn't powered";
 export (String,MULTILINE) var locked_line = "The door's locked";
 
+func data_save(): return [open,locked,powered];
+func data_load(data): 
+	open = data[0]; locked = data[1]; powered = data[2];
+
 func _ready():
 	if outer_text.empty():
 		$WhenClosed/Text.hide();

@@ -152,7 +152,7 @@ script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": true
 }
-message = "Open door"
+message = "Open"
 
 [node name="OuterKeycard" type="Sprite" parent="WhenClosed"]
 position = Vector2( 39, -47 )
@@ -172,7 +172,7 @@ script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": true
 }
-message = "Use keycard"
+message = "Lock/unlock"
 
 [node name="InnerOpen" type="Sprite" parent="WhenClosed"]
 position = Vector2( -39, -46 )
@@ -188,7 +188,7 @@ script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": true
 }
-message = "Open door"
+message = "Open"
 
 [node name="InnerKeycard" type="Sprite" parent="WhenClosed"]
 position = Vector2( -39, 47 )
@@ -208,7 +208,7 @@ script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": true
 }
-message = "Use keycard"
+message = "Lock/unlock"
 
 [node name="Text" type="Sprite" parent="WhenClosed"]
 position = Vector2( 16, 0 )
@@ -224,7 +224,7 @@ script = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-message = "Read plate"
+message = "Read"
 
 [node name="Skkrt" type="AudioStreamPlayer2D" parent="WhenClosed"]
 bus = "SFX"

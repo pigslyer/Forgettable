@@ -9,8 +9,9 @@ var keycards: String;
 var keycard_ids: Array;
 
 onready var tooltip: TextEdit = $VSplitContainer/HSplitContainer/ItemDesc;
-onready var waffle: = $VSplitContainer/HSplitContainer/ItemWaffle;
+onready var waffle: = $VSplitContainer/HSplitContainer/VSplitContainer/ItemWaffle;
 onready var selected_rect: ReferenceRect = $Selected;
+onready var hotbar := $VSplitContainer/HSplitContainer/VSplitContainer/Hotbar;
 
 func _ready():
 	waffle.items = items;
@@ -18,13 +19,15 @@ func _ready():
 func add_item(item: ItemInventory) -> void:
 	waffle.add_item(item);
 
+func get_item(path: String, count: int) -> int:
+	return waffle.get_item(path,count);
+
 func add_keycard(display_name: String, key: String):
 	keycards += display_name+"\n";
 	keycard_ids.append(key);
 
 func select(chosen: ItemInventory):
 	override_tooltip();
-	update_equipped();
 	
 	if chosen != null:
 		selected = chosen;
@@ -37,7 +40,8 @@ func select(chosen: ItemInventory):
 		selected_rect.rect_size = chosen.size*waffle.step;
 	else:
 		override_selected();
-
+	
+	update_button();
 
 func _on_ItemWaffle_gui_input(ev: InputEvent):
 	if ev is InputEventMouseButton && ev.button_index == BUTTON_LEFT && ev.pressed:
@@ -48,30 +52,49 @@ func _on_ItemWaffle_gui_input(ev: InputEvent):
 		else:
 			override_selected();
 			override_tooltip();
+			update_button();
 			tooltip.text = "";
+	elif ev.is_action_pressed("rmb") && waffle.get_at_pos(ev.position) != null:
+		selected = waffle.get_at_pos(ev.position);
+		_on_Drop_pressed();
+		update_button();
 
 func _input(ev):
-	if visible && ev.is_action_pressed("inventory"):
-		hide();
-		get_viewport().set_input_as_handled();
+	if visible:
+		if ev.is_action_pressed("inventory"):
+			hide();
+			get_viewport().set_input_as_handled();
+		
+		# bind to hotbar shortcut
+		if ev is InputEventKey && ev.pressed && !ev.echo && ev.physical_scancode >= KEY_1 && ev.physical_scancode < KEY_1+hotbar.SLOTS:
+			var item = selected if selected != null else waffle.get_at_pos(get_local_mouse_position()-waffle.rect_position);
+			
+			if item != null:
+				if waffle.get_at_pos(get_local_mouse_position()-waffle.rect_position) in hotbar.items:
+					hotbar.drop_data(
+							Vector2((ev.physical_scancode-KEY_1)*(hotbar.rect_width+hotbar.SPACING),hotbar.SPACING*2),
+							DragData.ItemHotbar.new(item,hotbar)
+					);
+				else:
+					hotbar.items[ev.physical_scancode-KEY_1] = waffle.get_at_pos(get_local_mouse_position()-waffle.rect_position);
+					hotbar.update_hotbars();
+			
+			get_viewport().set_input_as_handled();
 
 # not sure if i should use a signal. wanna be handsy tho
 func _on_Equip_pressed():
 	Groups.get_player().equip(selected);
-	update_equipped();
 
+# no, i don't know what this function does
 func _on_Drop_pressed():
 	items.remove(items.find(selected));
 	if Groups.get_player().equipped == selected: Groups.get_player().equip(null);
 	waffle.update_data();
-	var item = load(selected.path).instance();
-	item.count = selected.count;
-	Projectile.add_child(item);
-	item.add_to_group(Groups.DROPPED_ITEM);
-	item.global_position = Groups.get_player().global_position;
+	Projectile.drop_item(selected);
 	override_selected();
+	update_button();
 	tooltip.text = "";
-	update_equipped();
+	selected = null;
 
 
 func _on_Keycards_pressed():
@@ -81,6 +104,7 @@ func _on_Keycards_pressed():
 
 func _on_Notes_pressed():
 	override_selected();
+	update_equipped();
 	tooltip.readonly = false;
 	tooltip.text = saved_note;
 
@@ -94,12 +118,23 @@ func override_selected():
 	selected_rect.hide();
 	$VSplitContainer/Buttons/Equip.disabled = true;
 	$VSplitContainer/Buttons/Drop.disabled = true;
+	update_button();
 
 func update_equipped():
+	update_button();
+	var equipped = Groups.get_player().equipped;
 	
-	var equipped := Groups.get_player().equipped;
 	$Equipped.visible = equipped != null;
 	
 	if equipped != null:
 		$Equipped.rect_position = waffle.get_global_rect().position-get_global_rect().position+Groups.get_player().equipped.pos*waffle.step;
 		$Equipped.rect_size = equipped.size*waffle.step;
+
+func update_button():
+	var equipped = Groups.get_player().equipped;
+	var button: Button = $VSplitContainer/Buttons/Equip;
+	
+	if equipped != null && equipped == selected:
+		button.text = "Unequip";
+	else:
+		button.text = "Equip";

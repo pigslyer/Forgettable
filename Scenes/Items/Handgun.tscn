@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Scenes/Items/Gun.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/CampiArt/gun1911.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/Items/Ammo1911.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/Items/Handgun.gd" type="Script" id=4]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 1024.0
+
+[node name="Handgun" instance=ExtResource( 1 )]
+position = Vector2( 9, -4 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 2 )
+script = ExtResource( 4 )
+item_name = "1911"
+item_tooltip = "It is a 1911."
+item_size = Vector2( 2, 2 )
+animation_type = 1
+ammo_type = ExtResource( 3 )
+ammo_max = 7
+
+[node name="FireFrom" parent="." index="0"]
+position = Vector2( 30, -12 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Noise" index="0"]
+visible = false
+position = Vector2( 24, -12 )
+shape = SubResource( 1 )

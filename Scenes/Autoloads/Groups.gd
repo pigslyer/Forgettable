@@ -10,6 +10,10 @@ const SAVING = "SAVES"
 # popped up and allow it again once hidden
 const DISABLE_FOLLOW = "popup_disable_follow";
 
+var saveables := {
+	
+}
+
 func refresh_popup_disable_follow():
 	var player = get_player();
 	for popup in get_tree().get_nodes_in_group(DISABLE_FOLLOW):

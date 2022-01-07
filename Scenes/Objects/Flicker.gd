@@ -1,4 +1,3 @@
-class_name Flicker
 extends Light2D
 
 const interp_time = 0.15

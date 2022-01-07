@@ -13,9 +13,8 @@ var tooltip: String;
 var texture: Texture;
 
 # use item should be itemBase. can't declare it because of cyclic reference
-func _init(file: String, p: Vector2, c: int = 1, use_item = null):
+func _init(file: String, use_item = null, p: Vector2 = -Vector2.ONE, c: int = -1):
 	path = file;
-	count = c;
 	pos = p;
 	
 	if use_item == null:
@@ -27,5 +26,8 @@ func _init(file: String, p: Vector2, c: int = 1, use_item = null):
 	texture = use_item.get_texture();
 	
 	size = use_item.item_size;
+	count = use_item.count if c == -1 else c;
 	stack = use_item.stack_size;
 
+func _to_string():
+	return str(name," ",count," ",stack," ",pos," ",size);

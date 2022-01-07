@@ -1,8 +1,9 @@
 rework ui - less mobile game, more thiefish
 add dialogue player, with option for background and sprite changes
 add basic melee enemy
-improve movement game feel
 add saving system
 add room system
 add transition doors
 add more floor tiles
+
+player animations: one handed idle, one handed run, two handed idle, two handed run

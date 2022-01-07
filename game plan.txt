@@ -1,0 +1,20 @@
+
+gameplay: 
+heavy. all the enemies die in 1/2 hits. ammo is scarce and every shot is valuable. there's a strong melee on (most if not all) weapons,
+which lets you deal a lot of damage if you get up close
+
+melee either deals a lot of damage or staggers enemies.
+
+guns jam as you shoot them too much. 1/20 chance normally, increases with successive shots. combine with realistic RoF to punish gun spam.
+unjamming is done via reload button spam, disallows melee attack while spamming. character vibrates while unjamming, shouts "Jammed!" when the gun jams and the ammo counter turns red with a "Jammed (R)" text on it.
+
+light:
+a hazard. some guns have weak flashlights but outside of that, you need to switch to the main one, which takes its sweet time to charge (not to mention the time to switch).
+
+enemy types:
+
+melee guy, rushes you whenever you *aren't* looking at him (done via visibility notifiers), emits a particular high pitched screech as he does so. when you are looking at him he stands still if you haven't got a gun. if you do (or you reveal its bulletlessness) he charges.
+
+pistol guy, long(er) range. uses a laser sight to pinpoint the player, who has to use cover in order to break LoS. his shots work similar to the Burst (takes time to aim down, shoots instantly once player is in cover
+
+shotgun guy, rank and file grunt, runs at the player and shoots them in the face. dies quick.

@@ -10,10 +10,7 @@ func _use():
 
 func _equip_on():
 	on = false;
-	$Beam.enabled = false;
+	$Beam.set_enabled(false);
 
 func _hud_primary() -> String:
 	return "Turn off" if on else "Turn on";
-
-func _hud_secondary() -> String:
-	return "Crank";
