@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scenes/Objects/Flicker2.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Base/wall_light.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Base/light_smol.png" type="Texture" id=3]
+
+[node name="WallLight" type="Light2D"]
+texture = ExtResource( 3 )
+color = Color( 0.929412, 0.792157, 0.505882, 1 )
+shadow_enabled = true
+script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+show_behind_parent = true
+light_mask = 0
+texture = ExtResource( 2 )

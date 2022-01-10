@@ -6,6 +6,7 @@ var on := false;
 func _use():
 	on = !on;
 	$Beam.set_enabled(on);
+	$Click.play();
 	update_hud();
 
 func _equip_on():

@@ -42,6 +42,7 @@ func select(chosen: ItemInventory):
 		override_selected();
 	
 	update_button();
+	update_equipped();
 
 func _on_ItemWaffle_gui_input(ev: InputEvent):
 	if ev is InputEventMouseButton && ev.button_index == BUTTON_LEFT && ev.pressed:

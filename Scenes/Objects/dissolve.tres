@@ -1,0 +1,20 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform float max_off = 0.1f;
+uniform float percent;
+
+void fragment(){
+	vec2 changed_uv = UV;
+	changed_uv.y += max_off * clamp(percent-UV.x,0f,1f);
+	COLOR = texture(TEXTURE,changed_uv);
+	COLOR.a *= 1f-clamp(percent-UV.x,0f,1f);
+}"
+
+[resource]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/max_off = 0.1
+shader_param/percent = null

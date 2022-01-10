@@ -16,7 +16,7 @@ script = ExtResource( 5 )
 item_name = "Flashlight"
 item_tooltip = "An old flashlight, charged via hand-crank. I do not know the reason someone kept it
 in this facility."
-item_size = Vector2( 3, 2 )
+item_size = Vector2( 2, 1 )
 animation_type = 1
 
 [node name="Beam" type="Light2D" parent="." index="0"]
@@ -30,7 +30,4 @@ script = ExtResource( 1 )
 
 [node name="Click" type="AudioStreamPlayer2D" parent="." index="1"]
 stream = ExtResource( 6 )
-bus = "SFX"
-
-[node name="Crank" type="AudioStreamPlayer2D" parent="." index="2"]
 bus = "SFX"

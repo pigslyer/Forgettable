@@ -9,6 +9,7 @@ const ACCEL = 400;
 const MIN_SPEED_MOD = 0.6;
 const RUN_ACC_MOD = 2.5;
 const FRIC = 0.9;
+const MAX_HEALTH = 100;
 
 # max body animation speed when running and walking
 const BODY_RUN_SPEED = 1.3;
@@ -23,7 +24,7 @@ const CAM_SHAKE_DIST = Vector2(0,2);
 const CAM_SHAKE_SPRINT_MULT = 4;
 const CAM_SHAKE_MULT = 0.3;
 
-var health := 100 setget set_health;
+var health := MAX_HEALTH setget set_health;
 var dead := false;
 
 var velocity := Vector2.ZERO;
@@ -50,6 +51,8 @@ func _ready():
 	hotbar_items.resize(hotbar.SLOTS);
 	hotbar.items = hotbar_items;
 	$HUD/Theme/Hotbar.items = hotbar_items;
+	
+	Music.play_music(Music.MUSIC.AMBIENT);
 
 func equip(item: ItemInventory):
 	
@@ -69,6 +72,7 @@ func equip(item: ItemInventory):
 			equipped_item = load(item.path).instance(); $Animated/Body/ArmRight/Hand.add_child(equipped_item);
 			equipped_item.equip(); equipped = item;
 			has_gun = equipped_item is Gun;
+			$EquippingDelay.start();
 	
 	emit_signal("equipped_new");
 
@@ -142,7 +146,7 @@ func _physics_process(delta):
 	$Camera.offset = cam_shake_off;
 
 func _unhandled_input(ev: InputEvent):
-	if equipped != null && ev.is_action_pressed("lmb"): 
+	if equipped != null && ev.is_action_pressed("lmb") && $EquippingDelay.is_stopped(): 
 			equipped_item._use();
 	
 	# not sure if scrolling should skip over empties (why would you want it not to?)
@@ -197,6 +201,7 @@ func say_line(text: String):
 
 func set_health(new_val: int):
 	health = new_val;
+	$HUD/Theme/Health.value = new_val/float(MAX_HEALTH);
 
 func follow_mouse(state: bool):
 	set_process_unhandled_key_input(state);
@@ -210,6 +215,9 @@ func add_item(item: ItemInventory) -> void:
 
 func add_keycard(display_name: String, key: String) -> void:
 	$HUD/Theme/Inventory.add_keycard(display_name,key);
+
+func get_waffle() -> ItemWaffle:
+	return $HUD/Theme/Inventory/VSplitContainer/HSplitContainer/VSplitContainer/ItemWaffle as ItemWaffle;
 
 func has_keycard(key: String) -> bool:
 	return key in $HUD/Theme/Inventory.keycard_ids;

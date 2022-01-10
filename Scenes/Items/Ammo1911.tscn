@@ -6,8 +6,8 @@
 [node name="Ammo" instance=ExtResource( 1 )]
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 2 )
-item_name = "Whatever caliber 1911 ammo is"
-item_tooltip = "Some 1911 ammo."
+item_name = ".45 ammo"
+item_tooltip = "Ammo for the 1911 handgun."
 stack_size = 7
 item_size = Vector2( 1, 2 )
 animation_type = 1

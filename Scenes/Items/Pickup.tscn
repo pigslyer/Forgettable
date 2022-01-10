@@ -14,4 +14,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Tween" type="Tween" parent="."]
+
 [connection signal="interacted" from="Interactive" to="." method="_on_Interactive_interacted"]

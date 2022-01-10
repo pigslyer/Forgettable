@@ -3,4 +3,5 @@
 [ext_resource path="res://Scenes/Items/ItemBase.gd" type="Script" id=1]
 
 [node name="ItemBase" type="Sprite"]
+show_behind_parent = true
 script = ExtResource( 1 )

@@ -16,6 +16,8 @@ export (Vector2) var item_size = Vector2.ONE;
 
 export (Anim) var animation_type;
 
+export (Texture) var override_icon;
+
 func _equip():
 	pass;
 
@@ -42,7 +44,7 @@ func unequip():
 	_unequip();
 
 func get_texture():
-	return texture;
+	return override_icon if override_icon != null else texture;
 
 func get_item_name():
 	return item_name;

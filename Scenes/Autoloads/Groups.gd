@@ -6,6 +6,8 @@ const DROPPED_ITEM = "dropped_item_group";
 # every saving node has to have a data_save and data_load method, which return save data and use it respectively
 const SAVING = "SAVES"
 
+const ENEMY = "ENEMY";
+
 # has to be attached to popup. that popup will automatically stop the player's mouse from following while
 # popped up and allow it again once hidden
 const DISABLE_FOLLOW = "popup_disable_follow";
@@ -30,8 +32,14 @@ func say_line(what: String):
 
 func get_simple_path(from: Vector2, to: Vector2) -> PoolVector2Array:
 	var navis = get_tree().get_nodes_in_group("Navigator");
+	var path;
 	if navis.size() == 1:
-		return navis[0].get_simple_path(from,to);
+		path = navis[0].get_simple_path(from,to);
 	elif navis[0].get_closest_point(from).distance_squared_to(from) < navis[1].get_closest_point(from).distance_squared_to(from):
-		return navis[0].get_simple_path(from,to);
-	return navis[1].get_simple_path(from,to);
+		path = navis[0].get_simple_path(from,to);
+	else:
+		path = navis[1].get_simple_path(from,to);
+	# we never need point 0
+	if !path.empty(): path.remove(0);
+	return path;
+

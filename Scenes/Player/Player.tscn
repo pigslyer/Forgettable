@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://Assets/Enemies/enemybottom2.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Player/playerUpper.png" type="Texture" id=2]
@@ -467,6 +467,14 @@ extents = Vector2( 44, 20 )
 [sub_resource type="CircleShape2D" id=1]
 radius = 22.0
 
+[sub_resource type="StyleBoxFlat" id=19]
+bg_color = Color( 1, 0, 0, 1 )
+border_width_left = 8
+border_width_top = 4
+border_width_right = 8
+border_width_bottom = 4
+border_blend = true
+
 [sub_resource type="InputEventAction" id=8]
 action = "ui_cancel"
 pressed = true
@@ -512,10 +520,10 @@ physical_scancode = 69
 shortcut = SubResource( 11 )
 
 [sub_resource type="CircleShape2D" id=7]
-radius = 64.0
+radius = 168.0
 
 [sub_resource type="CircleShape2D" id=4]
-radius = 256.0
+radius = 384.0
 
 [node name="Player" type="KinematicBody2D" groups=["Player"]]
 z_index = 100
@@ -525,6 +533,9 @@ script = ExtResource( 3 )
 [node name="PassiveLight" type="Light2D" parent="."]
 texture = ExtResource( 9 )
 script = ExtResource( 10 )
+energy_min = 0.3
+energy_max = 0.5
+smoothing = 20
 
 [node name="Animated" type="Node2D" parent="."]
 script = ExtResource( 4 )
@@ -583,7 +594,6 @@ texture = ExtResource( 16 )
 
 [node name="Hand" type="Position2D" parent="Animated/Body/ArmRight"]
 position = Vector2( 1.90735e-06, 1.90735e-06 )
-z_index = -4
 
 [node name="ArmLeft" type="Sprite" parent="Animated/Body"]
 visible = false
@@ -620,6 +630,7 @@ __meta__ = {
 
 [node name="InteractiveDisplay" type="Label" parent="HUD/Theme"]
 visible = false
+self_modulate = Color( 1, 1, 1, 0.627451 )
 anchor_left = 0.5
 anchor_top = 0.8
 anchor_right = 0.5
@@ -630,6 +641,23 @@ margin_right = 67.5
 margin_bottom = 24.5
 mouse_filter = 1
 align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Health" type="ProgressBar" parent="HUD/Theme"]
+modulate = Color( 1, 1, 1, 0.627451 )
+anchor_left = 0.05
+anchor_top = 0.1
+anchor_right = 0.3
+anchor_bottom = 0.15
+margin_right = 4.0
+margin_bottom = 17.0
+mouse_filter = 2
+custom_styles/fg = SubResource( 19 )
+max_value = 1.0
+value = 1.0
+percent_visible = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -676,6 +704,7 @@ margin_top = 36.0
 margin_right = 188.0
 margin_bottom = 68.0
 size_flags_vertical = 3
+disabled = true
 text = "Save"
 
 [node name="Button4" type="Button" parent="HUD/Theme/Pause/VBoxContainer"]
@@ -683,6 +712,7 @@ margin_top = 73.0
 margin_right = 188.0
 margin_bottom = 104.0
 size_flags_vertical = 3
+disabled = true
 text = "Load"
 
 [node name="Button3" type="Button" parent="HUD/Theme/Pause/VBoxContainer"]
@@ -853,6 +883,7 @@ __meta__ = {
 
 [node name="Primary" type="Label" parent="HUD/Theme"]
 visible = false
+self_modulate = Color( 1, 1, 1, 0.627451 )
 anchor_left = 0.05
 anchor_top = 0.8
 anchor_right = 0.05
@@ -866,6 +897,7 @@ __meta__ = {
 }
 
 [node name="Hotbar" type="ReferenceRect" parent="HUD/Theme"]
+self_modulate = Color( 1, 1, 1, 0.313726 )
 anchor_left = 0.2
 anchor_top = 0.87
 anchor_right = 0.8
@@ -879,12 +911,11 @@ __meta__ = {
 
 [node name="Camera" type="Camera2D" parent="."]
 current = true
-zoom = Vector2( 0.5, 0.5 )
+zoom = Vector2( 0.65, 0.65 )
 smoothing_enabled = true
 script = ExtResource( 5 )
 
 [node name="LoudArea" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 collision_mask = 4
 monitorable = false
@@ -897,7 +928,12 @@ shape = SubResource( 7 )
 shape = SubResource( 4 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
+visible = false
 color = Color( 0, 0, 0, 1 )
+
+[node name="EquippingDelay" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
 
 [connection signal="equipped_new" from="." to="Animated" method="_on_Player_equipped_new"]
 [connection signal="equipped_new" from="." to="Animated/PlayerWalk" method="_on_Player_equipped_new"]
@@ -912,8 +948,8 @@ color = Color( 0, 0, 0, 1 )
 [connection signal="pressed" from="HUD/Theme/Pause/VBoxContainer/Button" to="HUD/Theme/Pause" method="hide"]
 [connection signal="pressed" from="HUD/Theme/Pause/VBoxContainer/Button3" to="HUD/Theme/Pause" method="_on_quit_pressed"]
 [connection signal="about_to_show" from="HUD/Theme/Inventory" to="." method="follow_mouse" binds= [ false ]]
-[connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="override_selected"]
 [connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="update_equipped"]
+[connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="override_selected"]
 [connection signal="popup_hide" from="HUD/Theme/Inventory" to="." method="follow_mouse" binds= [ true ]]
 [connection signal="gui_input" from="HUD/Theme/Inventory/VSplitContainer/HSplitContainer/VSplitContainer/ItemWaffle" to="HUD/Theme/Inventory" method="_on_ItemWaffle_gui_input"]
 [connection signal="items_changed" from="HUD/Theme/Inventory/VSplitContainer/HSplitContainer/VSplitContainer/ItemWaffle" to="HUD/Theme/Inventory" method="select"]

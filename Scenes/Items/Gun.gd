@@ -47,31 +47,36 @@ func _use():
 			$JamReset.stop();
 			jams = int(rand_range(unjam_min,unjam_max));
 			Groups.say_line("Jammed!");
+			
+			for carer in $GunEmpty.get_overlapping_bodies():
+				carer.heard_empty();
 		else:
 			jam_chance += int(rand_range(jam_inc_min,jam_inc_max));
 			ammo -= 1;
 			_shoot();
-			_make_sound();
+			
+			$Shoot.play();
+			for enemy in $Noise.get_overlapping_bodies():
+				enemy.alerted = true;
+			
 			$JamReset.start();
 		
 		update_hud();
 	
 	else:
 		$Empty.play();
+		
+		for carer in $GunEmpty.get_overlapping_bodies():
+			carer.heard_empty();
 
-func _make_sound():
-	$Shoot.play();
-	for enemy in $Noise.get_overlapping_bodies():
-		# alert code here
-		pass;
 
 func _hud_primary():
 	if jams > 0: return "!Unjam (R)";
-	return str(ammo,"/",ammo_max);
+	return str(ammo,"/",Groups.get_player().get_waffle().count_item(ammo_type.resource_path));
 
 
 func _on_ReloadTime_timeout():
-	ammo = Groups.get_player().get_item(ammo_type.resource_path,ammo_max-ammo);
+	ammo += Groups.get_player().get_item(ammo_type.resource_path,ammo_max-ammo);
 	update_hud();
 
 func _on_UnjamTime_timeout():

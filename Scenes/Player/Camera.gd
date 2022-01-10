@@ -6,7 +6,7 @@ const MULT = 0.9*60;
 const ZOOM_MULT = 0.9;
 
 var target_pos: Vector2;
-var target_zoom = Vector2(0.5,0.5);
+var target_zoom = Vector2(0.65,0.65);
 
 onready var center := get_viewport_rect().size/2;
 

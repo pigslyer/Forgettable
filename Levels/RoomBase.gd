@@ -28,20 +28,30 @@ func _ready():
 			
 			if Save.save_data[my_save_group].has(path):
 				saveable.load_data(Save.save_data[my_save_group][path]);
+	
+	Groups.refresh_popup_disable_follow();
 
 func _physics_process(_delta):
 	
 	var idx: int;
 	for foot in get_tree().get_nodes_in_group(Groups.FOOTSTEP):
 		
-		if foot.global_position.distance_squared_to(Groups.get_player().global_position) < NEAR_TO_PLAYER*NEAR_TO_PLAYER:
+		if (
+				tiles.get_cellv(tiles.world_to_map(foot.global_position)) != TileMap.INVALID_CELL && 
+				foot.global_position.distance_squared_to(Groups.get_player().global_position) < 
+				NEAR_TO_PLAYER*NEAR_TO_PLAYER
+			):
+			
+			var sample: AudioStream;
 			
 			idx = 0;
 			while idx < audio_override_rects.size():
 				if audio_override_rects[idx].has_point(foot.global_position):
-					foot.stream = audio_override_streams[idx];
-					continue;
+					sample = audio_override_streams[idx];
+					break;
+				idx += 1;
 			
-			foot.stream = footstep_sounds[tiles.get_cellv(tiles.world_to_map(foot.global_position))];
-	
-
+			if idx == audio_override_rects.size():
+				sample = footstep_sounds[tiles.get_cellv(tiles.world_to_map(foot.global_position))];
+			
+			if sample != foot.stream: foot.stream = sample;

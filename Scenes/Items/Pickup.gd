@@ -2,6 +2,8 @@ tool
 
 extends Sprite;
 
+const DISSOLVE_TIME = 0.3;
+
 var my_data: ItemInventory;
 
 export (PackedScene) var drops setget set_drop;
@@ -29,7 +31,8 @@ func set_drop(scene: PackedScene):
 	drops = scene;
 	if scene != null:
 		var temp = scene.instance();
-		texture = temp.texture;
+		texture = temp.texture if temp.override_icon == null else temp.override_icon;
+		name = temp.name;
 		temp.free();
 	else:
 		texture = null;
@@ -46,8 +49,20 @@ func _on_Interactive_interacted():
 	if my_data.count <= 0:
 		if is_in_group(Groups.SAVING):
 			Save.save_my_data(self);
+		
+		$Interactive.disable(true);
+		
+		yield(get_tree(),"physics_frame");
+		material = preload("res://Scenes/Objects/dissolve.tres");
+		
+		$Tween.interpolate_method(self,"_dissolve",0,2,DISSOLVE_TIME);
+		$Tween.start();
+		yield($Tween,"tween_all_completed");
+		
 		queue_free();
 
+func _dissolve(val: float):
+	material.set_shader_param("percent",val);
 
 func data_save(): return my_data.count;
 func data_load(data):

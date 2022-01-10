@@ -1,0 +1,49 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Scenes/Enemy/EnemyBase.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Enemy/ShyOne.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Sounds/shy_one_sting.wav" type="AudioStream" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 10.5, 21.5 )
+
+[node name="ShyOne" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+accel = 1600.0
+max_speed = 450.0
+
+[node name="Animation" parent="." index="0"]
+run_speed = 2.4
+
+[node name="DamageArea" type="Area2D" parent="Animation/Body" index="3"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Animation/Body/DamageArea" index="0"]
+position = Vector2( 20.5, -1.5 )
+shape = SubResource( 1 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="." index="2"]
+rect = Rect2( -64, -64, 128, 128 )
+
+[node name="AttackDelay" type="Timer" parent="." index="3"]
+wait_time = 0.1
+one_shot = true
+
+[node name="Prerun" type="Timer" parent="." index="4"]
+wait_time = 5.0
+one_shot = true
+
+[node name="WallDetection" type="RayCast2D" parent="." index="5"]
+cast_to = Vector2( -512, 0 )
+
+[node name="ShySting" type="AudioStreamPlayer" parent="." index="8"]
+stream = ExtResource( 3 )
+volume_db = 10.0
+pitch_scale = 1.2
+bus = "SFX"
+
+[connection signal="body_entered" from="Animation/Body/DamageArea" to="." method="_on_DamageArea_body_entered"]
+[connection signal="timeout" from="AttackDelay" to="." method="_on_AttackDelay_timeout"]
+[connection signal="timeout" from="Prerun" to="." method="_on_Prerun_timeout"]

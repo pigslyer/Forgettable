@@ -57,7 +57,6 @@ Ja, res.
 highlight_current_line = true
 show_line_numbers = true
 draw_tabs = true
-bookmark_gutter = true
 fold_gutter = true
 wrap_enabled = true
 minimap_draw = true
@@ -147,8 +146,8 @@ dialog_hide_on_ok = true
 dialog_autowrap = true
 access = 2
 filters = PoolStringArray( "*.txt" )
-current_dir = "/Users/tibor/Documents/GitHub/Forgettable"
-current_path = "/Users/tibor/Documents/GitHub/Forgettable/"
+current_dir = "/GodotProjects/Forgettable"
+current_path = "/GodotProjects/Forgettable/"
 __meta__ = {
 "_edit_use_anchors_": false
 }

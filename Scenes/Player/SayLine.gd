@@ -6,6 +6,9 @@ const TIME_FULL := 5;
 var used: PoolStringArray;
 var style_empty := StyleBoxEmpty.new();
 
+func _init():
+	mouse_filter = MOUSE_FILTER_IGNORE;
+
 func say_line(what: String):
 	
 	if what in used:

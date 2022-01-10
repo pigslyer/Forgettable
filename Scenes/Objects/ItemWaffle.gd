@@ -3,8 +3,8 @@ extends ReferenceRect
 
 signal items_changed(changed);
 
-const BACKGROUND_COLOR = Color8(10,25,25);
-const TAKEN_COLOR = Color.black;
+const BACKGROUND_COLOR = Color8(10,20,20);
+const TAKEN_COLOR = Color8(0,15,15);
 const DRAW_COLOR = Color.darkblue;
 const LINE_WIDTH = 3;
 const ITEM_NUM_OFF = Vector2(-32,-8);
@@ -67,6 +67,14 @@ func add_item(item: ItemInventory):
 								grid[i][j] = self;
 	
 	update_data();
+
+func count_item(path: String) -> int:
+	var ret := 0;
+	
+	for item in items:
+		if item.path == path: ret += item.count;
+	
+	return ret;
 
 func get_item(path: String, count: int) -> int:
 	
@@ -161,12 +169,19 @@ func _draw():
 	draw_circle(Vector2(0,rect_size.y),LINE_WIDTH*EDGE_CIRCLE_PERCENT,DRAW_COLOR);
 	draw_circle(Vector2(rect_size.x,rect_size.y),LINE_WIDTH*EDGE_CIRCLE_PERCENT,DRAW_COLOR);
 	
+	var tex_size: Vector2;
+	var offset: Vector2;
+	
 	for item in items:
 		for x in range(item.pos.x,item.pos.x+item.size.x):
 			for y in range(item.pos.y,item.pos.y+item.size.y):
 				draw_rect(Rect2(Vector2(x,y)*step+Vector2(1,1),step-Vector2(2,2)),TAKEN_COLOR);
 		
-		draw_texture_rect(item.texture,Rect2(item.pos*step,item.size*step),false);
+		tex_size = item.texture.get_size();
+		tex_size /= max(tex_size.x/(step.x*item.size.x),tex_size.y/(step.y*item.size.y));
+		offset = (step*item.size-tex_size)/2;
+		
+		draw_texture_rect(item.texture,Rect2(item.pos*step+offset,tex_size),false);
 		if item.stack > 1:
 			draw_string(get_theme_default_font(),(item.pos+item.size)*step+ITEM_NUM_OFF,str(item.count));
 	
