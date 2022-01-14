@@ -1,6 +1,6 @@
-rework ui - less mobile game, more thiefish
 add dialogue player, with option for background and sprite changes
-add basic melee enemy
+add basic shotgun enemy
+add shotgun, with laser sight which lights up its own path
 add saving system
 add room system
 add transition doors

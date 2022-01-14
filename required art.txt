@@ -1,2 +1,4 @@
 mechanical door (open and closed sprites, with name plate thing or something that one could read a name off of, as well as a door opening thing and keycard receptor)
 people sprites looking forward normally
+shotgun sprites, with laser sight attachment (above and side)
+handgun sprites, with flashlight attachment (above and side)

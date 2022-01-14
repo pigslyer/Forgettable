@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://Assets/Enemies/enemybottom2.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Player/playerUpper.png" type="Texture" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://Scenes/Player/SayLine.gd" type="Script" id=14]
 [ext_resource path="res://Scenes/Player/Hotbar.gd" type="Script" id=15]
 [ext_resource path="res://Assets/Player/hand.png" type="Texture" id=16]
+[ext_resource path="res://Scenes/Player/YouDied.gd" type="Script" id=17]
 [ext_resource path="res://Scenes/Player/PlayerArms.gd" type="Script" id=18]
 
 [sub_resource type="Animation" id=2]
@@ -132,9 +133,12 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0.3, 0.9 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.3, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "values": [ {
+"args": [  ],
+"method": "loud"
+}, {
 "args": [  ],
 "method": "loud"
 }, {
@@ -238,9 +242,12 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0.3, 0.9 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.3, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "values": [ {
+"args": [  ],
+"method": "loud"
+}, {
 "args": [  ],
 "method": "loud"
 }, {
@@ -382,9 +389,12 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0.3, 0.9 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.3, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "values": [ {
+"args": [  ],
+"method": "loud"
+}, {
 "args": [  ],
 "method": "loud"
 }, {
@@ -481,6 +491,18 @@ pressed = true
 
 [sub_resource type="ShortCut" id=9]
 shortcut = SubResource( 8 )
+
+[sub_resource type="InputEventAction" id=20]
+action = "ui_accept"
+
+[sub_resource type="ShortCut" id=21]
+shortcut = SubResource( 20 )
+
+[sub_resource type="InputEventAction" id=22]
+action = "ui_cancel"
+
+[sub_resource type="ShortCut" id=23]
+shortcut = SubResource( 22 )
 
 [sub_resource type="StyleBoxFlat" id=14]
 content_margin_left = 24.0
@@ -629,18 +651,16 @@ __meta__ = {
 }
 
 [node name="InteractiveDisplay" type="Label" parent="HUD/Theme"]
-visible = false
 self_modulate = Color( 1, 1, 1, 0.627451 )
-anchor_left = 0.5
-anchor_top = 0.8
-anchor_right = 0.5
-anchor_bottom = 0.8
-margin_left = -67.5
-margin_top = -24.5
-margin_right = 67.5
-margin_bottom = 24.5
+anchor_left = 0.9
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.1
+margin_left = -135.0
+margin_bottom = 49.0
+grow_horizontal = 0
 mouse_filter = 1
-align = 1
+align = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -668,9 +688,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -110.0
-margin_top = -86.5
+margin_top = -163.5
 margin_right = 110.0
-margin_bottom = 86.5
+margin_bottom = 163.5
 popup_exclusive = true
 script = ExtResource( 11 )
 __meta__ = {
@@ -678,14 +698,14 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HUD/Theme/Pause"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -94.0
-margin_top = -70.5
-margin_right = 94.0
-margin_bottom = 70.5
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.9
+margin_left = -6.0
+margin_top = -16.7
+margin_right = 6.0
+margin_bottom = 16.7
 custom_constants/separation = 5
 __meta__ = {
 "_edit_use_anchors_": false
@@ -693,37 +713,118 @@ __meta__ = {
 
 [node name="Button" type="Button" parent="HUD/Theme/Pause/VBoxContainer"]
 margin_right = 188.0
-margin_bottom = 31.0
+margin_bottom = 25.0
 size_flags_vertical = 3
 shortcut_in_tooltip = false
 shortcut = SubResource( 9 )
 text = "Resume"
 
-[node name="Button2" type="Button" parent="HUD/Theme/Pause/VBoxContainer"]
-margin_top = 36.0
+[node name="Button5" type="Button" parent="HUD/Theme/Pause/VBoxContainer"]
+margin_top = 30.0
 margin_right = 188.0
-margin_bottom = 68.0
+margin_bottom = 55.0
+text = "Restart"
+
+[node name="Label" type="Label" parent="HUD/Theme/Pause/VBoxContainer"]
+margin_top = 60.0
+margin_right = 188.0
+margin_bottom = 109.0
+text = "Sfx volume"
+
+[node name="SliderSFX" type="HSlider" parent="HUD/Theme/Pause/VBoxContainer"]
+margin_top = 114.0
+margin_right = 188.0
+margin_bottom = 130.0
+min_value = -60.0
+max_value = 10.0
+
+[node name="Label2" type="Label" parent="HUD/Theme/Pause/VBoxContainer"]
+margin_top = 135.0
+margin_right = 188.0
+margin_bottom = 184.0
+text = "Music volume"
+
+[node name="SliderMusic" type="HSlider" parent="HUD/Theme/Pause/VBoxContainer"]
+margin_top = 189.0
+margin_right = 188.0
+margin_bottom = 205.0
+min_value = -60.0
+max_value = 10.0
+
+[node name="Button2" type="Button" parent="HUD/Theme/Pause/VBoxContainer"]
+margin_top = 210.0
+margin_right = 188.0
+margin_bottom = 235.0
 size_flags_vertical = 3
 disabled = true
 text = "Save"
 
 [node name="Button4" type="Button" parent="HUD/Theme/Pause/VBoxContainer"]
-margin_top = 73.0
+margin_top = 240.0
 margin_right = 188.0
-margin_bottom = 104.0
+margin_bottom = 265.0
 size_flags_vertical = 3
 disabled = true
 text = "Load"
 
 [node name="Button3" type="Button" parent="HUD/Theme/Pause/VBoxContainer"]
-margin_top = 109.0
+margin_top = 270.0
 margin_right = 188.0
-margin_bottom = 141.0
+margin_bottom = 295.0
 size_flags_vertical = 3
 text = "Quit"
 
+[node name="YouDied" type="PopupPanel" parent="HUD/Theme"]
+pause_mode = 2
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -110.0
+margin_top = -70.5
+margin_right = 110.0
+margin_bottom = 70.5
+popup_exclusive = true
+script = ExtResource( 17 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/Theme/YouDied"]
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.9
+margin_left = -6.0
+margin_top = 1.9
+margin_right = 6.0
+margin_bottom = -1.89999
+custom_constants/separation = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HUD/Theme/YouDied/VBoxContainer"]
+margin_right = 188.0
+margin_bottom = 49.0
+text = "You died"
+align = 1
+
+[node name="Button2" type="Button" parent="HUD/Theme/YouDied/VBoxContainer"]
+margin_top = 54.0
+margin_right = 188.0
+margin_bottom = 79.0
+shortcut = SubResource( 21 )
+text = "Restart (space)"
+
+[node name="Button" type="Button" parent="HUD/Theme/YouDied/VBoxContainer"]
+margin_top = 84.0
+margin_right = 188.0
+margin_bottom = 109.0
+shortcut = SubResource( 23 )
+text = "I don't care (esc)"
+
 [node name="Inventory" type="PopupPanel" parent="HUD/Theme"]
-visible = true
 anchor_left = 0.09
 anchor_top = 0.137
 anchor_right = 0.91
@@ -928,7 +1029,6 @@ shape = SubResource( 7 )
 shape = SubResource( 4 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color( 0, 0, 0, 1 )
 
 [node name="EquippingDelay" type="Timer" parent="."]
@@ -946,10 +1046,15 @@ one_shot = true
 [connection signal="about_to_show" from="HUD/Theme/Pause" to="HUD/Theme/Pause" method="_on_Pause_about_to_show"]
 [connection signal="popup_hide" from="HUD/Theme/Pause" to="HUD/Theme/Pause" method="_on_Pause_popup_hide"]
 [connection signal="pressed" from="HUD/Theme/Pause/VBoxContainer/Button" to="HUD/Theme/Pause" method="hide"]
+[connection signal="pressed" from="HUD/Theme/Pause/VBoxContainer/Button5" to="HUD/Theme/Pause" method="_on_restart_pressed"]
 [connection signal="pressed" from="HUD/Theme/Pause/VBoxContainer/Button3" to="HUD/Theme/Pause" method="_on_quit_pressed"]
+[connection signal="about_to_show" from="HUD/Theme/YouDied" to="HUD/Theme/YouDied" method="_on_YouDied_about_to_show"]
+[connection signal="popup_hide" from="HUD/Theme/YouDied" to="HUD/Theme/YouDied" method="_on_YouDied_popup_hide"]
+[connection signal="pressed" from="HUD/Theme/YouDied/VBoxContainer/Button2" to="HUD/Theme/YouDied" method="_on_Button2_pressed"]
+[connection signal="pressed" from="HUD/Theme/YouDied/VBoxContainer/Button" to="HUD/Theme/YouDied" method="hide"]
 [connection signal="about_to_show" from="HUD/Theme/Inventory" to="." method="follow_mouse" binds= [ false ]]
-[connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="update_equipped"]
 [connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="override_selected"]
+[connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="update_equipped"]
 [connection signal="popup_hide" from="HUD/Theme/Inventory" to="." method="follow_mouse" binds= [ true ]]
 [connection signal="gui_input" from="HUD/Theme/Inventory/VSplitContainer/HSplitContainer/VSplitContainer/ItemWaffle" to="HUD/Theme/Inventory" method="_on_ItemWaffle_gui_input"]
 [connection signal="items_changed" from="HUD/Theme/Inventory/VSplitContainer/HSplitContainer/VSplitContainer/ItemWaffle" to="HUD/Theme/Inventory" method="select"]

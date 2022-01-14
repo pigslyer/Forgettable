@@ -91,7 +91,7 @@ func _on_Drop_pressed():
 	items.remove(items.find(selected));
 	if Groups.get_player().equipped == selected: Groups.get_player().equip(null);
 	waffle.update_data();
-	Projectile.drop_item(selected);
+	Projectile.drop_item(selected,Groups.get_player().global_position);
 	override_selected();
 	update_button();
 	tooltip.text = "";

@@ -95,25 +95,13 @@ tracks/1/keys = {
 "update": 1,
 "values": [ true, false ]
 }
-tracks/2/type = "value"
-tracks/2/path = NodePath("WhenClosed/Middle:visible")
+tracks/2/type = "method"
+tracks/2/path = NodePath("WhenClosed/InnerOpen/Flicker2")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-tracks/3/type = "method"
-tracks/3/path = NodePath("WhenClosed/InnerOpen/Flicker2")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
 "times": PoolRealArray( 0, 0.3 ),
 "transitions": PoolRealArray( 1, 1 ),
 "values": [ {
@@ -287,9 +275,11 @@ bus = "SFX"
 
 [node name="Opening" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 11 )
+volume_db = 10.0
 bus = "SFX"
 
 [node name="EnemyAutoOpen" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 4
 monitorable = false

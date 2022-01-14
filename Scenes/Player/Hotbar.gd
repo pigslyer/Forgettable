@@ -11,6 +11,10 @@ var SPACING = rect_size.y*SPACING_PERCENT;
 var rect_width = (rect_size.x - (SLOTS+1)*SPACING)/SLOTS;
 var rect_height = rect_size.y - 2*SPACING;
 
+const PREVIEW_NONE = -1;
+const PREVIEW_COLOR = ItemWaffle.PREVIEW_COLOR_AVAIL;
+var preview_cur := PREVIEW_NONE;
+
 # contains ItemInventory of selected items
 var items: Array;
 
@@ -51,7 +55,6 @@ func _draw():
 	rect_width = (rect_size.x - (SLOTS+1)*SPACING)/SLOTS;
 	rect_height = rect_size.y-2*SPACING;
 	
-	
 	draw_rect(Rect2(Vector2.ZERO,get_rect().size),COLOR_BORDER)
 	
 	for i in SLOTS:
@@ -90,6 +93,13 @@ func _draw():
 		if item != null:
 			draw_string(get_theme_default_font(),Vector2(idx*(rect_width+SPACING)+SPACING,2*SPACING),str(idx+1));
 		idx += 1;
+	
+	if preview_cur != PREVIEW_NONE:
+		draw_rect(
+			Rect2(Vector2(preview_cur*rect_width+2*SPACING,2*SPACING),Vector2(rect_width-4*SPACING,rect_height-4*SPACING)),
+			PREVIEW_COLOR,
+			false
+		);
 
 func get_at_pos(pos: Vector2):
 	if (int(pos.x)%int(rect_width+SPACING) > rect_width): return null;
@@ -102,3 +112,16 @@ func _gui_input(ev):
 		elif ev.button_index == BUTTON_RIGHT:
 			items[items.find(get_at_pos(ev.position))] = null;
 			update_hotbars();
+
+func _physics_process(_delta):
+	if get_viewport().gui_is_dragging():
+		var data = get_viewport().gui_get_drag_data();
+		if data is DragData.ItemDrag || data is DragData.ItemHotbar:
+			var temp = floor(get_local_mouse_position().x/rect_width)
+			if temp != preview_cur:
+				preview_cur = temp;
+				update();
+			
+	elif preview_cur != PREVIEW_NONE || !get_rect().has_point(get_local_mouse_position()):
+		preview_cur = PREVIEW_NONE;
+		update();

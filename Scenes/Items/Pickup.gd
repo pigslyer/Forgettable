@@ -1,5 +1,6 @@
 tool
 
+class_name Pickup
 extends Sprite;
 
 const DISSOLVE_TIME = 0.3;
@@ -60,6 +61,8 @@ func _on_Interactive_interacted():
 		yield($Tween,"tween_all_completed");
 		
 		queue_free();
+	else:
+		Groups.say_line(str("I haven't got enough space to\npick up ",my_data.count," ",my_data.name,"(s)."));
 
 func _dissolve(val: float):
 	material.set_shader_param("percent",val);

@@ -2,7 +2,7 @@ extends Node2D
 
 const MAX_TURN_ANGLE = deg2rad(35);
 const TURN_MULT = 1.6;
-const HAND_FOLLOW = 0.85;
+const HAND_FOLLOW = 1;
 const BODY_AUTO_ADJUST_MULT = 0.95;
 
 var walking := false setget set_walking;
@@ -28,11 +28,7 @@ func _physics_process(delta):
 		$Body.rotation *= BODY_AUTO_ADJUST_MULT;
 	
 	if equipped && (!(sprinting || walking) || $PlayerWalk.type != ItemBase.Anim.TWO_HANDED):
-		if has_gun:
-			hand.look_at(get_global_mouse_position());
-		else:
-			hand.global_rotation = lerp_angle(hand.global_rotation,angle,_calc_weight(hand.global_rotation,angle)*HAND_FOLLOW);
-		
+		hand.look_at(get_global_mouse_position());
 	
 
 func set_walking(state: bool):

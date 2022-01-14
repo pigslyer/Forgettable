@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Objects/Dialogue.gd"
 }, {
+"base": "Node2D",
+"class": "DoorTransition",
+"language": "GDScript",
+"path": "res://Scenes/Props/DoorTransition.gd"
+}, {
 "base": "Reference",
 "class": "DragData",
 "language": "GDScript",
@@ -28,6 +33,11 @@ _global_script_classes=[ {
 "class": "Flicker",
 "language": "GDScript",
 "path": "res://Scenes/Objects/Flicker2.gd"
+}, {
+"base": "Flicker",
+"class": "FlickerAlerts",
+"language": "GDScript",
+"path": "res://Scenes/Objects/FlickerAlerts.gd"
 }, {
 "base": "ItemBase",
 "class": "Gun",
@@ -54,6 +64,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Objects/ItemWaffle.gd"
 }, {
+"base": "Sprite",
+"class": "Pickup",
+"language": "GDScript",
+"path": "res://Scenes/Items/Pickup.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "Player",
 "language": "GDScript",
@@ -66,14 +81,17 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Dialogue": "",
+"DoorTransition": "",
 "DragData": "",
 "Enemy": "",
 "Flicker": "",
+"FlickerAlerts": "",
 "Gun": "",
 "Interactive": "",
 "ItemBase": "",
 "ItemInventory": "",
 "ItemWaffle": "",
+"Pickup": "",
 "Player": "",
 "SayLine": ""
 }
@@ -206,7 +224,8 @@ reload={
 2d_physics/layer_3="Enemy"
 2d_physics/layer_4="Interactive"
 2d_physics/layer_5="InteractiveBlocker"
-2d_physics/layer_6="GunEmptyCarer"
+2d_physics/layer_6="ShyOne"
+2d_physics/layer_7="FlickerAlert"
 
 [physics]
 
@@ -214,5 +233,4 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
-environment/default_clear_color=Color( 0, 0, 0, 1 )
 environment/default_environment="res://default_env.tres"

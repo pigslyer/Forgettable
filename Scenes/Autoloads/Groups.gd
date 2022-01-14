@@ -12,9 +12,10 @@ const ENEMY = "ENEMY";
 # popped up and allow it again once hidden
 const DISABLE_FOLLOW = "popup_disable_follow";
 
-var saveables := {
+# maps room group to room node. can probably just replace saveables
+var rooms := {
 	
-}
+};
 
 func refresh_popup_disable_follow():
 	var player = get_player();
@@ -43,3 +44,11 @@ func get_simple_path(from: Vector2, to: Vector2) -> PoolVector2Array:
 	if !path.empty(): path.remove(0);
 	return path;
 
+func get_simple_path_player(from: Vector2) -> PoolVector2Array:
+	return get_simple_path(from,get_player().global_position);
+
+func get_my_room(node: Node) -> Node2D:
+	for group in node.get_groups():
+		if group.begins_with("Room:"):
+			return rooms[group];
+	return null;

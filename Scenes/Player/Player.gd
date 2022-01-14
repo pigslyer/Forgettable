@@ -47,12 +47,18 @@ var cam_last_shake_down := false;
 var cam_shake_off := Vector2.ZERO;
 
 func _ready():
-	var hotbar_items = [];
+	
+	add_item(ItemInventory.new("res://Scenes/Items/Handgun.tscn"));
+	add_item(ItemInventory.new("res://Scenes/Items/Flashlight.tscn"));
+	add_item(ItemInventory.new("res://Scenes/Items/Ammo1911.tscn",null,-Vector2.ONE,50));
+	
+	
+	var hotbar_items = [get_waffle().items[0],get_waffle().items[1]];
 	hotbar_items.resize(hotbar.SLOTS);
 	hotbar.items = hotbar_items;
 	$HUD/Theme/Hotbar.items = hotbar_items;
 	
-	Music.play_music(Music.MUSIC.AMBIENT);
+	Music.play_music(Music.MUSIC.AMBIENT,false);
 
 func equip(item: ItemInventory):
 	
@@ -95,7 +101,7 @@ func _physics_process(delta):
 	if is_processing_unhandled_key_input():
 		input.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left");
 		input.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up");
-		input = input.rotated(get_local_mouse_position().angle()+PI/2).normalized();
+		input = input.normalized();
 		sprinting = Input.is_action_pressed("sprint");
 	
 	# movement
@@ -108,13 +114,12 @@ func _physics_process(delta):
 	velocity *= FRIC;
 	
 	if moving:
-		var speed_mod = max(cos(input.rotated(-$Animated/Body/Head.global_rotation).angle()),MIN_SPEED_MOD);
-		var max_speed = (SPEED_RUN if sprinting else SPEED_WALK) * speed_mod;
+		var max_speed = (SPEED_RUN if sprinting else SPEED_WALK);
 		
 		if velocity.length_squared() < max_speed*max_speed:
 			velocity = (velocity + input * ACCEL * delta * (RUN_ACC_MOD if sprinting else 1.0)).clamped(max_speed);
 		
-		body.speed = speed_mod*(A*velocity.length_squared()+B*velocity.length());
+		body.speed = A*velocity.length_squared()+B*velocity.length();
 	else:
 		velocity *= FRIC;
 	
@@ -200,8 +205,12 @@ func say_line(text: String):
 
 
 func set_health(new_val: int):
+	if health > 0 && new_val <= 0:
+		$HUD/Theme/YouDied.popup();
+	
 	health = new_val;
 	$HUD/Theme/Health.value = new_val/float(MAX_HEALTH);
+	
 
 func follow_mouse(state: bool):
 	set_process_unhandled_key_input(state);

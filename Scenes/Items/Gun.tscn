@@ -17,12 +17,12 @@ collision_layer = 0
 collision_mask = 4
 monitorable = false
 
-[node name="GunEmpty" type="Area2D" parent="." index="2"]
+[node name="PointingGun" type="Area2D" parent="." index="2"]
 collision_layer = 0
 collision_mask = 32
 monitorable = false
 __meta__ = {
-"_editor_description_": "carer should have a heard_empty function"
+"_editor_description_": "matters for shy ones"
 }
 
 [node name="ReloadTime" type="Timer" parent="." index="3"]
@@ -66,7 +66,17 @@ __meta__ = {
 "_editor_description_": "checks ammo count to make sure the hud is accurate"
 }
 
+[node name="ResetKnows" type="Timer" parent="." index="12"]
+wait_time = 10.0
+one_shot = true
+__meta__ = {
+"_editor_description_": "after this much time, \"enemies\" \"forget\" that the player's gun is empty"
+}
+
+[connection signal="body_entered" from="PointingGun" to="." method="_on_PointingGun_body_entered"]
+[connection signal="body_exited" from="PointingGun" to="." method="_on_PointingGun_body_exited"]
 [connection signal="timeout" from="ReloadTime" to="." method="_on_ReloadTime_timeout"]
 [connection signal="timeout" from="UnjamTime" to="." method="_on_UnjamTime_timeout"]
 [connection signal="timeout" from="JamReset" to="." method="_on_JamReset_timeout"]
 [connection signal="timeout" from="CheckMax" to="." method="update_hud"]
+[connection signal="timeout" from="ResetKnows" to="." method="_on_ResetKnows_timeout"]

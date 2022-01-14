@@ -4,20 +4,24 @@ const DAMAGE_MIN = 10
 const DAMAGE_MAX = 20
 
 # if he's within this distance he rushes the player no matter what
-const MIN_DIST_TO_PLAYER = 64*3;
-
+const MIN_DIST_TO_PLAYER = 64*1.5;
 const RUN_AWAY_DIST = 64*12;
 
+const TURN_MULT = 0.65;
+
+const PLAYER_LOOKING_AT_US_ANGLE = deg2rad(30);
+
 var attacking: bool = false;
-var knows_player_empty: bool = false;
+var pointing_gun_at: bool = false;
+var knows_gun_empty: bool = false;
 var running_away: bool = false;
+var surrendering: bool = false;
 
 func attacked():
 	for target in $Animation/Body/DamageArea.get_overlapping_bodies():
 		target.health -= rand_range(DAMAGE_MIN,DAMAGE_MAX);
 	
 	running_away = true;
-	knows_player_empty = false;
 	attacking = false;
 	
 	$WallDetection.force_raycast_update();
@@ -28,37 +32,88 @@ func attacked():
 	);
 	
 	path = Groups.get_simple_path(global_position,target_pos);
-
+	
 
 func _physics_process(_delta):
 	
 	if attacking:
-		path = Groups.get_simple_path(global_position,Groups.get_player().global_position);
+		if !$Animation/Body/DamageArea.get_overlapping_bodies().empty():
+			_on_DamageArea_body_entered(null);
 	
-	if detecting && !running_away:
-		# if we're off screen we be epic
-		if !$VisibilityNotifier2D.is_on_screen() || !Groups.get_player().equipped_item is Gun:
-			if $Prerun.is_stopped():
-				$Prerun.start();
+		elif (
+				pointing_gun_at && !knows_gun_empty && 
+				!global_position.distance_squared_to(Groups.get_player().global_position) < 
+				MIN_DIST_TO_PLAYER*MIN_DIST_TO_PLAYER
+			):
+			attacking = false;
+			path = [];
+		else:
+			path = Groups.get_simple_path_player(global_position);
 		
-		elif ( # if we get focking triggered, we be fast
-				knows_player_empty ||
+	
+	elif detecting && !running_away && can_move && !surrendering:
+		
+		# the player sees us
+		$PlayerWall.cast_to = Groups.get_player().global_position-global_position;
+		$PlayerWall.global_rotation = 0;
+		$PlayerWall.force_raycast_update();
+		
+		# the player doesn't see us, so we go towards him.
+		if $PlayerWall.is_colliding():
+			path = Groups.get_simple_path_player(global_position);
+		
+		# we go insta. player got too close
+		elif (
 				global_position.distance_squared_to(Groups.get_player().global_position) < 
 				MIN_DIST_TO_PLAYER*MIN_DIST_TO_PLAYER
 			):
 			$Prerun.stop();
-			_on_Prerun_timeout();
-		else:
-			path = [];
+			_on_Prerun_timeout(true);
 		
-		$Animation/Body/Head.look_at(Groups.get_player().global_position);
+		
+		# surrender, we're being held at gunpoint
+		elif pointing_gun_at && !knows_gun_empty:
+			$Animation/AnimationPlayer.play("shy_surrender");
+			$Animation/AnimationPlayer.playback_speed = 1.0;
+			path = [];
+			can_move = false;
+			surrendering = true;
+			$SurrenderGasp.play();
+		
+		
+		# we go after a while. player isn't looking at us/doesn't have a gun
+		else:
+			if $Prerun.is_stopped():
+				$Prerun.start();
+	
+	# we go insta. player got too close or isn't holding us up
+	elif (
+			surrendering && 
+			global_position.distance_squared_to(Groups.get_player().global_position) < 
+			MIN_DIST_TO_PLAYER*MIN_DIST_TO_PLAYER ||
+			!(pointing_gun_at && !knows_gun_empty)
+		):
+		can_move = true;
+		surrendering = false;
+		$UnSurrenderGasp.play();
+		$Prerun.stop();
+		_on_Prerun_timeout(true);
+		
 	
 	elif path.empty() && running_away:
 		running_away = false;
-
+	
+	
+	if surrendering:
+		look_at(Groups.get_player().global_position);
+	
+	if alerted && !running_away:
+		$Animation/Body/Head.look_at(Groups.get_player().global_position);
+	
 
 func _on_DamageArea_body_entered(_body):
 	if $AttackDelay.is_stopped() && !dead:
+		set_physics_process(false);
 		$AttackDelay.start();
 
 
@@ -69,17 +124,13 @@ func _on_AttackDelay_timeout():
 	
 	yield($Animation/AnimationPlayer,"animation_finished");
 	can_move = true;
+	set_physics_process(true);
 
 
-func _on_Prerun_timeout():
+func _on_Prerun_timeout(force: bool = false):
 	if (
-			knows_player_empty || !Groups.get_player().equipped_item is Gun ||
-			!$VisibilityNotifier2D.is_on_screen() || 
-			global_position.distance_squared_to(Groups.get_player().global_position) < 
-			MIN_DIST_TO_PLAYER*MIN_DIST_TO_PLAYER
+			!(pointing_gun_at && Groups.get_player().equipped_item is Gun) ||
+			force
 		):
 		attacking = true;
 		$ShySting.play();
-
-func heard_empty():
-	knows_player_empty = true;

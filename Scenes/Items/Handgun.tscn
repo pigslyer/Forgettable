@@ -1,10 +1,12 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scenes/Items/Gun.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/CampiArt/gun1911.png" type="Texture" id=2]
-[ext_resource path="res://Scenes/Items/Ammo1911.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/Items/Handgun.gd" type="Script" id=4]
 [ext_resource path="res://Assets/Base/gun_in_game.png" type="Texture" id=5]
+[ext_resource path="res://Scenes/Objects/FlickerAlerts.gd" type="Script" id=6]
+[ext_resource path="res://Assets/Base/testcone5.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Base/Gunshot.wav" type="AudioStream" id=8]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 1024.0
@@ -16,11 +18,12 @@ scale = Vector2( 2, 2 )
 texture = ExtResource( 5 )
 script = ExtResource( 4 )
 item_name = "1911"
-item_tooltip = "A handgun, fairly powerful. Boasts 7 round magazine and should be able to down most people in 1-3 shots."
+item_tooltip = "A handgun, fairly powerful. Boasts 7 round magazine and should be able to down most people in 1-3 shots.
+It's got a flashlight mounted on the side. It's weaker than the handheld, but it should help shoot things in darkness."
 item_size = Vector2( 2, 2 )
 animation_type = 1
 override_icon = ExtResource( 2 )
-ammo_type = ExtResource( 3 )
+ammo_type = "res://Scenes/Items/Ammo1911.tscn"
 ammo_max = 7
 unjam_min = 1
 unjam_max = 2
@@ -32,3 +35,21 @@ position = Vector2( 6, 0 )
 visible = false
 position = Vector2( 24, -12 )
 shape = SubResource( 1 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="PointingGun" index="0"]
+position = Vector2( 19, 0 )
+polygon = PoolVector2Array( -8, 0, 192, -60, 192, 60 )
+
+[node name="Shoot" parent="." index="6"]
+stream = ExtResource( 8 )
+
+[node name="Flashlight" type="Light2D" parent="." index="12"]
+position = Vector2( -3, 2.5 )
+texture = ExtResource( 7 )
+offset = Vector2( 75, 0 )
+texture_scale = 0.35
+shadow_enabled = true
+script = ExtResource( 6 )
+energy_min = 0.5
+energy_max = 0.7
+smoothing = 10

@@ -1,16 +1,16 @@
 extends KinematicBody2D
 
-const VELOCITY = 64*8;
-
-const DAMAGE_MIN = 50;
-const DAMAGE_MAX = 160;
+export (float) var velocity_in_cells = 8;
 
 var velocity: Vector2;
+var damage_min: int; var damage_max: int;
+var damage_target: int;
 
-func shoot(dir: float):
-	velocity = Vector2(VELOCITY,0).rotated(dir);
+func shoot(dir: float, target_layer: int, dmg_min: int, dmg_max: int):
+	velocity = Vector2(velocity_in_cells*64,0).rotated(dir);
 	global_rotation = dir;
-	$ShotLight.pre_proc();
+	$ShotLight.pre_proc(); damage_min = dmg_min; damage_max = dmg_max;
+	collision_mask = 0b1 | target_layer; damage_target = target_layer;
 
 func _physics_process(delta):
 	var data: KinematicCollision2D = move_and_collide(velocity*delta);
@@ -18,9 +18,9 @@ func _physics_process(delta):
 	if data != null:
 		
 		# we collided with an enemy
-		if data.collider.collision_layer & 0b100 != 0:
+		if data.collider.collision_layer & damage_target != 0:
 			var enemy = data.collider;
-			enemy.health -= rand_range(DAMAGE_MIN,DAMAGE_MAX);
+			enemy.health -= rand_range(damage_max,damage_max);
 			$Sparks.process_material.color = Color.crimson;
 		else:
 			$Sparks.process_material.color = Color(0x9bffffff);
@@ -30,6 +30,7 @@ func _physics_process(delta):
 		
 		$Sprite.hide();
 		rotation = 0;
+		set_deferred("collision_mask",0);
 		$Sparks.process_material.direction = Vector3(data.normal.x,data.normal.y,0);
 		
 		yield(get_tree(),"physics_frame");

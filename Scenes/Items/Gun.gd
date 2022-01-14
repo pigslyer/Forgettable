@@ -1,7 +1,7 @@
 class_name Gun
 extends ItemBase
 
-export (PackedScene) var ammo_type;
+export (String) var ammo_type;
 export (int) var ammo_max;
 var ammo: int = 0;
 
@@ -13,6 +13,9 @@ export (int) var jam_inc_max;
 export (int) var jam_inc_min;
 var jam_chance: int = jam_base;
 var jams: int = 0;
+
+# contains shys paired with true. useful to remove duplicates
+var _aware: Dictionary;
 
 func _shoot():
 	pass;
@@ -31,59 +34,94 @@ func equip():
 
 func unequip():
 	if ammo > 0:
-		var data = ItemInventory.new(ammo_type.resource_path);
+		var data = ItemInventory.new(ammo_type);
 		data.count = ammo;
 		Groups.get_player().add_item(data);
 		if data.count > 0:
-			Projectile.drop_item(data);
+			Projectile.drop_item(data,Groups.get_player().global_position);
+	
+	
+	# inform all aware people that there's no more gun
+	_on_ResetKnows_timeout();
+	for shy in $PointingGun.get_overlapping_bodies():
+		shy.pointing_gun_at = false;
+
 	.unequip();
 
 func _use():
-	if jams != 0:
-		$Jammed.play();
+	if $ReloadTime.is_stopped():
 	
-	elif ammo > 0:
-		if randi()%100 < jam_chance:
-			$JamReset.stop();
-			jams = int(rand_range(unjam_min,unjam_max));
-			Groups.say_line("Jammed!");
+		if jams != 0:
+			$Jammed.play();
+		
+		elif ammo > 0:
+			if randi()%100 < jam_chance:
+				$JamReset.stop();
+				jams = int(rand_range(unjam_min,unjam_max));
+				Groups.say_line("Jammed!");
+				
+				_inform_empty();
+				
+			else:
+				jam_chance += int(rand_range(jam_inc_min,jam_inc_max));
+				ammo -= 1;
+				_shoot();
+				
+				$Shoot.play();
+				for enemy in $Noise.get_overlapping_bodies():
+					enemy.alerted = true;
+				
+				# EVERYONE who knew it was shot forgets that
+				if !$ResetKnows.is_stopped():
+					$ResetKnows.stop();
+					_on_ResetKnows_timeout();
+				
+				$JamReset.start();
 			
-			for carer in $GunEmpty.get_overlapping_bodies():
-				carer.heard_empty();
+			update_hud();
+		
 		else:
-			jam_chance += int(rand_range(jam_inc_min,jam_inc_max));
-			ammo -= 1;
-			_shoot();
-			
-			$Shoot.play();
-			for enemy in $Noise.get_overlapping_bodies():
-				enemy.alerted = true;
-			
-			$JamReset.start();
-		
-		update_hud();
-	
-	else:
-		$Empty.play();
-		
-		for carer in $GunEmpty.get_overlapping_bodies():
-			carer.heard_empty();
+			$Empty.play();
+			_inform_empty();
 
+func _inform_empty():
+	$ResetKnows.start();
+	
+	for shy in $Noise.get_overlapping_bodies():
+		if shy.collision_layer & 32 != 0:
+			_aware[shy] = true;
+			shy.knows_gun_empty = true;
 
 func _hud_primary():
 	if jams > 0: return "!Unjam (R)";
-	return str(ammo,"/",Groups.get_player().get_waffle().count_item(ammo_type.resource_path));
+	return str(ammo,"/",Groups.get_player().get_waffle().count_item(ammo_type));
 
 
 func _on_ReloadTime_timeout():
-	ammo += Groups.get_player().get_item(ammo_type.resource_path,ammo_max-ammo);
+	ammo += Groups.get_player().get_item(ammo_type,ammo_max-ammo);
 	update_hud();
 
 func _on_UnjamTime_timeout():
 	jams -= 1;
 	if jams == 0:
 		jam_chance = jam_base;
-		update_hud();
+		_on_ReloadTime_timeout();
 
 func _on_JamReset_timeout():
 	jam_chance = jam_base;
+
+
+# everyone who was made aware that the gun is empty is now made unaware
+func _on_ResetKnows_timeout():
+	for shy in _aware.keys():
+		shy.knows_gun_empty = false;
+	
+	_aware.clear();
+
+# make aware that gun is pointed at him
+func _on_PointingGun_body_entered(body):
+	body.pointing_gun_at = true;
+
+# make aware that gun isn't pointed at him
+func _on_PointingGun_body_exited(body):
+	body.pointing_gun_at = false;

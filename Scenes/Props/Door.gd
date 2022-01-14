@@ -2,7 +2,7 @@ extends Node2D;
 
 const UNLOCK_LINE = "It's now unlocked.";
 const LOCK_LINE = "It's now locked.";
-const NO_KEYCARD_LINE = "I haven't got the right keycard."
+const NO_KEYCARD_LINE = "I haven't got the right keycard to";
 
 export (String) var outer_text = "";
 export (String) var keycard = "";
@@ -49,7 +49,7 @@ func _on_keycard():
 		$LockedSound.play();
 		Groups.say_line(LOCK_LINE if locked else UNLOCK_LINE);
 	else:
-		Groups.say_line(NO_KEYCARD_LINE);
+		Groups.say_line(str(NO_KEYCARD_LINE,"unlock it." if locked else "lock it."));
 
 func _on_read():
 	Groups.say_line(outer_text);

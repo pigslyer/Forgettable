@@ -1,0 +1,59 @@
+theme: regret
+
+facility is divided into 5 areas: 
+
+abandoned (+holding) cells (protag start)
+storage area (with railway). probably contains a bunch of gear
+medical area. probably contains medical supplies
+living area. contains something?
+elevator. escape
+
+protag:
+story set in stone, player has to decipher what it is from what people, docs and monsters say.
+not a volunteer, forced into long term experiments against his will.
+20-30 years old. 
+thinks he has schizoprehnia, might actually
+
+backstory:
+grown ass man - used to be secret agent, got napped, agency tries to extract him, goes tits up
+previous agents lying around dead or crazy
+born in a NatSol lab, now he wanted revenge
+
+personalities:
+1. depressed - death :( :( :( - big sad - samoironija - goal: escape
+2. a rather violent fellow - he either wants to kill more hobos, or is full right now, thanks; schizo - blood for the blood god - goal: blow up everything
+3. broken McClane, action movie hero after he snapped, tragikomično - goal: save people and the day
+4. calm, collected, knows what he's doing, played by Alan Rickman - rationality breaks down over time - goal: discover lore
+
+monsters:
+people think everyone has their own and that everyone is crazy in their own way, in reality they all share
+tutorial monster: a southern skull that pops out of places and talks like a "southern wise old man"
+
+natural solutions - use homeopathy as a front for natural solutions *wink* to problems (that would normally) require magic *wink*
+problems: solved for assassins and 3rd world warlords - 
+teleportation is moving very fast, 
+invisibility also moving very faster, longer,
+laser eyes - laser eyes,
+glaive,
+
+
+journey:
+act 0 - tutorial experiments{
+
+video game tutorial
+shoot tutorial
+shooting a glaive at a >1 guy experiment - what will happen? death...?
+}
+
+area 1 - tha prison{
+
+
+
+}
+
+encounters:
+
+
+
+to fully beat the game, one must plant a bomb in each sector and blow it all up
+each sector is its own level, with connections running between them. total size should be around main atrium from prey

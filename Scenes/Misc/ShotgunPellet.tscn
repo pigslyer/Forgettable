@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/Misc/1911Bullet.tscn" type="PackedScene" id=1]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 2.0
+
+[node name="ShotgunPellet" instance=ExtResource( 1 )]
+velocity_in_cells = 8.5
+
+[node name="Sprite" parent="." index="0"]
+scale = Vector2( 0.125, 0.25 )
+
+[node name="CollisionShape2D" parent="." index="1"]
+shape = SubResource( 1 )
+
+[node name="ShotLight" parent="." index="3"]
+energy_min = 0.6
+energy_max = 0.9

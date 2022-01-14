@@ -10,6 +10,7 @@ func _ready():
 	
 	var area := Area2D.new();
 	area.collision_mask = PLAYER_BIT;
+	area.collision_layer = 0b0;
 	area.monitorable = false;
 	
 	var shape := CollisionShape2D.new();
