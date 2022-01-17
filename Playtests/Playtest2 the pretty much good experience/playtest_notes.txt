@@ -1,0 +1,9 @@
+
+
+labro:
+
+surrender isn't obvious enough (add gasp?)
+dead enemy isn't obvious enemy (obviously)
+fat protag (wip)
++highlight dragging in square for hotbar
+tutorial should mention how the "what do" line on the bottom *tells you* and isn't clickable

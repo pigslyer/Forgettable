@@ -26,8 +26,8 @@ texture = ExtResource( 3 )
 offset = Vector2( 394, 0 )
 texture_scale = 2.0
 shadow_enabled = true
-shadow_gradient_length = 0.4
-shadow_filter = 4
+shadow_gradient_length = 0.1
+shadow_filter = 1
 shadow_filter_smooth = 4.2
 script = ExtResource( 1 )
 

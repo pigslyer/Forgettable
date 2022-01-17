@@ -18,8 +18,8 @@ export (String) var leads_to
 export (int) var leads_to_id
 
 # literally just so we can get our room
-func save_data(): return null;
-func load_data(_data): pass;
+func data_save(): return null;
+func data_load(_data): pass;
 
 func _ready():
 	add_to_group(str(leads_to,":",leads_to_id));
@@ -31,15 +31,32 @@ func _on_Interactive_interacted():
 	var loader := Loader.new(leads_to);
 	add_child(loader);
 	
-	Groups.get_my_room(self).spawn_room(yield(loader,"finished_loading"),self);
-	state = OPEN;
-	$AnimationPlayer.play("Open");
+	
+	var new_room: PackedScene = yield(loader,"finished_loading");
+	if state == OPENING:
+		Groups.get_my_room(self).spawn_room(new_room,self);
+		
+		state = OPEN;
+		$AnimationPlayer.play("Open");
 
 func open_instantly():
 	state = OPEN;
 	$AnimationPlayer.play("Open");
 	$AnimationPlayer.seek($AnimationPlayer.current_animation_length,true);
 
+
+func _on_DoorCloseArea_body_exited(_body):
+	if state == OPEN:
+		emit_signal("closed");
+	elif state == OPENING:
+		state = CLOSED;
+
+func close_safely():
+	$AnimationPlayer.play_backwards("Open");
+	state = CLOSED;
+	# i can't be fucked
+	var data = get_signal_connection_list("closed")[0];
+	disconnect("closed",data["target"],data["method"]);
 
 class Loader extends Node:
 	
@@ -58,4 +75,4 @@ class Loader extends Node:
 			if data.poll() == ERR_FILE_EOF:
 				emit_signal("finished_loading",data.get_resource());
 				queue_free();
-	
+

@@ -1,9 +1,13 @@
-add dialogue player, with option for background and sprite changes
-add basic shotgun enemy
-add shotgun, with laser sight which lights up its own path
-add saving system
-add room system
-add transition doors
+add dialogue player, with a signal for special actions
+add laser sight to handgun
+add shotgun, with long and wide flashlight
+add smg (+ ammo) with a short and not wide flashlight
+add muzzle flash to guns
+inventory size should start at 3x3, then increase with upgrades
+add easy to set up keypad
+remove notes feature
 add more floor tiles
++test transition doors, rooms and saving rooms
+
 
 player animations: one handed idle, one handed run, two handed idle, two handed run

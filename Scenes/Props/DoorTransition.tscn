@@ -155,7 +155,6 @@ energy_max = 0.6
 occluder = SubResource( 2 )
 
 [node name="DoorCloseArea" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 collision_mask = 2
 monitorable = false
@@ -175,3 +174,4 @@ anims/Open = SubResource( 4 )
 anims/RESET = SubResource( 5 )
 
 [connection signal="interacted" from="WhenClosed/Scanner/Interactive" to="." method="_on_Interactive_interacted"]
+[connection signal="body_exited" from="DoorCloseArea" to="." method="_on_DoorCloseArea_body_exited"]

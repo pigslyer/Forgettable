@@ -26,11 +26,11 @@ var detecting: bool = false setget set_detecting;
 
 onready var detection: Area2D = $Animation/Body/Head/PlayerDetection;
 
-func save_data():
+func data_save():
 	if dead: return [global_position,global_rotation];
 	return null;
 
-func load_data(data):
+func data_load(data):
 	if data is Array:
 		set_health(-1,false);
 		global_position = data[0];

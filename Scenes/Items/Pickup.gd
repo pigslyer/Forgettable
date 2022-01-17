@@ -19,7 +19,7 @@ func disable(state: bool):
 func _ready():
 	if Engine.editor_hint:
 		redo_inter();
-	else:
+	elif drops != null:
 		var inst = drops.instance();
 		$Interactive.message = inst.get_item_name();
 		texture = inst.get_texture();
@@ -34,6 +34,9 @@ func set_drop(scene: PackedScene):
 		var temp = scene.instance();
 		texture = temp.texture if temp.override_icon == null else temp.override_icon;
 		name = temp.name;
+		if !Engine.editor_hint:
+			my_data = ItemInventory.new(drops.resource_path,temp);
+			$Interactive.message = temp.get_item_name();
 		temp.free();
 	else:
 		texture = null;
@@ -70,6 +73,6 @@ func _dissolve(val: float):
 func data_save(): return my_data.count;
 func data_load(data):
 	if data > 0:
-		my_data = data;
+		my_data.count = data;
 	else:
 		queue_free();

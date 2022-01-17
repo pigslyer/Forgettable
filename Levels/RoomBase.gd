@@ -26,20 +26,19 @@ func _ready():
 			saveable.add_to_group(my_save_group);
 			
 			if Save.save_data[my_save_group].has(path):
-				saveable.load_data(Save.save_data[my_save_group][path]);
+				saveable.data_load(Save.save_data[my_save_group][path]);
 	
 	if Save.DROPPED_ITEM_KEY in Save.save_data[my_save_group]:
 		var dropped;
 		for item in Save.save_data[my_save_group][Save.DROPPED_ITEM_KEY]:
 			
 			dropped = preload("res://Scenes/Items/Pickup.tscn").instance();
-			dropped.add_to_group(my_save_group);
 			dropped.add_to_group(Groups.DROPPED_ITEM);
 			dropped.remove_from_group(Groups.SAVING);
 			Projectile.add_child(dropped);
 			dropped.drops = item[0];
-			dropped.load_data(item[1]);
-			dropped.global_position = global_position+item[2];
+			dropped.data_load(item[1]);
+			dropped.global_position = item[2];
 	
 	Groups.call_deferred("refresh_popup_disable_follow");
 	
@@ -47,19 +46,21 @@ func _ready():
 	
 	var exceps: Array;
 	var cur: int;
-	
+
 	# corrects pathfinding over joining different tiles
-#	for tile in tiles.get_used_cells():
-#		cur = tiles.get_cellv(tile);
-#		exceps = [TileMap.INVALID_CELL,1,cur];
-#		if !(
-#				tiles.get_cellv(tile+Vector2.RIGHT) in exceps &&
-#				tiles.get_cellv(tile+Vector2.UP) in exceps &&
-#				tiles.get_cellv(tile+Vector2.LEFT) in exceps &&
-#				tiles.get_cellv(tile+Vector2.DOWN) in exceps
-#			):
-#			tiles.set_cell(tile.x,tile.y,cur,false,false,false,Vector2.ZERO);
-#
+	for tile in tiles.get_used_cells():
+		# first one is always 0...?
+		cur = max(1,tiles.get_cellv(tile));
+		exceps = [TileMap.INVALID_CELL,1,cur];
+		if !(
+				cur in exceps || 
+				tiles.get_cellv(tile+Vector2.RIGHT) in exceps ||
+				tiles.get_cellv(tile+Vector2.UP) in exceps ||
+				tiles.get_cellv(tile+Vector2.LEFT) in exceps ||
+				tiles.get_cellv(tile+Vector2.DOWN) in exceps
+			):
+			tiles.set_cell(tile.x,tile.y,cur,false,false,false,Vector2.ZERO);
+
 
 
 func spawn_room(room: PackedScene, from: DoorTransition):
@@ -69,22 +70,25 @@ func spawn_room(room: PackedScene, from: DoorTransition):
 	door.open_instantly();
 	spawned.align_by(door,from.global_position);
 	
-	from.connect("closed",spawned,"unload_room");
-	door.connect("closed",self,"unload_room");
+	from.connect("closed",self,"unload_room",[door]);
+	door.connect("closed",spawned,"unload_room",[from]);
 
 
-func unload_room():
+func unload_room(other: DoorTransition):
 	for saveable in get_tree().get_nodes_in_group(my_save_group):
-		Save.save_data[my_save_group][str(get_path_to(saveable))] = saveable.save_data();
+		Save.save_data[my_save_group][str(get_path_to(saveable))] = saveable.data_save();
+	
 	
 	for dropped in get_tree().get_nodes_in_group(Groups.DROPPED_ITEM):
-		if tiles.get_cellv(tiles.world_to_map(dropped.global_position)) != TileMap.INVALID_CELL:
-			Save[my_save_group][Save.DROPPED_ITEM_KEY].append([
+		if tiles.get_cellv(tiles.world_to_map(tiles.to_local(dropped.global_position))) != TileMap.INVALID_CELL:
+			Save.save_data[my_save_group][Save.DROPPED_ITEM_KEY].append([
 				dropped.drops,
-				dropped.save_data(),
-				dropped.global_position-global_position,
+				dropped.data_save(),
+				dropped.global_position,
 			]);
+			dropped.queue_free();
 	
+	other.close_safely();
 	queue_free();
 
 
