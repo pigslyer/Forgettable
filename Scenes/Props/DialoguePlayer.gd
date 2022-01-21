@@ -4,27 +4,27 @@ const CHOICE_GROUP = "choice"
 const TIME_PER_CHAR = 0.02;
 
 var reader: Dialogue;
-var read = false;
+var one_timed: Array;
 
 var last_choice_caret: int;
 
-export (String) var path;
-export (bool) var one_time = true;
-
-func data_save(): return read;
-func data_load(state: bool): read = state;
-
-func start():
-	if !read:
+func start(path: String, one_time: bool = true, actions: Node = null):
+	if !(path in one_timed && one_time):
 		$Theme.popup();
 		reader = Dialogue.new(path);
 		last_choice_caret = -1;
 		if one_time:
-			read = true;
+			one_timed.append(path);
+		if actions != null:
+			reader.connect("perform_action",actions,"dial_action");
 		next();
+
 
 func stop():
 	$Theme.hide();
+	var data = reader.get_signal_connection_list("perform_action");
+	if !data.empty():
+		reader.disconnect("perform_action",data[0]["target"],data[0]["method"]);
 
 func next(next: int = -1):
 	

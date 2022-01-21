@@ -88,10 +88,10 @@ func _physics_process(_delta):
 	
 	# we go insta. player got too close or isn't holding us up
 	elif (
-			surrendering && 
+			surrendering && (
 			global_position.distance_squared_to(Groups.get_player().global_position) < 
 			MIN_DIST_TO_PLAYER*MIN_DIST_TO_PLAYER ||
-			!(pointing_gun_at && !knows_gun_empty)
+			!(pointing_gun_at && !knows_gun_empty))
 		):
 		can_move = true;
 		surrendering = false;

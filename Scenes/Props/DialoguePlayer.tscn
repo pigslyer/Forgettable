@@ -3,12 +3,11 @@
 [ext_resource path="res://Assets/UI/UITheme.tres" type="Theme" id=1]
 [ext_resource path="res://Scenes/Props/DialoguePlayer.gd" type="Script" id=2]
 
-[node name="DialoguePlayer" type="CanvasLayer" groups=["SAVES"]]
+[node name="DialoguePlayer" type="CanvasLayer"]
 layer = 110
 script = ExtResource( 2 )
 
 [node name="Theme" type="Popup" parent="." groups=["popup_disable_follow"]]
-visible = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 1 )

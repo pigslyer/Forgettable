@@ -5,13 +5,10 @@ enum{
 	LOADING,
 };
 
-const COMPILED_EXTENSION = ".dial"
-
 var mode: int;
-var in_use: String;
+var in_use: String = "";
 
 var current_opened := false;
-var current_compiled := false;
 
 func _ready():
 	$DialoguePlayer/Theme.popup_exclusive = false;
@@ -48,22 +45,14 @@ func file_chosen(path: String):
 	
 	in_use = path;
 	current_opened = true;
-	current_compiled = file.file_exists(path.get_basename()+COMPILED_EXTENSION);
 	file.close();
 
-func compile():
-	if current_opened:
-		var file := File.new();
-		file.open(in_use,File.READ);
-		var compiled = Dialogue.compile(file.get_as_text());
-		file.close();
-		file.open(in_use.get_basename()+COMPILED_EXTENSION,File.WRITE);
-		file.store_string(compiled);
-		file.close();
-		current_compiled = true;
-
 func play():
-	if current_compiled:
-		$DialoguePlayer.path = in_use.get_basename()+COMPILED_EXTENSION;
+	if !in_use.empty():
+		$DialoguePlayer.path = in_use;
 		$DialoguePlayer.start();
 
+
+
+func _on_DialoguePlayer_perform_action(id):
+	$VBoxContainer/SayLine.say_line(str("Performed action: ",id));

@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scenes/Objects/FlickerBlinks.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Base/ceilinglight.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Base/light_smol.png" type="Texture" id=3]
+
+[node name="EmergencyLight" type="Light2D"]
+z_index = 200
+texture = ExtResource( 3 )
+texture_scale = 2.1
+color = Color( 1, 0, 0, 1 )
+script = ExtResource( 1 )
+energy_min = 0.7
+energy_max = 0.9
+smoothing = 80
+stays_on = 10.0
+
+[node name="Sprite" type="Sprite" parent="."]
+self_modulate = Color( 1, 1, 1, 0.301961 )
+show_behind_parent = true
+texture = ExtResource( 2 )

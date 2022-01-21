@@ -39,6 +39,21 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Objects/FlickerAlerts.gd"
 }, {
+"base": "Flicker",
+"class": "FlickerBlinks",
+"language": "GDScript",
+"path": "res://Scenes/Objects/FlickerBlinks.gd"
+}, {
+"base": "TextureRect",
+"class": "FootstepOverride",
+"language": "GDScript",
+"path": "res://Scenes/Objects/FootstepOverride.gd"
+}, {
+"base": "Camera2D",
+"class": "FreeCam",
+"language": "GDScript",
+"path": "res://Scenes/Objects/FreeCam.gd"
+}, {
 "base": "ItemBase",
 "class": "Gun",
 "language": "GDScript",
@@ -86,6 +101,9 @@ _global_script_class_icons={
 "Enemy": "",
 "Flicker": "",
 "FlickerAlerts": "",
+"FlickerBlinks": "",
+"FootstepOverride": "",
+"FreeCam": "",
 "Gun": "",
 "Interactive": "",
 "ItemBase": "",
@@ -213,11 +231,14 @@ reload={
 }
 camera_mouse_follow={
 "deadzone": 0.5,
-"events": [  ]
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":81,"unicode":0,"echo":false,"script":null)
+ ]
 }
 
 [layer_names]
 
+2d_render/layer_1="Standard"
+2d_render/layer_2="LaserSight"
 2d_physics/layer_1="World"
 2d_physics/layer_2="Player"
 2d_physics/layer_3="Enemy"
@@ -225,6 +246,7 @@ camera_mouse_follow={
 2d_physics/layer_5="InteractiveBlocker"
 2d_physics/layer_6="ShyOne"
 2d_physics/layer_7="FlickerAlert"
+2d_physics/layer_8="KneeWorld"
 
 [physics]
 

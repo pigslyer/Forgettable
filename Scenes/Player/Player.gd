@@ -17,12 +17,17 @@ const BODY_WALK_SPEED = 1.0;
 
 # trust me bro, these are good
 # for quadratic equation that determines body speed
+# don't need 'em
 const A = (BODY_RUN_SPEED-SPEED_RUN/SPEED_WALK)/(SPEED_RUN*(SPEED_RUN-SPEED_WALK));
 const B = (BODY_WALK_SPEED-A*SPEED_WALK*SPEED_WALK)/SPEED_WALK;
 
 const CAM_SHAKE_DIST = Vector2(0,2);
 const CAM_SHAKE_SPRINT_MULT = 4;
 const CAM_SHAKE_MULT = 0.3;
+
+const CAM_ZOOM_NORMAL = Vector2(0.38,0.38);
+const CAM_ZOOM_SPRINT = Vector2(0.42,0.42);
+const CAM_ZOOM_COMBAT = Vector2(0.47,0.47);
 
 var health := MAX_HEALTH setget set_health;
 var dead := false;
@@ -49,11 +54,9 @@ var cam_shake_off := Vector2.ZERO;
 func _ready():
 	
 	add_item(ItemInventory.new("res://Scenes/Items/Handgun.tscn"));
-	add_item(ItemInventory.new("res://Scenes/Items/Flashlight.tscn"));
 	add_item(ItemInventory.new("res://Scenes/Items/Ammo1911.tscn",null,-Vector2.ONE,50));
 	
-	
-	var hotbar_items = [get_waffle().items[0],get_waffle().items[1]];
+	var hotbar_items = [get_waffle().items[0]];
 	hotbar_items.resize(hotbar.SLOTS);
 	hotbar.items = hotbar_items;
 	$HUD/Theme/Hotbar.items = hotbar_items;
@@ -141,7 +144,7 @@ func _physics_process(delta):
 				closest = inter;
 				closest_angle = abs((interactive.global_position-global_position).angle()-interactive.global_rotation);
 		
-		if closest == null:
+		if closest == null || closest.get_parent().message.empty():
 			inter_label.hide();
 		else:
 			inter_label.text = closest.get_parent().message;
@@ -149,6 +152,7 @@ func _physics_process(delta):
 	# cam shake
 	cam_shake_off *= CAM_SHAKE_MULT;
 	$Camera.offset = cam_shake_off;
+	$Camera.target_zoom = (CAM_ZOOM_SPRINT if sprinting else CAM_ZOOM_NORMAL) if Save.can_save() else CAM_ZOOM_COMBAT;
 
 func _unhandled_input(ev: InputEvent):
 	if equipped != null && ev.is_action_pressed("lmb") && $EquippingDelay.is_stopped(): 
@@ -181,7 +185,7 @@ func _unhandled_input(ev: InputEvent):
 func _unhandled_key_input(ev: InputEventKey):
 	
 	if ev.is_action_pressed("interact") && closest != null:
-		closest.get_parent().emit_signal("interacted");
+		closest.get_parent().interact();
 	
 	if ev.is_action_pressed("inventory"):
 		$HUD/Theme/Inventory.popup();
@@ -239,3 +243,6 @@ func shake_cam():
 
 func get_item(path: String, count: int) -> int:
 	return $HUD/Theme/Inventory.get_item(path,count);
+
+func start_dial(path: String, onetime: bool = true, actions: Node = null):
+	$DialoguePlayer.start(path,onetime,actions);

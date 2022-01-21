@@ -60,8 +60,25 @@ func _ready():
 				tiles.get_cellv(tile+Vector2.DOWN) in exceps
 			):
 			tiles.set_cell(tile.x,tile.y,cur,false,false,false,Vector2.ZERO);
-
-
+	
+	var rect: Rect2;
+	# add footstep overrides
+	for override in get_tree().get_nodes_in_group(FootstepOverride.GROUP):
+		rect = override.get_global_rect();
+		if override.get_parent() is Node2D:
+			rect.size = rect.size.rotated(-override.get_parent().global_rotation);
+		
+		# no one ever said my fix had to use trigonometry
+		if rect.size.x < 0:
+			rect.position.x += rect.size.x;
+			rect.size.x = abs(rect.size.x);
+		if rect.size.y < 0:
+			rect.position.y += rect.size.y;
+			rect.size.y = abs(rect.size.y);
+		
+		audio_override_rects.append(rect);
+		audio_override_streams.append(override.sound_effect);
+		override.remove_from_group(FootstepOverride.GROUP);
 
 func spawn_room(room: PackedScene, from: DoorTransition):
 	var spawned = room.instance();
@@ -105,9 +122,10 @@ func align_by(what: DoorTransition, where: Vector2):
 func _physics_process(_delta):
 	
 	var idx: int;
+	var sample: AudioStream;
+	var player_pos = Groups.get_player().global_position;
+	
 	for foot in get_tree().get_nodes_in_group(Groups.FOOTSTEP):
-		
-		var player_pos = Groups.get_player().global_position;
 		
 		if (
 				tiles.get_cellv(tiles.world_to_map(foot.global_position)) != TileMap.INVALID_CELL && 
@@ -115,9 +133,8 @@ func _physics_process(_delta):
 				NEAR_TO_PLAYER*NEAR_TO_PLAYER
 			):
 			
-			var sample: AudioStream;
-			
 			idx = 0;
+			
 			while idx < audio_override_rects.size():
 				if audio_override_rects[idx].has_point(foot.global_position):
 					sample = audio_override_streams[idx];
@@ -127,4 +144,6 @@ func _physics_process(_delta):
 			if idx == audio_override_rects.size():
 				sample = footstep_sounds[tiles.get_cellv(tiles.world_to_map(foot.global_position))];
 			
-			if sample != foot.stream: foot.stream = sample;
+			if sample != foot.stream:
+				foot.stream = sample;
+				sample = null;

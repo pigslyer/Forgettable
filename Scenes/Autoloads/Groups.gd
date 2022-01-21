@@ -12,7 +12,7 @@ const ENEMY = "ENEMY";
 # popped up and allow it again once hidden
 const DISABLE_FOLLOW = "popup_disable_follow";
 
-# maps room group to room node. can probably just replace saveables
+# maps room group to room node
 var rooms := {
 	
 };
@@ -22,7 +22,7 @@ func refresh_popup_disable_follow():
 	for popup in get_tree().get_nodes_in_group(DISABLE_FOLLOW):
 		if !popup.is_connected("about_to_show",player,"follow_mouse"):
 			popup.connect("about_to_show",player,"follow_mouse",[false]);
-			popup.connect("popup_hide",player,"follow_mouse",[true]);
+			popup.connect("popup_hide",player,"follow_mouse",[true],CONNECT_DEFERRED);
 
 
 func get_player() -> Player:

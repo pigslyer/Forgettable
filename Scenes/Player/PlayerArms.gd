@@ -12,11 +12,15 @@ var walking: bool setget set_walking
 var sprinting: bool setget set_sprinting;
 var type: int;
 
+var last_update = -INF;
+
 func update_anim():
 	if walking:
 		play(animations[type][1+int(sprinting)]);
 	else:
 		play(animations[type][0]);
+	
+	last_update = OS.get_ticks_msec();
 
 func set_walking(state: bool):
 	if walking != state:

@@ -1,6 +1,8 @@
 class_name Dialogue
 extends Reference
 
+signal perform_action(id);
+
 var talking_to: String;
 var caret: int;
 var lines: PoolStringArray;
@@ -8,7 +10,7 @@ var lines: PoolStringArray;
 func _init(path: String):
 	var file := File.new();
 	file.open(path,File.READ);
-	lines = file.get_as_text().split("\n");
+	lines = compile(file.get_as_text());
 	file.close();
 	caret = 0;
 
@@ -38,13 +40,16 @@ func _read_line(line: String, first_word: String, second_word: String, next: int
 			
 		"/end":
 			return null;
-			
+		
+		"/action":
+			emit_signal("perform_action",second_word);
+		
 		_:
 			return line;
 	
 	return get_line();
 
-static func compile(text: String) -> String:
+static func compile(text: String) -> PoolStringArray:
 	
 	# remove indents
 	text = text.replace("	","").replace("    ","")
@@ -103,4 +108,4 @@ static func compile(text: String) -> String:
 			idx = begin+2
 		idx += 1
 	
-	return split.join("\n");
+	return split

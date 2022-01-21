@@ -1,13 +1,12 @@
 extends Camera2D
 
-const MIN_DIST = 64*2.4;
 const R = 80;
 const MULT = 0.75*60;
 
 const ZOOM_MULT = 0.9;
 
 var target_pos: Vector2;
-var target_zoom = Vector2(0.65,0.65);
+var target_zoom = Vector2(0.38,0.38);
 
 onready var center := get_viewport_rect().size/2;
 

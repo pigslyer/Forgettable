@@ -6,6 +6,9 @@ signal items_changed(changed);
 const BACKGROUND_COLOR = Color8(10,20,20);
 const TAKEN_COLOR = Color8(0,15,15);
 const DRAW_COLOR = Color.darkblue;
+const UNAVAILABLE_COLOR = Color.black;
+const CROSS_COLOR = Color.teal;
+const CROSS_WIDTH = 3;
 const LINE_WIDTH = 3;
 const ITEM_NUM_OFF = Vector2(-32,-8);
 const EDGE_CIRCLE_PERCENT = 0.55;
@@ -19,8 +22,16 @@ var preview_rect: Rect2 = PREVIEW_NO_RECT;
 var items: Array setget set_items;
 var grid: Array;
 export (Vector2) var size;
+export (int) var height = size.y;
 
 onready var step = rect_size/size;
+
+func _ready():
+	connect("mouse_exited",self,"_hide_preview");
+
+func _hide_preview():
+	preview_rect = PREVIEW_NO_RECT;
+	update();
 
 func add_item(item: ItemInventory):
 	var diff: int;
@@ -42,7 +53,7 @@ func add_item(item: ItemInventory):
 	if item.count > 0:
 		var has_space: bool;
 		
-		for y in size.y-item.size.y+1:
+		for y in height-item.size.y+1:
 			for x in size.x-item.size.x+1:
 				
 				has_space = true;
@@ -104,7 +115,7 @@ func can_drop_data(pos, data) -> bool:
 	
 	pos = (pos/step).floor();
 	
-	if pos.x + data.size.x > size.x || pos.y + data.size.y > size.y:
+	if pos.x + data.size.x > size.x || pos.y + data.size.y > height:
 		return false;
 	
 	for x in range(pos.x,pos.x+data.size.x):
@@ -154,20 +165,24 @@ func get_drag_data(pos):
 
 func _draw():
 	
-	draw_rect(get_rect(),BACKGROUND_COLOR);
+	draw_rect(Rect2(Vector2.ZERO,Vector2(rect_size.x,rect_size.y/size.y*height)),BACKGROUND_COLOR);
+	draw_rect(Rect2(Vector2(0,rect_size.y/size.y*height),Vector2(rect_size.x,rect_size.y/size.y*(size.y-height))),UNAVAILABLE_COLOR);
 	
 	for x in size.x+1:
-		draw_line(Vector2(x*step.x,0),Vector2(x*step.x,rect_size.y),DRAW_COLOR,LINE_WIDTH);
+		draw_line(Vector2(x*step.x,0),Vector2(x*step.x,rect_size.y/size.y*height),DRAW_COLOR,LINE_WIDTH);
 	
-	for y in size.y:
+	for y in height+1:
 		draw_line(Vector2(0,y*step.y),Vector2(rect_size.x,y*step.y),DRAW_COLOR,LINE_WIDTH);
 	
-	draw_line(Vector2(0,rect_size.y),Vector2(rect_size.x,rect_size.y),DRAW_COLOR,LINE_WIDTH);
+	draw_line(Vector2.ZERO,Vector2(0,rect_size.y),DRAW_COLOR,LINE_WIDTH);
+	draw_line(Vector2(rect_size.x,0),rect_size,DRAW_COLOR,LINE_WIDTH);
+	draw_line(Vector2(0,rect_size.y),rect_size,DRAW_COLOR,LINE_WIDTH);
 	
 	draw_circle(Vector2.ZERO,LINE_WIDTH*EDGE_CIRCLE_PERCENT,DRAW_COLOR);
 	draw_circle(Vector2(rect_size.x,0),LINE_WIDTH*EDGE_CIRCLE_PERCENT,DRAW_COLOR);
 	draw_circle(Vector2(0,rect_size.y),LINE_WIDTH*EDGE_CIRCLE_PERCENT,DRAW_COLOR);
 	draw_circle(Vector2(rect_size.x,rect_size.y),LINE_WIDTH*EDGE_CIRCLE_PERCENT,DRAW_COLOR);
+	
 	
 	var tex_size: Vector2;
 	var offset: Vector2;
@@ -185,12 +200,13 @@ func _draw():
 		if item.stack > 1:
 			draw_string(get_theme_default_font(),(item.pos+item.size)*step+ITEM_NUM_OFF,str(item.count));
 	
+	
 	if preview_rect != PREVIEW_NO_RECT:
 		var has_space: bool = true;
 		var item = get_viewport().gui_get_drag_data().item;
 		for x in range(preview_rect.position.x,preview_rect.position.x+preview_rect.size.x):
 			for y in range(preview_rect.position.y,preview_rect.position.y+preview_rect.size.y):
-				if grid[x][y] != null && grid[x][y] != item:
+				if (grid[x][y] != null && grid[x][y] != item) || y >= height:
 					has_space = false;
 					break;
 		

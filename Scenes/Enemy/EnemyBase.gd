@@ -42,7 +42,7 @@ func attacked():
 
 func _physics_process(delta):
 	
-	if can_move:
+	if can_move && !dead:
 		
 		velocity *= FRIC;
 		
@@ -89,6 +89,8 @@ func set_health(new_val: int, loud: bool = true):
 			$GruntDeath.play();
 	elif loud:
 		$GruntPain.play();
+		if is_inside_tree():
+			set_alerted(true);
 	
 	health = new_val;
 	

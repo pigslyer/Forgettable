@@ -12,6 +12,14 @@ export (Material) var shader = preload("res://Scenes/Objects/outline.tres");
 export (String) var message = "";
 export (bool) var disabled = false setget disable;
 
+# if filled in, starts dialogue on interact
+export (String) var dial_path = "";
+# if true, dialogue is one time
+export (bool) var dial_one_time = true;
+# if filled in, sends dialogue actions to this node's dial_action function
+# it should probably have one
+export (NodePath) var dial_actions;
+
 var cur_state: int setget clickable;
 var area: Area2D;
 var collision: CollisionShape2D;
@@ -73,5 +81,10 @@ func _update_shader():
 
 func _gui_input(event: InputEvent):
 	if event.is_action_pressed("lrmb"):
-		emit_signal("interacted")
+		interact();
 		accept_event()
+
+func interact():
+	emit_signal("interacted");
+	if !dial_path.empty():
+		Groups.get_player().start_dial(dial_path,dial_one_time,null if str(dial_actions).empty() else get_node(dial_actions));

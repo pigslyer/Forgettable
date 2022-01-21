@@ -2,8 +2,12 @@ extends Node2D
 
 const MAX_TURN_ANGLE = deg2rad(35);
 const TURN_MULT = 1.6;
-const HAND_FOLLOW = 1;
 const BODY_AUTO_ADJUST_MULT = 0.95;
+
+# time during which we interpolate hand rotation instead of setting
+# used to fix the hand snapping to weird positions between animations
+const INTERP_TIME = 0.4 * 1000;
+const HAND_FOLLOW = 0.42;
 
 var walking := false setget set_walking;
 var sprinting := false setget set_sprinting;
@@ -27,7 +31,10 @@ func _physics_process(delta):
 	if !(sprinting || walking):
 		$Body.rotation *= BODY_AUTO_ADJUST_MULT;
 	
-	if equipped && (!(sprinting || walking) || $PlayerWalk.type != ItemBase.Anim.TWO_HANDED):
+	
+	if $PlayerWalk.last_update + INTERP_TIME > OS.get_ticks_msec():
+		hand.global_rotation = lerp_angle(hand.global_rotation,angle,_calc_weight(hand.global_rotation,angle)*HAND_FOLLOW);
+	elif equipped && (!(sprinting || walking) || $PlayerWalk.type != ItemBase.Anim.TWO_HANDED):
 		hand.look_at(get_global_mouse_position());
 	
 

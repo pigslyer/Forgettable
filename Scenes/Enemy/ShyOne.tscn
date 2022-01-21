@@ -18,6 +18,12 @@ drops = {
 [node name="Animation" parent="." index="0"]
 run_speed = 2.4
 
+[node name="Head" parent="Animation/Body" index="0"]
+position = Vector2( -3, 0 )
+
+[node name="PlayerDetection" parent="Animation/Body/Head" index="2"]
+visible = false
+
 [node name="Footstep" parent="Animation/Body/FootLeft" index="0"]
 volume_db = 20.0
 attenuation = 0.784584
@@ -27,6 +33,7 @@ volume_db = 20.0
 attenuation = 0.784584
 
 [node name="DamageArea" type="Area2D" parent="Animation/Body" index="3"]
+visible = false
 collision_layer = 0
 collision_mask = 2
 monitorable = false
@@ -34,6 +41,9 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Animation/Body/DamageArea" index="0"]
 position = Vector2( 20.5, -1.5 )
 shape = SubResource( 1 )
+
+[node name="CollisionShape2D" parent="." index="1"]
+visible = false
 
 [node name="AttackDelay" type="Timer" parent="." index="2"]
 wait_time = 0.1
@@ -55,6 +65,9 @@ bus = "SFX"
 [node name="SurrenderGasp" type="AudioStreamPlayer2D" parent="." index="8"]
 
 [node name="UnSurrenderGasp" type="AudioStreamPlayer2D" parent="." index="9"]
+
+[node name="PlayerWall" parent="." index="10"]
+visible = false
 
 [connection signal="body_entered" from="Animation/Body/DamageArea" to="." method="_on_DamageArea_body_entered"]
 [connection signal="timeout" from="AttackDelay" to="." method="_on_AttackDelay_timeout"]

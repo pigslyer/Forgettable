@@ -8,6 +8,7 @@ func set_detecting(new_val: int):
 	detecting = new_val;
 	Music.play_music(Music.MUSIC.AMBIENT if detecting == 0 else Music.MUSIC.COMBAT);
 
+# used for both room and normal data
 var save_data := {
 	
 };

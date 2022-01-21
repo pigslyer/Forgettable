@@ -1,6 +1,9 @@
 class_name Gun
 extends ItemBase
 
+const HOLDUP_TIME = 0.4;
+const UNHELDUP_TIME = 0.4;
+
 export (String) var ammo_type;
 export (int) var ammo_max;
 var ammo: int = 0;
@@ -67,9 +70,11 @@ func _use():
 				ammo -= 1;
 				_shoot();
 				
+				$FireFrom/Flash.pre_proc();
 				$Shoot.play();
 				for enemy in $Noise.get_overlapping_bodies():
-					enemy.alerted = true;
+					if !enemy.deaf:
+						enemy.alerted = true;
 				
 				# EVERYONE who knew it was shot forgets that
 				if !$ResetKnows.is_stopped():
@@ -120,8 +125,12 @@ func _on_ResetKnows_timeout():
 
 # make aware that gun is pointed at him
 func _on_PointingGun_body_entered(body):
-	body.pointing_gun_at = true;
+	yield(get_tree().create_timer(HOLDUP_TIME),"timeout");
+	if $PointingGun.overlaps_body(body):
+		body.pointing_gun_at = true;
 
 # make aware that gun isn't pointed at him
 func _on_PointingGun_body_exited(body):
-	body.pointing_gun_at = false;
+	yield(get_tree().create_timer(UNHELDUP_TIME),"timeout");
+	if !$PointingGun.overlaps_body(body):
+		body.pointing_gun_at = false;

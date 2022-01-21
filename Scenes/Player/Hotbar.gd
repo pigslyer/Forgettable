@@ -20,6 +20,15 @@ var items: Array;
 
 func _ready():
 	add_to_group(HOTBAR_GROUP);
+	set_physics_process(false);
+	connect("mouse_entered",self,"set_physics_process",[true]);
+	connect("mouse_exited",self,"_stop_physics");
+
+func _stop_physics():
+	set_physics_process(false);
+	if preview_cur != PREVIEW_NONE:
+		preview_cur = PREVIEW_NONE;
+		update();
 
 func update_hotbars():
 	get_tree().call_group(HOTBAR_GROUP,"update");
@@ -48,6 +57,7 @@ func drop_data(pos, data):
 		
 		items[floor(pos.x/(rect_width+SPACING))] = data.item;
 	
+	preview_cur = PREVIEW_NONE;
 	update_hotbars();
 
 func _draw():
@@ -96,7 +106,7 @@ func _draw():
 	
 	if preview_cur != PREVIEW_NONE:
 		draw_rect(
-			Rect2(Vector2(preview_cur*rect_width+2*SPACING,2*SPACING),Vector2(rect_width-4*SPACING,rect_height-4*SPACING)),
+			Rect2(Vector2(preview_cur*(rect_width+SPACING)+2*SPACING,2*SPACING),Vector2(rect_width-2*SPACING,rect_height-2*SPACING)),
 			PREVIEW_COLOR,
 			false
 		);
@@ -121,7 +131,4 @@ func _physics_process(_delta):
 			if temp != preview_cur:
 				preview_cur = temp;
 				update();
-			
-	elif preview_cur != PREVIEW_NONE || !get_rect().has_point(get_local_mouse_position()):
-		preview_cur = PREVIEW_NONE;
-		update();
+

@@ -9,19 +9,17 @@ export (String) var keycard = "";
 
 export (bool) var open = false;
 export (bool) var locked = false;
-export (bool) var powered = true;
+export (bool) var enemies_can_open = true;
 
-export (String,MULTILINE) var no_power_line = "The door isn't powered";
 export (String,MULTILINE) var locked_line = "The door's locked";
 
 onready var prev_open: bool = open;
 
-func data_save(): return [open,locked,powered];
+func data_save(): return [open,locked];
 func data_load(data): 
-	open = data[0]; locked = data[1]; powered = data[2];
+	open = data[0]; locked = data[1];
 
 func _ready():
-	
 	if outer_text.empty():
 		$WhenClosed/Text.hide();
 	
@@ -29,11 +27,8 @@ func _ready():
 		$AnimationPlayer.play("open");
 		$AnimationPlayer.seek($AnimationPlayer.current_animation_length,true);
 
-
 func _on_open(force: bool = false):
-	if !powered && !force:
-		Groups.say_line(no_power_line);
-	elif locked && !force:
+	if locked && !force:
 		Groups.say_line(locked_line);
 	else:
 		if open:
@@ -56,7 +51,7 @@ func _on_read():
 
 
 func _on_EnemyAutoOpen_body_entered(_body):
-	if !open:
+	if !open && enemies_can_open:
 		_on_open(true);
 		prev_open = false;
 

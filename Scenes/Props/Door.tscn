@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Assets/Base/door.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Base/door_closed.png" type="Texture" id=2]
@@ -11,6 +11,8 @@
 [ext_resource path="res://Scenes/Objects/Flicker2.gd" type="Script" id=9]
 [ext_resource path="res://Assets/Base/light_smol.png" type="Texture" id=10]
 [ext_resource path="res://Assets/Sounds/vent_open.wav" type="AudioStream" id=11]
+[ext_resource path="res://Scenes/Objects/FootstepOverride.gd" type="Script" id=12]
+[ext_resource path="res://Assets/Sounds/vent_floor.wav" type="AudioStream" id=13]
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 5, 64 )
@@ -94,23 +96,6 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
-}
-tracks/2/type = "method"
-tracks/2/path = NodePath("WhenClosed/InnerOpen/Flicker2")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( 1, 1 ),
-"values": [ {
-"args": [ true ],
-"method": "set_enabled"
-}, {
-"args": [ false ],
-"method": "set_enabled"
-} ]
 }
 
 [sub_resource type="RectangleShape2D" id=9]
@@ -199,13 +184,11 @@ __meta__ = {
 message = "Lock/unlock"
 
 [node name="InnerOpen" type="Sprite" parent="WhenClosed"]
-position = Vector2( -39, -46 )
+position = Vector2( -39, 48 )
 rotation = 1.5708
 texture = ExtResource( 5 )
 
-[node name="Flicker2" type="Light2D" parent="WhenClosed/InnerOpen"]
-visible = false
-rotation = -3.14159
+[node name="Flicker" type="Light2D" parent="WhenClosed/InnerOpen"]
 texture = ExtResource( 10 )
 texture_scale = 0.5
 color = Color( 0.560784, 0.529412, 0.529412, 1 )
@@ -224,7 +207,7 @@ __meta__ = {
 message = "Open"
 
 [node name="InnerKeycard" type="Sprite" parent="WhenClosed"]
-position = Vector2( -39, 47 )
+position = Vector2( -39, -48 )
 rotation = 1.5708
 texture = ExtResource( 7 )
 
@@ -286,6 +269,21 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyAutoOpen"]
 shape = SubResource( 9 )
+
+[node name="FootstepOverride" type="TextureRect" parent="."]
+margin_left = -56.0
+margin_top = -64.0
+margin_right = 56.0
+margin_bottom = 64.0
+rect_rotation = 359.999
+mouse_filter = 2
+expand = true
+stretch_mode = 2
+script = ExtResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+sound_effect = ExtResource( 13 )
 
 [connection signal="interacted" from="WhenClosed/OuterOpen/Interactive" to="." method="_on_open"]
 [connection signal="interacted" from="WhenClosed/OuterKeycard/Interactive" to="." method="_on_keycard"]

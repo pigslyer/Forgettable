@@ -1,11 +1,12 @@
-add dialogue player, with a signal for special actions
-add laser sight to handgun
++add dialogue player, with a signal for special actions
++add laser sight to handgun
 add shotgun, with long and wide flashlight
 add smg (+ ammo) with a short and not wide flashlight
-add muzzle flash to guns
-inventory size should start at 3x3, then increase with upgrades
++add muzzle flash to guns
++inventory size should start at 5x3, then increase with upgrades
+rotatable items (fuck me)
 add easy to set up keypad
-remove notes feature
++remove notes feature
 add more floor tiles
 +test transition doors, rooms and saving rooms
 

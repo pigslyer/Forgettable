@@ -1,7 +1,7 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=44 format=2]
 
-[ext_resource path="res://Assets/Enemies/enemybottom2.png" type="Texture" id=1]
-[ext_resource path="res://Assets/Player/playerUpper.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Player/player_body.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Player/player_head.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/Player/Player.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/Player/Animated.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/Player/Camera.gd" type="Script" id=5]
@@ -18,6 +18,7 @@
 [ext_resource path="res://Assets/Player/hand.png" type="Texture" id=16]
 [ext_resource path="res://Scenes/Player/YouDied.gd" type="Script" id=17]
 [ext_resource path="res://Scenes/Player/PlayerArms.gd" type="Script" id=18]
+[ext_resource path="res://Scenes/Props/DialoguePlayer.tscn" type="PackedScene" id=19]
 
 [sub_resource type="Animation" id=2]
 length = 0.001
@@ -166,6 +167,7 @@ tracks/4/keys = {
 
 [sub_resource type="Animation" id=17]
 resource_name = "hide_idle"
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Animated/Body/ArmLeft:visible")
 tracks/0/interp = 1
@@ -465,7 +467,39 @@ tracks/8/keys = {
 "times": PoolRealArray( 0, 0.3, 0.6 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 13.7472, 21.8406 ), Vector2( 15.1762, 25.9747 ), Vector2( 12.937, 27.9577 ) ]
+"values": [ Vector2( 7.93278, 18.4952 ), Vector2( 13.2735, 21.9275 ), Vector2( 9.35659, 20.5294 ) ]
+}
+
+[sub_resource type="Animation" id=25]
+resource_name = "HeadBob"
+length = 1.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body/Head:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( -3, 0 ) ]
+}
+
+[sub_resource type="Animation" id=26]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Body/Head:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
 }
 
 [sub_resource type="CircleShape2D" id=5]
@@ -474,8 +508,8 @@ radius = 256.0
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 44, 20 )
 
-[sub_resource type="CircleShape2D" id=1]
-radius = 22.0
+[sub_resource type="CapsuleShape2D" id=24]
+radius = 11.0
 
 [sub_resource type="StyleBoxFlat" id=19]
 bg_color = Color( 1, 0, 0, 1 )
@@ -550,14 +584,16 @@ radius = 384.0
 [node name="Player" type="KinematicBody2D" groups=["Player"]]
 z_index = 100
 collision_layer = 2
+collision_mask = 129
 script = ExtResource( 3 )
 
 [node name="PassiveLight" type="Light2D" parent="."]
 texture = ExtResource( 9 )
+texture_scale = 1.2
+color = Color( 0.596078, 0.729412, 0.847059, 1 )
 script = ExtResource( 10 )
-energy_min = 0.3
-energy_max = 0.5
-smoothing = 20
+energy_min = 0.5
+energy_max = 0.8
 
 [node name="Animated" type="Node2D" parent="."]
 script = ExtResource( 4 )
@@ -571,6 +607,11 @@ anims/hide_walk = SubResource( 16 )
 anims/one_handed_idle = SubResource( 18 )
 anims/one_handed_walk = SubResource( 3 )
 script = ExtResource( 18 )
+
+[node name="HeadBob" type="AnimationPlayer" parent="Animated"]
+autoplay = "HeadBob"
+anims/HeadBob = SubResource( 25 )
+anims/RESET = SubResource( 26 )
 
 [node name="Body" type="Sprite" parent="Animated"]
 texture = ExtResource( 1 )
@@ -632,8 +673,7 @@ bus = "SFX"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
-position = Vector2( -2, 0 )
-shape = SubResource( 1 )
+shape = SubResource( 24 )
 
 [node name="HUD" type="CanvasLayer" parent="."]
 layer = 100
@@ -878,6 +918,7 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 size = Vector2( 5, 5 )
+height = 3
 
 [node name="Hotbar" type="ReferenceRect" parent="HUD/Theme/Inventory/VSplitContainer/HSplitContainer/VSplitContainer"]
 margin_top = 409.0
@@ -934,6 +975,7 @@ rect_min_size = Vector2( 80, 0 )
 text = "Keycards"
 
 [node name="Notes" type="Button" parent="HUD/Theme/Inventory/VSplitContainer/Buttons"]
+visible = false
 margin_left = 344.0
 margin_right = 424.0
 margin_bottom = 25.0
@@ -1013,11 +1055,12 @@ __meta__ = {
 
 [node name="Camera" type="Camera2D" parent="."]
 current = true
-zoom = Vector2( 0.65, 0.65 )
+zoom = Vector2( 0.35, 0.35 )
 smoothing_enabled = true
 script = ExtResource( 5 )
 
 [node name="LoudArea" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 4
 monitorable = false
@@ -1035,6 +1078,8 @@ color = Color( 0, 0, 0, 1 )
 [node name="EquippingDelay" type="Timer" parent="."]
 wait_time = 0.3
 one_shot = true
+
+[node name="DialoguePlayer" parent="." instance=ExtResource( 19 )]
 
 [connection signal="equipped_new" from="." to="Animated" method="_on_Player_equipped_new"]
 [connection signal="equipped_new" from="." to="Animated/PlayerWalk" method="_on_Player_equipped_new"]
@@ -1054,8 +1099,8 @@ one_shot = true
 [connection signal="pressed" from="HUD/Theme/YouDied/VBoxContainer/Button2" to="HUD/Theme/YouDied" method="_on_Button2_pressed"]
 [connection signal="pressed" from="HUD/Theme/YouDied/VBoxContainer/Button" to="HUD/Theme/YouDied" method="hide"]
 [connection signal="about_to_show" from="HUD/Theme/Inventory" to="." method="follow_mouse" binds= [ false ]]
-[connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="override_selected"]
 [connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="update_equipped"]
+[connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="override_selected"]
 [connection signal="popup_hide" from="HUD/Theme/Inventory" to="." method="follow_mouse" binds= [ true ]]
 [connection signal="gui_input" from="HUD/Theme/Inventory/VSplitContainer/HSplitContainer/VSplitContainer/ItemWaffle" to="HUD/Theme/Inventory" method="_on_ItemWaffle_gui_input"]
 [connection signal="items_changed" from="HUD/Theme/Inventory/VSplitContainer/HSplitContainer/VSplitContainer/ItemWaffle" to="HUD/Theme/Inventory" method="select"]
