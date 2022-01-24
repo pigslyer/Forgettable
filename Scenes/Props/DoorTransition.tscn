@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Assets/Base/door_transition.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Objects/Interactive.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Assets/Base/light_smol.png" type="Texture" id=5]
 [ext_resource path="res://Assets/Base/door_hand_scanner.png" type="Texture" id=6]
 [ext_resource path="res://Assets/Base/door_closed.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Base/door_name.png" type="Texture" id=8]
 
 [sub_resource type="OccluderPolygon2D" id=2]
 polygon = PoolVector2Array( 30, 64, 34, 64, 34, -64, 30, -64 )
@@ -153,6 +154,22 @@ energy_max = 0.6
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="WhenClosed"]
 occluder = SubResource( 2 )
+
+[node name="NamePlate" type="Sprite" parent="WhenClosed"]
+position = Vector2( -19, -18 )
+rotation = 1.57079
+texture = ExtResource( 8 )
+
+[node name="Interactive" type="Control" parent="WhenClosed/NamePlate"]
+margin_left = -32.0
+margin_top = -8.0
+margin_right = 32.0
+margin_bottom = 8.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+message = "Read"
 
 [node name="DoorCloseArea" type="Area2D" parent="."]
 collision_layer = 0

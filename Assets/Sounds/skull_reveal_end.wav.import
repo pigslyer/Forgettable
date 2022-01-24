@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/skull_reveal_end.wav-a74e1a1dd1044497da92d255764610fa.sample"
+
+[deps]
+
+source_file="res://Assets/Sounds/skull_reveal_end.wav"
+dest_files=[ "res://.import/skull_reveal_end.wav-a74e1a1dd1044497da92d255764610fa.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

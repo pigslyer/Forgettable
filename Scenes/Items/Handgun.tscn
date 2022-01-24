@@ -13,7 +13,7 @@
 radius = 1024.0
 
 [sub_resource type="OccluderPolygon2D" id=2]
-polygon = PoolVector2Array( 0, 1.5, 0, -1.5, -0.5, -1.5, -0.5, 1.5 )
+polygon = PoolVector2Array( 0, 8, 0, -8, 8, -8, 8, 8 )
 
 [node name="Handgun" instance=ExtResource( 1 )]
 show_behind_parent = false
@@ -43,31 +43,28 @@ shape = SubResource( 1 )
 position = Vector2( 19, 0 )
 polygon = PoolVector2Array( -8, 0, 192, -60, 192, 60 )
 
-[node name="Shoot" parent="." index="6"]
-stream = ExtResource( 8 )
-
-[node name="LaserSight" type="Light2D" parent="." index="12"]
-position = Vector2( 609, 3 )
+[node name="LaserSight" type="Light2D" parent="." index="3"]
+position = Vector2( 9, 3 )
 texture = ExtResource( 3 )
-offset = Vector2( -300, 0 )
+offset = Vector2( 300, 0 )
 texture_scale = 0.3
 color = Color( 1, 0, 0, 1 )
+range_z_max = 10
+range_item_cull_mask = 3
 shadow_enabled = true
-shadow_filter = 2
-shadow_item_cull_mask = 2
+shadow_item_cull_mask = 3
 script = ExtResource( 6 )
-energy_min = 0.65
-energy_max = 0.8
-smoothing = 10
 
 [node name="RayCast2D" type="RayCast2D" parent="LaserSight" index="0"]
-position = Vector2( -600, 0 )
 enabled = true
-cast_to = Vector2( 600, 0 )
+cast_to = Vector2( 400, 0 )
 script = ExtResource( 7 )
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="LaserSight/RayCast2D" index="0"]
 light_mask = 2
-position = Vector2( 600, 0 )
+position = Vector2( 29, -3 )
 occluder = SubResource( 2 )
 light_mask = 2
+
+[node name="Shoot" parent="." index="7"]
+stream = ExtResource( 8 )

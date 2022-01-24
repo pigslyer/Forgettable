@@ -17,4 +17,4 @@ void fragment(){
 resource_local_to_scene = true
 shader = SubResource( 1 )
 shader_param/max_off = 0.1
-shader_param/percent = null
+shader_param/percent = 1.2

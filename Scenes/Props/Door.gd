@@ -22,10 +22,19 @@ func data_load(data):
 func _ready():
 	if outer_text.empty():
 		$WhenClosed/Text.hide();
+	else:
+		$WhenClosed/Text/Interactive.message = outer_text;
 	
 	if open:
 		$AnimationPlayer.play("open");
 		$AnimationPlayer.seek($AnimationPlayer.current_animation_length,true);
+		$WhenClosed/OuterOpen/Interactive.message = "Close";
+		$WhenClosed/InnerOpen/Interactive.message = "Close";
+	
+	if locked:
+		$WhenClosed/InnerKeycard/Interactive.message = "Unlock";
+		$WhenClosed/OuterKeycard/Interactive.message = "Unlock";
+
 
 func _on_open(force: bool = false):
 	if locked && !force:
@@ -35,6 +44,8 @@ func _on_open(force: bool = false):
 			$AnimationPlayer.play_backwards("open");
 		else:
 			$AnimationPlayer.play("open");
+		$WhenClosed/OuterOpen/Interactive.message = "Open" if open else "Close";
+		$WhenClosed/InnerOpen/Interactive.message = "Open" if open else "Close";
 		open = !open;
 		prev_open = open;
 
@@ -43,11 +54,10 @@ func _on_keycard():
 		locked = !locked;
 		$LockedSound.play();
 		Groups.say_line(LOCK_LINE if locked else UNLOCK_LINE);
+		$WhenClosed/InnerKeycard/Interactive.message = "Unlock" if locked else "Lock";
+		$WhenClosed/OuterKeycard/Interactive.message = "Unlock" if locked else "Lock";
 	else:
 		Groups.say_line(str(NO_KEYCARD_LINE,"unlock it." if locked else "lock it."));
-
-func _on_read():
-	Groups.say_line(outer_text);
 
 
 func _on_EnemyAutoOpen_body_entered(_body):

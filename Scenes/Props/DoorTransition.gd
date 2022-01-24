@@ -17,6 +17,9 @@ export (String) var leads_to
 # should contain number id of other side
 export (int) var leads_to_id
 
+# good name
+export (String) var leads_to_room;
+
 # literally just so we can get our room
 func data_save(): return null;
 func data_load(_data): pass;
@@ -27,6 +30,7 @@ func _ready():
 func _on_Interactive_interacted():
 	state = OPENING;
 	
+	$WhenClosed/NamePlate/Interactive.message = leads_to_room;
 	$WhenClosed/Scanner/Interactive.disable(true);
 	var loader := Loader.new(leads_to);
 	add_child(loader);

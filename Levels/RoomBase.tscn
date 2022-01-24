@@ -22,5 +22,7 @@ format = 1
 __meta__ = {
 "_editor_description_": "walls - 1
 wood - 2
-marble/sterile - 3"
+marble/sterile - 3
+cell floor - 4
+unused - 5"
 }

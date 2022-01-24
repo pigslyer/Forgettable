@@ -6,7 +6,7 @@ const BUTT_GREEN = preload("res://Assets/Base/button_green.png");
 const BUTT_RED = preload("res://Assets/Base/button.png");
 
 # ensure the starting door is open
-var open := "1";
+var open: String;
 var locked := false;
 
 onready var opened: AnimationPlayer = $Cell1/AnimationPlayer;
@@ -15,7 +15,7 @@ func data_save(): return [locked,open];
 func data_load(data):
 	locked = data[0]; 
 	
-	if data[1] != open:
+	if !data[1].empty():
 		buttons[open].texture = BUTT_RED;
 		open = data[1];
 		opened.play("Close"); opened.seek(opened.current_animation_length,true);
@@ -30,7 +30,6 @@ func _ready():
 		button.connect("pressed",self,"_cell_selected",[button.text]);
 		buttons[button.text] = button.get_parent().get_child(0);
 
-# add light color setting
 func _cell_selected(which: String):
 	if !locked:
 		if open == which:

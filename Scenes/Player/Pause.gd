@@ -14,7 +14,10 @@ func _on_Pause_popup_hide():
 	
 
 func _on_quit_pressed():
+	# otherwise ^^ complains we're not in the tree
+	set_block_signals(true);
 	get_tree().quit();
+	
 
 func _on_restart_pressed():
 	get_tree().reload_current_scene();

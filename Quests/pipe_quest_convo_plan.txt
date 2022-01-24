@@ -1,0 +1,56 @@
+
+convo plan:
+
+whenever i tell you to trigger an action or that you can use an action, that means that you can use the "/action" command and something will happen in the world.
+whenever i list the action's name, i'll do so in quotes ["magic_trick"]. you should write the action without quotes. the action name should also not include spaces ["magic trick" isn't allowed]
+
+skull (as yet unnamed, something to the style of Skully?)
+an old timey western gentleman of a monster skull.
+pops out of a wall inside the player's cell, ever so rudely waking him up.
+
+{
+tells him that Lorelei (very high brow, i know) has stolen his pipe and that he'd like it back, please
+player complains that he's stuck in a cell and can't help, so Skully opens it for him (trigger action "open_cell")
+Skully then explains that some of Lorelei's crazies are roaming the halls and that he'll need to find a weapon, a gun would be best
+comment that though they may be crazy, they're still going to think twice if you point a gun at them
+the player needs to go through the kitchen, mention how he shouldn't mind the Imp, he won't fuck with one of Skully's minions
+player might ask why he should help Skully, he explains that otherwise he'll stay stuck in the cell. he'll also help him escape the facility as a whole
+player might ask why Skully is helping him. the pipe is just rad and he wants a minion in the outside world
+
+}
+
+Agent:
+one of the agents that tried to break Player out of the facility, held in a cell near the player's
+he has 2 convos, one from outside his cell (shouting through the bars) and another inside (he's bound to a torture chair, blood surrounds him)
+player can hear him moaning in pain
+Agent has been stuck here for hours, hearing Lorelei's siren call and trying to resist it. he should somehow show that he's torn seeing, as, if you free him and return to the abandoned level, he will disappear (he escapes to Lorelei, who kills him (i know, very high brow, if you have a better name for her, tell me))
+
+outside{
+player asks who's inside the cell
+agent explains who it is
+them recognizing one another is up to you, irony of them talking past each other would be very funny tho (can also be based on conversation choices)
+agent asks player to find a key to open his cell
+if he does, agent will tell him about his stash - he doesn't need it anymore (stash contains a powerful weapon (smg) and ammo, as well as some lore)
+
+}
+inside{
+<this is sometimes after outside, when the player has acquired the key>
+agent thanks player for his help, tells him the code to his gear stash (2979)
+player can unbind him (use action "unbind" to unbind, "not_unbind" if he chooses not to)
+
+}
+
+Tormentor (a scientist that tortured Player and Agent):
+as the player approches the kitchen he can hear screams of pain & fear
+in the passage between the kitchen and canteen area, there's a scientist looking bloke, holding on to the ground for dear life, being dragged towards the kitchen by darkness (Imp)
+{
+asks player for help
+player can respond however he wants to
+tormentor gets taken away by the darkness (use action "carry")
+
+}
+
+Imp:
+another monster, a small, cute looking imp, lying on the ground, holding its big tummy in the kitchen area
+should have 2 convos, a first met where the player talks to it about stuff and a different one following that with the imp saying something somewhat funny
+you're free to decide what he says, both when it comes to personality and any lore (should be something >0 hammy/funny tho)

@@ -88,3 +88,6 @@ func interact():
 	emit_signal("interacted");
 	if !dial_path.empty():
 		Groups.get_player().start_dial(dial_path,dial_one_time,null if str(dial_actions).empty() else get_node(dial_actions));
+		# there is literally no reason to keep it if it's just for dialogues
+		if dial_one_time && get_signal_connection_list("interacted").empty():
+			disable(true);
