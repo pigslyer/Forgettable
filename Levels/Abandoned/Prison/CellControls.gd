@@ -16,8 +16,8 @@ func data_load(data):
 	locked = data[0]; 
 	
 	if !data[1].empty():
-		buttons[open].texture = BUTT_RED;
 		open = data[1];
+		buttons[open].texture = BUTT_RED;
 		opened.play("Close"); opened.seek(opened.current_animation_length,true);
 		opened = _get_cell(open);
 		opened.play("Open"); opened.seek(opened.current_animation_length,true)

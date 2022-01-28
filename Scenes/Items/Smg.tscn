@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Scenes/Items/Gun.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Base/smg_in_game.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Base/testcone5.png" type="Texture" id=3]
+[ext_resource path="res://Scenes/Objects/FlickerAlerts.gd" type="Script" id=4]
+[ext_resource path="res://Assets/Player/hand.png" type="Texture" id=5]
+
+[node name="Smg" instance=ExtResource( 1 )]
+texture = ExtResource( 2 )
+offset = Vector2( 10, 1 )
+item_name = "Smg"
+item_tooltip = "A powerful looking submachinegun."
+item_size = Vector2( 3, 2 )
+animation_type = 2
+ammo_type = "res://Scenes/Items/AmmoSmg.tscn"
+ammo_max = 30
+
+[node name="FireFrom" parent="." index="0"]
+position = Vector2( 17, 0 )
+
+[node name="Flashlight" type="Light2D" parent="." index="13"]
+position = Vector2( 16, 4 )
+scale = Vector2( 1.5, 0.8 )
+texture = ExtResource( 3 )
+offset = Vector2( 72, 0 )
+texture_scale = 0.4
+color = Color( 0.968627, 0.933333, 0.396078, 1 )
+shadow_enabled = true
+script = ExtResource( 4 )
+energy_min = 0.5
+energy_max = 0.8
+smoothing = 20
+
+[node name="Hand" type="Sprite" parent="." index="14"]
+show_behind_parent = true
+position = Vector2( 17, -1 )
+rotation = 1.0472
+texture = ExtResource( 5 )

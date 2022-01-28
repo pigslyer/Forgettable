@@ -34,6 +34,7 @@ func next(next: int = -1):
 		get_tree().call_group(CHOICE_GROUP,"queue_free");
 	
 	if line is String:
+		last_choice_caret = -1;
 		# player line
 		if line.begins_with(":"):
 			$Theme/Panel/VSplitContainer/Name.text = "You";

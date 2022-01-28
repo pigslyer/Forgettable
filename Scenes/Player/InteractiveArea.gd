@@ -9,16 +9,20 @@ func recheck():
 func check_inter(inter):
 	assert(inter is Interactive);
 	
-	$WallDetection.cast_to = inter.collision.global_position-global_position;
-	$WallDetection.force_raycast_update();
+	if inter.ignore_blocker:
+		inter.cur_state = Interactive.STATE_CLICKABLE if $Interaction.overlaps_area(inter.area) else Interactive.STATE_OUT_OF_RANGE;
 	
-	if $WallDetection.is_colliding():
-		inter.cur_state = Interactive.STATE_UNAVAIL;
 	else:
-		if $Interaction.overlaps_area(inter.area):
-			inter.cur_state = Interactive.STATE_CLICKABLE;
+		$WallDetection.cast_to = inter.collision.global_position-global_position;
+		$WallDetection.force_raycast_update();
+		
+		if $WallDetection.is_colliding():
+			inter.cur_state = Interactive.STATE_UNAVAIL;
 		else:
-			inter.cur_state = Interactive.STATE_OUT_OF_RANGE;
+			if $Interaction.overlaps_area(inter.area):
+				inter.cur_state = Interactive.STATE_CLICKABLE;
+			else:
+				inter.cur_state = Interactive.STATE_OUT_OF_RANGE;
 
 
 func inter_entered(area):

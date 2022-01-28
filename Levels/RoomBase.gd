@@ -28,18 +28,6 @@ func _ready():
 			if Save.save_data[my_save_group].has(path):
 				saveable.data_load(Save.save_data[my_save_group][path]);
 	
-	if Save.DROPPED_ITEM_KEY in Save.save_data[my_save_group]:
-		var dropped;
-		for item in Save.save_data[my_save_group][Save.DROPPED_ITEM_KEY]:
-			
-			dropped = preload("res://Scenes/Items/Pickup.tscn").instance();
-			dropped.add_to_group(Groups.DROPPED_ITEM);
-			dropped.remove_from_group(Groups.SAVING);
-			Projectile.add_child(dropped);
-			dropped.drops = item[0];
-			dropped.data_load(item[1]);
-			dropped.global_position = item[2];
-	
 	Groups.call_deferred("refresh_popup_disable_follow");
 	
 	Save.save_data[my_save_group][Save.DROPPED_ITEM_KEY] = [];
@@ -61,24 +49,32 @@ func _ready():
 			):
 			tiles.set_cell(tile.x,tile.y,cur,false,false,false,Vector2.ZERO);
 	
-	var rect: Rect2;
+	if Save.DROPPED_ITEM_KEY in Save.save_data[my_save_group]:
+		var dropped;
+		for item in Save.save_data[my_save_group][Save.DROPPED_ITEM_KEY]:
+			
+			dropped = preload("res://Scenes/Items/Pickup.tscn").instance();
+			dropped.add_to_group(Groups.DROPPED_ITEM);
+			dropped.remove_from_group(Groups.SAVING);
+			Projectile.add_child(dropped);
+			dropped.drops = item[0];
+			dropped.data_load(item[1]);
+			dropped.global_position = item[2];
+	
+	
 	# add footstep overrides
 	for override in get_tree().get_nodes_in_group(FootstepOverride.GROUP):
-		rect = override.get_global_rect();
-		if override.get_parent() is Node2D:
-			rect.size = rect.size.rotated(-override.get_parent().global_rotation);
-		
-		# no one ever said my fix had to use trigonometry
-		if rect.size.x < 0:
-			rect.position.x += rect.size.x;
-			rect.size.x = abs(rect.size.x);
-		if rect.size.y < 0:
-			rect.position.y += rect.size.y;
-			rect.size.y = abs(rect.size.y);
-		
-		audio_override_rects.append(rect);
+		# overrides mayn't have a global_rotation != 0
+		audio_override_rects.append(override.get_global_rect());
 		audio_override_streams.append(override.sound_effect);
 		override.remove_from_group(FootstepOverride.GROUP);
+	
+	var data;
+	for override in get_tree().get_nodes_in_group(Groups.FOOTSTEP_OVERRIDE):
+		data = override.get_foot_override();
+		
+		audio_override_rects.append(data[0]);
+		audio_override_streams.append(data[1]);
 
 func spawn_room(room: PackedScene, from: DoorTransition):
 	var spawned = room.instance();
@@ -116,7 +112,8 @@ func find_door_transition(id: int):
 	return null;
 
 func align_by(what: DoorTransition, where: Vector2):
-	global_position += where-what.global_position;
+	var diff = where-what.global_position;
+	global_position += diff;
 
 # updates footsteps
 func _physics_process(_delta):
@@ -126,24 +123,23 @@ func _physics_process(_delta):
 	var player_pos = Groups.get_player().global_position;
 	
 	for foot in get_tree().get_nodes_in_group(Groups.FOOTSTEP):
-		
 		if (
-				tiles.get_cellv(tiles.world_to_map(foot.global_position)) != TileMap.INVALID_CELL && 
+				tiles.get_cellv(tiles.world_to_map(tiles.to_local(foot.global_position))) != TileMap.INVALID_CELL && 
 				foot.global_position.distance_squared_to(player_pos) < 
 				NEAR_TO_PLAYER*NEAR_TO_PLAYER
 			):
-			
 			idx = 0;
 			
 			while idx < audio_override_rects.size():
-				if audio_override_rects[idx].has_point(foot.global_position):
+				if audio_override_rects[idx].has_point(tiles.to_local(foot.global_position)):
 					sample = audio_override_streams[idx];
 					break;
 				idx += 1;
 			
 			if idx == audio_override_rects.size():
-				sample = footstep_sounds[tiles.get_cellv(tiles.world_to_map(foot.global_position))];
+				sample = footstep_sounds[tiles.get_cellv(tiles.world_to_map(tiles.to_local(foot.global_position)))];
 			
 			if sample != foot.stream:
 				foot.stream = sample;
-				sample = null;
+			
+			sample = null;

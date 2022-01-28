@@ -6,7 +6,7 @@ const BODY_AUTO_ADJUST_MULT = 0.95;
 
 # time during which we interpolate hand rotation instead of setting
 # used to fix the hand snapping to weird positions between animations
-const INTERP_TIME = 0.4 * 1000;
+const INTERP_TIME = 0.8 * 1000;
 const HAND_FOLLOW = 0.42;
 
 var walking := false setget set_walking;
@@ -32,10 +32,13 @@ func _physics_process(delta):
 		$Body.rotation *= BODY_AUTO_ADJUST_MULT;
 	
 	
-	if $PlayerWalk.last_update + INTERP_TIME > OS.get_ticks_msec():
-		hand.global_rotation = lerp_angle(hand.global_rotation,angle,_calc_weight(hand.global_rotation,angle)*HAND_FOLLOW);
-	elif equipped && (!(sprinting || walking) || $PlayerWalk.type != ItemBase.Anim.TWO_HANDED):
-		hand.look_at(get_global_mouse_position());
+	if !(sprinting && $PlayerWalk.type == ItemBase.Anim.TWO_HANDED):
+		if $PlayerWalk.last_update + INTERP_TIME > OS.get_ticks_msec():
+			hand.global_rotation = lerp_angle(hand.global_rotation,angle,_calc_weight(hand.global_rotation,angle)*HAND_FOLLOW);
+		else:
+			hand.look_at(get_global_mouse_position());
+	else:
+		hand.rotation = 0;
 	
 
 func set_walking(state: bool):

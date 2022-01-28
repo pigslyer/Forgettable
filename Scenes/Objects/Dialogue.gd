@@ -37,7 +37,7 @@ func _read_line(line: String, first_word: String, second_word: String, next: int
 		
 		"/goto":
 			caret = int(second_word);
-			
+		
 		"/end":
 			return null;
 		
@@ -51,8 +51,6 @@ func _read_line(line: String, first_word: String, second_word: String, next: int
 
 static func compile(text: String) -> PoolStringArray:
 	
-	# remove indents
-	text = text.replace("	","").replace("    ","")
 	# ensure text is ended
 	text += "\n/end"
 	
@@ -71,10 +69,14 @@ static func compile(text: String) -> PoolStringArray:
 	var poses: PoolIntArray
 	var num_of: int
 	var gotos: String
+	var return_from: Array = [];
 	
 	while idx < split.size():
 		split[idx] = split[idx].strip_edges();
-		idx += 1;
+		if split[idx].empty():
+			split.remove(idx);
+		else:
+			idx += 1;
 	
 	idx = 0;
 	
@@ -84,10 +86,11 @@ static func compile(text: String) -> PoolStringArray:
 			poses = []
 			num_of = 0
 			idx += 1
+			return_from.clear();
 			while (idx < split.size() && !(split[idx] == "}" && num_of == 0)):
-				
 				if (split[idx].begins_with("::") && num_of == 0):
 					poses.append(idx)
+					return_from.append(split[idx].begins_with(":::"));
 				elif (split[idx] == "{"):
 					num_of += 1
 				elif (split[idx] == "}"):
@@ -96,10 +99,22 @@ static func compile(text: String) -> PoolStringArray:
 			
 			split[begin] = "/choice "
 			gotos = "/choices "
+			var jdx: int = 0;
 			for pos in poses:
-				split[begin] += split[pos].substr(2)+"||"
 				gotos += str(pos+2,"||")
-				split[pos] = "/goto "+str(idx+1)
+				# you may hate me, future me, but it works
+				
+				if return_from[jdx]:
+					split[begin] += split[pos].substr(3)+"||";
+				else:
+					split[begin] += split[pos].substr(2)+"||"
+				
+				if return_from[jdx-1]:
+					split[pos] = str("/goto ",begin);
+				else:
+					split[pos] = "/goto "+str(idx+1)
+				
+				jdx += 1;
 			
 			# this gives an out of bounds error, but everything *looks* fine so um, cool?
 			if idx < split.size():

@@ -49,10 +49,7 @@ func file_chosen(path: String):
 
 func play():
 	if !in_use.empty():
-		$DialoguePlayer.path = in_use;
-		$DialoguePlayer.start();
+		$DialoguePlayer.start(in_use,false,self);
 
-
-
-func _on_DialoguePlayer_perform_action(id):
+func dial_action(id):
 	$VBoxContainer/SayLine.say_line(str("Performed action: ",id));

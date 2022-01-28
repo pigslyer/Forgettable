@@ -10,9 +10,3 @@ script = ExtResource( 1 )
 item_name = "Bandage"
 item_tooltip = "A set of clean enough bandages taken from a first aid kit. I can probably use them to patch up my wounds."
 animation_type = 1
-
-[node name="HealingSigh" type="AudioStreamPlayer" parent="." index="0"]
-bus = "SFX"
-
-[node name="WrappingSound" type="AudioStreamPlayer" parent="." index="1"]
-bus = "SFX"

@@ -20,6 +20,8 @@ export (bool) var dial_one_time = true;
 # it should probably have one
 export (NodePath) var dial_actions;
 
+export (bool) var ignore_blocker = false;
+
 var cur_state: int setget clickable;
 var area: Area2D;
 var collision: CollisionShape2D;

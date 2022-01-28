@@ -37,6 +37,9 @@ text = "To je primer dialoga!
 
 Ja, res.
 {
+	:::A se lahko vrneva na to odločitev pozneje?
+	Seveda!
+	
 	::Kako ti je ime?
 	Hmmm.
 	
@@ -63,6 +66,7 @@ Ja, res.
 	:Ampak nic se ni zgodilo...
 	Bi rad, da ti ga se enkrat pokazem?
 	/action drugi_magicen_trik
+	
 }"
 highlight_current_line = true
 show_line_numbers = true
@@ -165,11 +169,9 @@ __meta__ = {
 }
 
 [node name="DialoguePlayer" parent="." instance=ExtResource( 1 )]
-one_time = false
 
 [connection signal="pressed" from="VBoxContainer/Save" to="." method="save"]
 [connection signal="pressed" from="VBoxContainer/Save as" to="." method="save_as"]
 [connection signal="pressed" from="VBoxContainer/Load" to="." method="open"]
 [connection signal="pressed" from="VBoxContainer/Play" to="." method="play"]
 [connection signal="file_selected" from="FileDialog" to="." method="file_chosen"]
-[connection signal="perform_action" from="DialoguePlayer" to="." method="_on_DialoguePlayer_perform_action"]

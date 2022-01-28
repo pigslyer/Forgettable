@@ -20,17 +20,20 @@ export (int) var leads_to_id
 # good name
 export (String) var leads_to_room;
 
+export (bool) var opens_left = true;
+onready var open_anim := "Open" if opens_left else "OpenRight";
+
 # literally just so we can get our room
 func data_save(): return null;
 func data_load(_data): pass;
 
 func _ready():
 	add_to_group(str(leads_to,":",leads_to_id));
+	$WhenClosed/NamePlate/Interactive.message = leads_to_room;
 
 func _on_Interactive_interacted():
 	state = OPENING;
 	
-	$WhenClosed/NamePlate/Interactive.message = leads_to_room;
 	$WhenClosed/Scanner/Interactive.disable(true);
 	var loader := Loader.new(leads_to);
 	add_child(loader);
@@ -41,11 +44,11 @@ func _on_Interactive_interacted():
 		Groups.get_my_room(self).spawn_room(new_room,self);
 		
 		state = OPEN;
-		$AnimationPlayer.play("Open");
+		$AnimationPlayer.play(open_anim);
 
 func open_instantly():
 	state = OPEN;
-	$AnimationPlayer.play("Open");
+	$AnimationPlayer.play(open_anim);
 	$AnimationPlayer.seek($AnimationPlayer.current_animation_length,true);
 
 
@@ -56,7 +59,7 @@ func _on_DoorCloseArea_body_exited(_body):
 		state = CLOSED;
 
 func close_safely():
-	$AnimationPlayer.play_backwards("Open");
+	$AnimationPlayer.play_backwards(open_anim);
 	state = CLOSED;
 	# i can't be fucked
 	var data = get_signal_connection_list("closed")[0];
@@ -80,3 +83,16 @@ class Loader extends Node:
 				emit_signal("finished_loading",data.get_resource());
 				queue_free();
 
+func get_foot_override():
+	return [
+		Rect2(
+			Vector2(
+				min($WhenOpen/TopLeft.global_position.x,$WhenOpen/BottomRight.global_position.x),
+				min($WhenOpen/TopLeft.global_position.y,$WhenOpen/BottomRight.global_position.y)
+			),
+			(
+				$WhenOpen/BottomRight.position-$WhenOpen/TopLeft.position
+			).rotated(global_rotation).abs()
+		),
+		preload("res://Assets/Sounds/vent_floor.wav"),
+	];

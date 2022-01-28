@@ -37,4 +37,12 @@ func play_music(stream: AudioStream, fade: bool = true):
 		tween.start();
 	elif stream != null:
 		_player.play();
-	
+
+func play_sfx(stream: AudioStream, pitch: float = 1.0, volume_db: float = 0.0):
+	var player := AudioStreamPlayer.new();
+	player.stream = stream;
+	player.pitch_scale = pitch;
+	player.volume_db = volume_db;
+	add_child(player);
+	player.connect("finished",player,"queue_free");
+	player.play();

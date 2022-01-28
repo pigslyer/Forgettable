@@ -1,0 +1,329 @@
+[gd_scene load_steps=29 format=2]
+
+[ext_resource path="res://Scenes/Objects/Interactive.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Base/door_keypad2.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/Props/Keypad.gd" type="Script" id=3]
+[ext_resource path="res://Assets/Base/door_correct.wav" type="AudioStream" id=4]
+[ext_resource path="res://Assets/Base/door_incorrect.wav" type="AudioStream" id=5]
+
+[sub_resource type="Theme" id=1]
+HBoxContainer/constants/separation = 16
+VBoxContainer/constants/separation = 16
+
+[sub_resource type="InputEventKey" id=2]
+pressed = true
+physical_scancode = 49
+
+[sub_resource type="ShortCut" id=3]
+shortcut = SubResource( 2 )
+
+[sub_resource type="InputEventKey" id=4]
+pressed = true
+physical_scancode = 50
+
+[sub_resource type="ShortCut" id=5]
+shortcut = SubResource( 4 )
+
+[sub_resource type="InputEventKey" id=6]
+pressed = true
+physical_scancode = 51
+
+[sub_resource type="ShortCut" id=7]
+shortcut = SubResource( 6 )
+
+[sub_resource type="InputEventKey" id=8]
+pressed = true
+physical_scancode = 52
+
+[sub_resource type="ShortCut" id=9]
+shortcut = SubResource( 8 )
+
+[sub_resource type="InputEventKey" id=10]
+pressed = true
+physical_scancode = 53
+
+[sub_resource type="ShortCut" id=11]
+shortcut = SubResource( 10 )
+
+[sub_resource type="InputEventKey" id=12]
+pressed = true
+physical_scancode = 54
+
+[sub_resource type="ShortCut" id=13]
+shortcut = SubResource( 12 )
+
+[sub_resource type="InputEventKey" id=14]
+pressed = true
+physical_scancode = 55
+
+[sub_resource type="ShortCut" id=15]
+shortcut = SubResource( 14 )
+
+[sub_resource type="InputEventKey" id=16]
+pressed = true
+physical_scancode = 56
+
+[sub_resource type="ShortCut" id=17]
+shortcut = SubResource( 16 )
+
+[sub_resource type="InputEventKey" id=18]
+pressed = true
+physical_scancode = 57
+
+[sub_resource type="ShortCut" id=19]
+shortcut = SubResource( 18 )
+
+[sub_resource type="InputEventKey" id=24]
+pressed = true
+scancode = 65
+physical_scancode = 65
+
+[sub_resource type="ShortCut" id=21]
+shortcut = SubResource( 24 )
+
+[sub_resource type="InputEventKey" id=22]
+pressed = true
+physical_scancode = 48
+
+[sub_resource type="ShortCut" id=23]
+shortcut = SubResource( 22 )
+
+[node name="Keypad" type="Sprite"]
+texture = ExtResource( 2 )
+script = ExtResource( 3 )
+
+[node name="Interactive" type="Control" parent="."]
+margin_left = -13.0
+margin_top = -12.0
+margin_right = 13.0
+margin_bottom = 12.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+message = "Keypad"
+ignore_blocker = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PopupPanel" type="Popup" parent="CanvasLayer" groups=["popup_disable_follow"]]
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.9
+theme = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="CanvasLayer/PopupPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/PopupPanel/Panel"]
+margin_left = 102.0
+margin_top = 39.0
+margin_right = 508.0
+margin_bottom = 94.0
+editable = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PopupPanel/Panel"]
+anchor_left = 0.1
+anchor_top = 0.2
+anchor_right = 0.9
+anchor_bottom = 0.8
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer"]
+margin_right = 859.0
+margin_bottom = 84.0
+size_flags_vertical = 3
+
+[node name="Button" type="Button" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer/HBoxContainer"]
+margin_right = 275.0
+margin_bottom = 84.0
+focus_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+shortcut_in_tooltip = false
+action_mode = 0
+enabled_focus_mode = 0
+shortcut = SubResource( 3 )
+text = "1"
+
+[node name="Button2" type="Button" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer/HBoxContainer"]
+margin_left = 291.0
+margin_right = 567.0
+margin_bottom = 84.0
+focus_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+shortcut_in_tooltip = false
+action_mode = 0
+enabled_focus_mode = 0
+shortcut = SubResource( 5 )
+text = "2"
+
+[node name="Button3" type="Button" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer/HBoxContainer"]
+margin_left = 583.0
+margin_right = 859.0
+margin_bottom = 84.0
+focus_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+shortcut_in_tooltip = false
+action_mode = 0
+enabled_focus_mode = 0
+shortcut = SubResource( 7 )
+text = "3"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer"]
+margin_top = 100.0
+margin_right = 859.0
+margin_bottom = 184.0
+size_flags_vertical = 3
+
+[node name="Button" type="Button" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer/HBoxContainer2"]
+margin_right = 275.0
+margin_bottom = 84.0
+focus_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+shortcut_in_tooltip = false
+action_mode = 0
+enabled_focus_mode = 0
+shortcut = SubResource( 9 )
+text = "4"
+
+[node name="Button2" type="Button" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer/HBoxContainer2"]
+margin_left = 291.0
+margin_right = 567.0
+margin_bottom = 84.0
+focus_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+shortcut_in_tooltip = false
+action_mode = 0
+enabled_focus_mode = 0
+shortcut = SubResource( 11 )
+text = "5"
+
+[node name="Button3" type="Button" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer/HBoxContainer2"]
+margin_left = 583.0
+margin_right = 859.0
+margin_bottom = 84.0
+focus_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+shortcut_in_tooltip = false
+action_mode = 0
+enabled_focus_mode = 0
+shortcut = SubResource( 13 )
+text = "6"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer"]
+margin_top = 200.0
+margin_right = 859.0
+margin_bottom = 284.0
+size_flags_vertical = 3
+
+[node name="Button" type="Button" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer/HBoxContainer3"]
+margin_right = 275.0
+margin_bottom = 84.0
+focus_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+shortcut_in_tooltip = false
+action_mode = 0
+enabled_focus_mode = 0
+shortcut = SubResource( 15 )
+text = "7"
+
+[node name="Button2" type="Button" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer/HBoxContainer3"]
+margin_left = 291.0
+margin_right = 567.0
+margin_bottom = 84.0
+focus_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+shortcut_in_tooltip = false
+action_mode = 0
+enabled_focus_mode = 0
+shortcut = SubResource( 17 )
+text = "8"
+
+[node name="Button3" type="Button" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer/HBoxContainer3"]
+margin_left = 583.0
+margin_right = 859.0
+margin_bottom = 84.0
+focus_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+shortcut_in_tooltip = false
+action_mode = 0
+enabled_focus_mode = 0
+shortcut = SubResource( 19 )
+text = "9"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer"]
+margin_top = 300.0
+margin_right = 859.0
+margin_bottom = 385.0
+size_flags_vertical = 3
+
+[node name="Button" type="Button" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer/HBoxContainer4"]
+margin_right = 275.0
+margin_bottom = 85.0
+focus_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+shortcut_in_tooltip = false
+action_mode = 0
+enabled_focus_mode = 0
+shortcut = SubResource( 21 )
+text = "DELETE"
+
+[node name="Button2" type="Button" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer/HBoxContainer4"]
+margin_left = 291.0
+margin_right = 567.0
+margin_bottom = 85.0
+focus_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+shortcut_in_tooltip = false
+action_mode = 0
+enabled_focus_mode = 0
+shortcut = SubResource( 23 )
+text = "0"
+
+[node name="Button3" type="Button" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer/HBoxContainer4"]
+margin_left = 583.0
+margin_right = 859.0
+margin_bottom = 85.0
+focus_mode = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+shortcut_in_tooltip = false
+action_mode = 0
+enabled_focus_mode = 0
+text = "ENTER"
+
+[node name="Correct" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+bus = "SFX"
+
+[node name="Incorrect" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+bus = "SFX"
+
+[connection signal="interacted" from="Interactive" to="CanvasLayer/PopupPanel" method="popup"]

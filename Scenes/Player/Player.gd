@@ -52,11 +52,8 @@ var cam_last_shake_down := false;
 var cam_shake_off := Vector2.ZERO;
 
 func _ready():
-	
-	add_item(ItemInventory.new("res://Scenes/Items/Handgun.tscn"));
-	add_item(ItemInventory.new("res://Scenes/Items/Ammo1911.tscn",null,-Vector2.ONE,50));
-	
-	var hotbar_items = [get_waffle().items[0]];
+		
+	var hotbar_items = [];
 	hotbar_items.resize(hotbar.SLOTS);
 	hotbar.items = hotbar_items;
 	$HUD/Theme/Hotbar.items = hotbar_items;

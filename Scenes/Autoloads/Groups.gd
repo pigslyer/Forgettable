@@ -2,6 +2,9 @@ extends Node
 
 # every node in footstep has to be an audiostreamplayer2d
 const FOOTSTEP = "FOOTSTEP";
+# should contain a method "get_foot_override" which returns
+# an array with the structure [rect2, audiostream]
+const FOOTSTEP_OVERRIDE = "Overrides_footstep";
 const DROPPED_ITEM = "dropped_item_group";
 # every saving node has to have a data_save and data_load method, which return save data and use it respectively
 const SAVING = "SAVES"

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/death0.wav-d12b96dee694bb0b47322fbeedcbcd73.sample"
+
+[deps]
+
+source_file="res://Assets/LiamNoises/death0.wav"
+dest_files=[ "res://.import/death0.wav-d12b96dee694bb0b47322fbeedcbcd73.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
