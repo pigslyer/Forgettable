@@ -3,6 +3,8 @@ tool
 class_name Pickup
 extends Sprite;
 
+signal picked_up
+
 const DISSOLVE_TIME = 0.3;
 
 var my_data: ItemInventory;
@@ -49,7 +51,12 @@ func redo_inter():
 		$Interactive.replace();
 
 func _on_Interactive_interacted():
+	var cur_count = my_data.count;
 	Groups.get_player().add_item(my_data);
+	
+	if cur_count != my_data.count:
+		emit_signal("picked_up");
+	
 	if my_data.count <= 0:
 		if is_in_group(Groups.SAVING):
 			Save.save_my_data(self);
@@ -57,7 +64,7 @@ func _on_Interactive_interacted():
 		$Interactive.disable(true);
 		
 		yield(get_tree(),"physics_frame");
-		material = preload("res://Scenes/Objects/dissolve.tres");
+		material = preload("res://Scenes/Objects/dissolve.tres").duplicate();
 		
 		$Tween.interpolate_method(self,"_dissolve",0,2,DISSOLVE_TIME);
 		$Tween.start();

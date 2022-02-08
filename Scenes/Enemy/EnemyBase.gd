@@ -8,6 +8,8 @@ const EYE_BASE_SCALE = 0.03;
 const EYE_INTENSIFY = 0.6;
 const EYE_INTENSIFY_SCALE = 0.1;
 
+const DROP_OFFSET = 64;
+
 export (int) var health = 100 setget set_health;
 var dead: bool = false;
 
@@ -15,7 +17,9 @@ export (float) var accel = 200;
 export (float) var max_speed = 100;
 export (bool) var deaf = false;
 
-export (Dictionary) var drops;
+# format: ["path:count"] for items
+# keycards can't be droped. fuck you
+export (Array,String,MULTILINE) var drops: Array;
 var velocity: Vector2;
 
 var path: PoolVector2Array;
@@ -27,14 +31,13 @@ var detecting: bool = false setget set_detecting;
 onready var detection: Area2D = $Animation/Body/Head/PlayerDetection;
 
 func data_save():
-	if dead: return [global_position,global_rotation];
+	if dead: return [global_position];
 	return null;
 
 func data_load(data):
 	if data is Array:
 		set_health(-1,false);
 		global_position = data[0];
-		global_rotation = data[1];
 
 # animations run this when an attack animation finishes
 func attacked():
@@ -78,19 +81,35 @@ func set_health(new_val: int, loud: bool = true):
 	if new_val <= 0 && 0 < health:
 		$PostDeathDisableAlert.start();
 		can_move = false;
-		set_physics_process(false);
-		set_deferred("collision_mask",0);
-		$Animation.vel = Vector2.ZERO;
 		dead = true;
 		$Animation/Body/Head/Flicker.set_enabled(false);
 		$Animation/Body/Head/Flicker2.set_enabled(false);
+		Save.save_my_data(self);
+		
+		var split: PoolStringArray;
+		for drop in drops:
+			split = drop.split(":");
+			Projectile.drop_item(ItemInventory.new(split[0],null,-Vector2.ONE,int(split[1])),global_position+Vector2(rand_range(-DROP_OFFSET,DROP_OFFSET),rand_range(-DROP_OFFSET,DROP_OFFSET)));
 		
 		if loud:
-			$GruntDeath.play();
-	elif loud:
-		$GruntPain.play();
-		if is_inside_tree():
-			set_alerted(true);
+			Music.play_sfx(
+				[
+					preload("res://Assets/JakobNoises/DyingMoan1.wav"),
+					preload("res://Assets/JakobNoises/DyingMoan2.wav"),
+					preload("res://Assets/JakobNoises/DyingChoke.wav"),
+				][randi()%3],
+				rand_range(0.8,0.9),5
+			)
+	elif new_val < health && is_inside_tree():
+		if loud:
+			Music.play_sfx(
+				[
+					preload("res://Assets/JakobNoises/PaintGruntHighLong.wav"),
+					preload("res://Assets/JakobNoises/PaintGruntNormal.wav")
+				][randi()%2],
+				rand_range(0.8,0.9),2
+			);
+		set_alerted(true);
 	
 	health = new_val;
 	
@@ -140,3 +159,7 @@ func set_detecting(state: bool):
 			tween.interpolate_callback(tween,EYE_INTENSIFY*2,"queue_free");
 			tween.start();
 
+
+
+func _on_PostDeathDisableAlert_timeout():
+	queue_free();

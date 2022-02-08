@@ -10,7 +10,7 @@
 [ext_resource path="res://Assets/Base/Gunshot.wav" type="AudioStream" id=8]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 1024.0
+radius = 512.0
 
 [sub_resource type="OccluderPolygon2D" id=2]
 polygon = PoolVector2Array( 0, 8, 0, -8, 8, -8, 8, 8 )
@@ -34,10 +34,15 @@ unjam_max = 2
 [node name="FireFrom" parent="." index="0"]
 position = Vector2( 6, 0 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Noise" index="0"]
+[node name="Noise" parent="." index="1"]
 visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Noise" index="0"]
 position = Vector2( 24, -12 )
 shape = SubResource( 1 )
+
+[node name="PointingGun" parent="." index="2"]
+visible = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="PointingGun" index="0"]
 position = Vector2( 19, 0 )
@@ -45,11 +50,13 @@ polygon = PoolVector2Array( -8, 0, 192, -60, 192, 60 )
 
 [node name="LaserSight" type="Light2D" parent="." index="3"]
 position = Vector2( 9, 3 )
+z_index = 101
+z_as_relative = false
 texture = ExtResource( 3 )
 offset = Vector2( 300, 0 )
 texture_scale = 0.3
 color = Color( 1, 0, 0, 1 )
-range_z_max = 10
+range_z_max = 101
 range_item_cull_mask = 3
 shadow_enabled = true
 shadow_item_cull_mask = 3

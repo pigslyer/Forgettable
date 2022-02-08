@@ -86,6 +86,18 @@ tracks/4/keys = {
 "method": "set_enabled"
 } ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath("WhenClosed/LightOccluder2D:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.8, 1.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
 
 [sub_resource type="Animation" id=6]
 resource_name = "OpenRight"
@@ -155,6 +167,18 @@ tracks/4/keys = {
 "method": "set_enabled"
 } ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath("WhenClosed/LightOccluder2D:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.8, 1.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
 
 [sub_resource type="Animation" id=5]
 length = 0.001
@@ -210,17 +234,18 @@ tracks/3/keys = {
 [node name="DoorTransition" type="Node2D" groups=["Overrides_footstep", "SAVES"]]
 script = ExtResource( 4 )
 
+[node name="TopLeft" type="Position2D" parent="."]
+position = Vector2( -24, -64 )
+scale = Vector2( 0.617188, 1 )
+
+[node name="BottomRight" type="Position2D" parent="."]
+position = Vector2( 24, 64 )
+scale = Vector2( 0.617188, 1 )
+
 [node name="WhenOpen" type="Sprite" parent="."]
-position = Vector2( 0.500001, 0 )
 scale = Vector2( 0.617188, 1 )
 z_index = -1
 texture = ExtResource( 7 )
-
-[node name="TopLeft" type="Position2D" parent="WhenOpen"]
-position = Vector2( -61, -64 )
-
-[node name="BottomRight" type="Position2D" parent="WhenOpen"]
-position = Vector2( 61, 64 )
 
 [node name="WhenClosed" type="Sprite" parent="."]
 texture = ExtResource( 1 )

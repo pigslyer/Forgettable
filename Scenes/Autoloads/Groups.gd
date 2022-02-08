@@ -37,14 +37,22 @@ func say_line(what: String):
 func get_simple_path(from: Vector2, to: Vector2) -> PoolVector2Array:
 	var navis = get_tree().get_nodes_in_group("Navigator");
 	var path;
+	var navi: Navigation2D;
 	if navis.size() == 1:
-		path = navis[0].get_simple_path(from,to);
+		navi = navis[0];
 	elif navis[0].get_closest_point(from).distance_squared_to(from) < navis[1].get_closest_point(from).distance_squared_to(from):
-		path = navis[0].get_simple_path(from,to);
+		navi = navis[0];
 	else:
-		path = navis[1].get_simple_path(from,to);
+		navi = navis[1];
+	
+	path = navi.get_simple_path(from-navi.global_position,to-navi.global_position);
+	
 	# we never need point 0
-	if !path.empty(): path.remove(0);
+	if !path.empty(): 
+		path.remove(0);
+		for idx in path.size():
+			path[idx] += navi.global_position;
+	
 	return path;
 
 func get_simple_path_player(from: Vector2) -> PoolVector2Array:

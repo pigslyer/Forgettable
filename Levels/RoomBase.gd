@@ -2,6 +2,7 @@ extends Node2D
 
 # footsteps farther than this don't get updated
 const NEAR_TO_PLAYER = 300;
+const DOOR_NO_KEY = Color.red;
 
 var audio_override_rects: Array;
 var audio_override_streams: Array;
@@ -9,6 +10,9 @@ export (Array,AudioStream) var footstep_sounds;
 
 onready var my_save_group = str("Room:",filename);
 onready var tiles = $Navigation2D/TileMap;
+
+export (Array,String) var door_keys;
+export (Array,Color) var door_colors;
 
 func _ready():
 	
@@ -29,8 +33,6 @@ func _ready():
 				saveable.data_load(Save.save_data[my_save_group][path]);
 	
 	Groups.call_deferred("refresh_popup_disable_follow");
-	
-	Save.save_data[my_save_group][Save.DROPPED_ITEM_KEY] = [];
 	
 	var exceps: Array;
 	var cur: int;
@@ -56,11 +58,12 @@ func _ready():
 			dropped = preload("res://Scenes/Items/Pickup.tscn").instance();
 			dropped.add_to_group(Groups.DROPPED_ITEM);
 			dropped.remove_from_group(Groups.SAVING);
-			Projectile.add_child(dropped);
+			$DroppedItems.add_child(dropped);
 			dropped.drops = item[0];
 			dropped.data_load(item[1]);
-			dropped.global_position = item[2];
+			dropped.position = item[2];
 	
+	Save.save_data[my_save_group][Save.DROPPED_ITEM_KEY] = [];
 	
 	# add footstep overrides
 	for override in get_tree().get_nodes_in_group(FootstepOverride.GROUP):
@@ -75,13 +78,16 @@ func _ready():
 		
 		audio_override_rects.append(data[0]);
 		audio_override_streams.append(data[1]);
+		
+		override.remove_from_group(Groups.FOOTSTEP_OVERRIDE);
+	
 
 func spawn_room(room: PackedScene, from: DoorTransition):
 	var spawned = room.instance();
 	get_parent().add_child(spawned);
 	var door: DoorTransition = spawned.find_door_transition(from.leads_to_id);
 	door.open_instantly();
-	spawned.align_by(door,from.global_position);
+	spawned.position += from.global_position-door.global_position;
 	
 	from.connect("closed",self,"unload_room",[door]);
 	door.connect("closed",spawned,"unload_room",[from]);
@@ -91,13 +97,12 @@ func unload_room(other: DoorTransition):
 	for saveable in get_tree().get_nodes_in_group(my_save_group):
 		Save.save_data[my_save_group][str(get_path_to(saveable))] = saveable.data_save();
 	
-	
 	for dropped in get_tree().get_nodes_in_group(Groups.DROPPED_ITEM):
 		if tiles.get_cellv(tiles.world_to_map(tiles.to_local(dropped.global_position))) != TileMap.INVALID_CELL:
 			Save.save_data[my_save_group][Save.DROPPED_ITEM_KEY].append([
 				dropped.drops,
 				dropped.data_save(),
-				dropped.global_position,
+				to_local(dropped.position),
 			]);
 			dropped.queue_free();
 	
@@ -111,16 +116,13 @@ func find_door_transition(id: int):
 			return node;
 	return null;
 
-func align_by(what: DoorTransition, where: Vector2):
-	var diff = where-what.global_position;
-	global_position += diff;
-
 # updates footsteps
 func _physics_process(_delta):
 	
 	var idx: int;
 	var sample: AudioStream;
 	var player_pos = Groups.get_player().global_position;
+	var playing: bool;
 	
 	for foot in get_tree().get_nodes_in_group(Groups.FOOTSTEP):
 		if (
@@ -129,6 +131,7 @@ func _physics_process(_delta):
 				NEAR_TO_PLAYER*NEAR_TO_PLAYER
 			):
 			idx = 0;
+			playing = foot.playing;
 			
 			while idx < audio_override_rects.size():
 				if audio_override_rects[idx].has_point(tiles.to_local(foot.global_position)):
@@ -141,5 +144,11 @@ func _physics_process(_delta):
 			
 			if sample != foot.stream:
 				foot.stream = sample;
+				foot.playing = playing;
 			
 			sample = null;
+
+func get_lock_color(door: Door) -> Color:
+	if door.keycard in door_keys:
+		return door_colors[door_keys.find(door.keycard)];
+	return DOOR_NO_KEY;

@@ -642,13 +642,12 @@ tracks/9/keys = {
 height = 22.0
 
 [node name="Enemy" type="KinematicBody2D" groups=["ENEMY", "SAVES"]]
+z_index = 100
 collision_layer = 4
 collision_mask = 2
 script = ExtResource( 4 )
 accel = 500.0
 max_speed = 300.0
-drops = {
-}
 
 [node name="Animation" type="Node2D" parent="."]
 script = ExtResource( 5 )
@@ -738,12 +737,6 @@ texture = ExtResource( 6 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 4 )
 
-[node name="GruntPain" type="AudioStreamPlayer2D" parent="."]
-bus = "SFX"
-
-[node name="GruntDeath" type="AudioStreamPlayer2D" parent="."]
-bus = "SFX"
-
 [node name="PlayerWall" type="RayCast2D" parent="."]
 visible = false
 collision_mask = 17
@@ -754,3 +747,4 @@ one_shot = true
 
 [connection signal="tree_exiting" from="." to="." method="set_detecting" binds= [ false ]]
 [connection signal="timeout" from="PostDeathDisableAlert" to="." method="set_alerted" binds= [ false ]]
+[connection signal="timeout" from="PostDeathDisableAlert" to="." method="_on_PostDeathDisableAlert_timeout"]

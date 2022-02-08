@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/Items/ItemBase.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Base/key_with_label.png" type="Texture" id=2]
+
+[node name="PrisonKey" instance=ExtResource( 1 )]
+texture = ExtResource( 2 )
+item_name = "Cell key"
+item_tooltip = "A normal key for a mechanical lock. There's a label on the side that says \"Cells\"."
+animation_type = 1

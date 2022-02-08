@@ -2,6 +2,9 @@ extends VBoxContainer;
 
 const TEXT_SPEED := 0.02;
 const TIME_FULL := 5;
+const STOPS = [".",",",":",";","?","!"];
+const DELAY_PER_STOP = 0.16;
+const TIME_PER_CHAR = 0.03;
 
 var used: PoolStringArray;
 var style_empty := StyleBoxEmpty.new();
@@ -24,9 +27,22 @@ func say_line(what: String):
 	var cur := 1;
 	
 	while cur <= what.length():
-		$Tween.interpolate_callback(label,TEXT_SPEED*cur,"set_text",what.substr(0,cur));
+		if what[cur-1] in STOPS:
+			yield(get_tree().create_timer(DELAY_PER_STOP+TIME_PER_CHAR),"timeout");
+		else:
+			yield(get_tree().create_timer(TIME_PER_CHAR),"timeout");
+		
+		if cur%4==0:
+			Music.play_sfx(preload("res://Assets/Sounds/typing2.mp3"),rand_range(0.85,0.95),-10);
+		
+		label.text += what[cur];
 		cur += 1;
-	
+		
+#
+#	while cur <= what.length():
+#		$Tween.interpolate_callback(label,TEXT_SPEED*cur,"set_text",what.substr(0,cur));
+#		cur += 1;
+#
 	$Tween.interpolate_callback(self,TEXT_SPEED*what.length()+TIME_FULL,"_remove_entry", what, label);
 	$Tween.start();
 

@@ -1,7 +1,5 @@
 extends PopupPanel
 
-
-
 func _on_Pause_about_to_show():
 	get_tree().paused = true;
 	$VBoxContainer/SliderMusic.value = AudioServer.get_bus_volume_db(1);
@@ -20,4 +18,5 @@ func _on_quit_pressed():
 	
 
 func _on_restart_pressed():
+	Save.save_data = {};
 	get_tree().reload_current_scene();

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/typing2.mp3-dbb159dae3071476118ab87bedcfd7e4.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/typing2.mp3"
+dest_files=[ "res://.import/typing2.mp3-dbb159dae3071476118ab87bedcfd7e4.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

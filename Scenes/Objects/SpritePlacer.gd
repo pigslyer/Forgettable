@@ -18,11 +18,13 @@ func set_texture(tex: Texture):
 	if get_child_count() == 0:
 		add_child(Sprite.new());
 		add_child(CollisionPolygon2D.new());
+		get_child(0).use_parent_material = true;
 		get_child(1).hide();
 		for child in get_children():
 			child.owner = owner;
 	
 	get_child(0).texture = tex;
+	get_child(0).update();
 	
 	var bm := BitMap.new();
 	bm.create_from_image_alpha(tex.get_data(),0.001);

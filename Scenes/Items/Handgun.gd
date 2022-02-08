@@ -1,7 +1,7 @@
 extends Gun
 
-const DAMAGE_MIN = 75;
-const DAMAGE_MAX = 120;
+const DAMAGE_MIN = 20;
+const DAMAGE_MAX = 40;
 
 func _shoot():
 	var inst = preload("res://Scenes/Misc/1911Bullet.tscn").instance();

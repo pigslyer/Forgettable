@@ -9,7 +9,10 @@ func recheck():
 func check_inter(inter):
 	assert(inter is Interactive);
 	
-	if inter.ignore_blocker:
+	if !inter.is_visible_in_tree():
+		inter.cur_state = Interactive.STATE_UNAVAIL;
+	
+	elif inter.ignore_blocker:
 		inter.cur_state = Interactive.STATE_CLICKABLE if $Interaction.overlaps_area(inter.area) else Interactive.STATE_OUT_OF_RANGE;
 	
 	else:

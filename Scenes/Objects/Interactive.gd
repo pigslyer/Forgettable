@@ -44,7 +44,8 @@ func _place():
 	area.position = rect_size/2;
 	area.monitoring = false;
 	area.collision_layer = 0b1000;
-	collision.shape = CircleShape2D.new();
+	collision.shape = RectangleShape2D.new();
+	collision.shape.extents = rect_size/2*0.9;
 
 func disable(state: bool):
 	if !is_inside_tree():

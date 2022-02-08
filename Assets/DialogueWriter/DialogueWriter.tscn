@@ -1,8 +1,13 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scenes/Props/DialoguePlayer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/DialogueWriter/DialogueWriter.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/Player/SayLine.gd" type="Script" id=3]
+[ext_resource path="res://Assets/Stoke-Regular.ttf" type="DynamicFontData" id=4]
+
+[sub_resource type="DynamicFont" id=5]
+extra_spacing_bottom = -5
+font_data = ExtResource( 4 )
 
 [sub_resource type="InputEventKey" id=1]
 scancode = 83
@@ -32,12 +37,13 @@ __meta__ = {
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_right = 390.0
+custom_fonts/font = SubResource( 5 )
 text = "To je primer dialoga!
 :A res?
 
 Ja, res.
 {
-	:::A se lahko vrneva na to odločitev pozneje?
+	:::A se lahko vrneva na to odlocitev pozneje?
 	Seveda!
 	
 	::Kako ti je ime?
@@ -53,20 +59,34 @@ Ja, res.
 	{
 		::Fucking terrible, thanks for asking.
 		
-		::Sem ze bil bolje.
+		::Sem že bil bolje.
 		
-		::Odlicno!
+		::Odlično!
 	}
 	
 	::Stori kaj!
-	Kak magicen trik?
-	:Ce poznas kakega.
+	Kak magičen trik?
+	:Če poznas kakega.
 	/action magicen_trik
-	Ti je bilo vsec?
-	:Ampak nic se ni zgodilo...
+	Ti je bilo všeč?
+	:Ampak nič se ni zgodilo...
 	Bi rad, da ti ga se enkrat pokazem?
 	/action drugi_magicen_trik
 	
+	::Pitch demo.
+	
+	These are default other settings.
+	;These are default anon settings.
+	:These are default player settings.
+	/pitch player low
+	/speed player low
+	:This is low pitch. It's raining, it's pouring, Emperor Emyhr is snoring, he hit his head when he went to bed, and wet himself come morning.
+	/pitch other medium
+	/speed other medium
+	This is medium pitch. It's raining, it's pouring, Emperor Emyhr is snoring, he hit his head when he went to bed, and wet himself come morning.
+	/pitch anon high
+	/speed anon high
+	;This is high pitch. It's raining, it's pouring, Emperor Emyhr is snoring, he hit his head when he went to bed, and wet himself come morning.
 }"
 highlight_current_line = true
 show_line_numbers = true
@@ -162,8 +182,8 @@ dialog_hide_on_ok = true
 dialog_autowrap = true
 access = 2
 filters = PoolStringArray( "*.txt" )
-current_dir = "/Users/tibor/Documents/GitHub/Forgettable"
-current_path = "/Users/tibor/Documents/GitHub/Forgettable/"
+current_dir = "/GodotProjects/Forgettable"
+current_path = "/GodotProjects/Forgettable/"
 __meta__ = {
 "_edit_use_anchors_": false
 }

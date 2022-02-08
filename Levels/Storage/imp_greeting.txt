@@ -1,0 +1,4 @@
+here u go
+/action throw_key
+;...
+:I can use this keycard on the not-glowing keypad side of doors to unlock them.

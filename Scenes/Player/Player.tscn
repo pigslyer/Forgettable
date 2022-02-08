@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=2]
+[gd_scene load_steps=49 format=2]
 
 [ext_resource path="res://Assets/Player/player_body.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Player/player_head.png" type="Texture" id=2]
@@ -20,6 +20,10 @@
 [ext_resource path="res://Scenes/Player/PlayerArms.gd" type="Script" id=18]
 [ext_resource path="res://Scenes/Props/DialoguePlayer.tscn" type="PackedScene" id=19]
 [ext_resource path="res://Scenes/Objects/pitch_randomizer.gd" type="Script" id=20]
+[ext_resource path="res://Scenes/Player/SaveReminder.gd" type="Script" id=21]
+
+[sub_resource type="CapsuleShape2D" id=24]
+radius = 11.0
 
 [sub_resource type="Animation" id=2]
 length = 0.001
@@ -302,7 +306,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 13.7472, 21.8406 ) ]
+"values": [ Vector2( 13.747, 21.851 ) ]
 }
 
 [sub_resource type="Animation" id=3]
@@ -319,7 +323,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0.2, 0.3, 0.8, 0.9 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ -45.0, -38.2559, 45.0, 38.3 ]
+"values": [ -22.0, -19.1, 22.0, 19.1 ]
 }
 tracks/1/type = "method"
 tracks/1/path = NodePath("Animated/Body/LeftFoot")
@@ -399,7 +403,7 @@ tracks/5/keys = {
 "values": [ true ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("Animated/Body/ArmRight:rotation_degrees")
+tracks/6/path = NodePath("Animated/Body/ArmRight:position")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -408,19 +412,7 @@ tracks/6/keys = {
 "times": PoolRealArray( 0, 0.3, 0.6 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 78.0791, 99.6928, 112.076 ]
-}
-tracks/7/type = "value"
-tracks/7/path = NodePath("Animated/Body/ArmRight:position")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
-"times": PoolRealArray( 0, 0.3, 0.6 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 7.93278, 18.4952 ), Vector2( 13.2735, 21.9275 ), Vector2( 9.35659, 20.5294 ) ]
+"values": [ Vector2( 8, 18 ), Vector2( 13.2735, 21.9275 ), Vector2( 9.35659, 20.5294 ) ]
 }
 
 [sub_resource type="Animation" id=28]
@@ -738,9 +730,6 @@ radius = 256.0
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 44, 20 )
 
-[sub_resource type="CapsuleShape2D" id=24]
-radius = 11.0
-
 [sub_resource type="StyleBoxFlat" id=19]
 bg_color = Color( 1, 0, 0, 1 )
 border_width_left = 8
@@ -825,6 +814,9 @@ script = ExtResource( 10 )
 energy_min = 0.5
 energy_max = 0.8
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 24 )
+
 [node name="Animated" type="Node2D" parent="."]
 script = ExtResource( 4 )
 
@@ -839,7 +831,7 @@ anims/one_handed_walk = SubResource( 3 )
 anims/two_handed_idle = SubResource( 28 )
 anims/two_handed_run = SubResource( 29 )
 anims/two_handed_walk = SubResource( 27 )
-blend_times = [ "two_handed_idle", "two_handed_run", 0.3, "two_handed_run", "two_handed_idle", 0.4, "two_handed_run", "two_handed_walk", 0.5, "two_handed_walk", "two_handed_idle", 0.4, "two_handed_walk", "two_handed_run", 0.3 ]
+blend_times = [ "one_handed_idle", "one_handed_walk", 0.4, "one_handed_walk", "one_handed_idle", 0.4, "two_handed_idle", "two_handed_run", 0.3, "two_handed_run", "two_handed_idle", 0.4, "two_handed_run", "two_handed_walk", 0.5, "two_handed_walk", "two_handed_idle", 0.4, "two_handed_walk", "two_handed_run", 0.3 ]
 script = ExtResource( 18 )
 
 [node name="HeadBob" type="AnimationPlayer" parent="Animated"]
@@ -886,11 +878,13 @@ shape = SubResource( 6 )
 visible = false
 position = Vector2( 13.7472, 21.8406 )
 rotation = 1.36274
-z_index = 5
+z_index = 1023
+z_as_relative = false
 texture = ExtResource( 16 )
 
 [node name="Hand" type="Position2D" parent="Animated/Body/ArmRight"]
 position = Vector2( 1.90735e-06, 1.90735e-06 )
+rotation = -1.5708
 
 [node name="LeftFoot" type="AudioStreamPlayer2D" parent="Animated/Body" groups=["FOOTSTEP"]]
 position = Vector2( -3, -19 )
@@ -903,10 +897,6 @@ position = Vector2( -2, 19 )
 volume_db = 5.0
 bus = "SFX"
 script = ExtResource( 20 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-shape = SubResource( 24 )
 
 [node name="HUD" type="CanvasLayer" parent="."]
 layer = 100
@@ -1286,6 +1276,28 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="SaveReminder" type="Label" parent="HUD/Theme"]
+self_modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.5
+anchor_top = 0.05
+anchor_right = 0.5
+anchor_bottom = 0.05
+margin_left = -161.0
+margin_right = 161.0
+margin_bottom = 49.0
+text = "You haven't saved in a while."
+align = 1
+script = ExtResource( 21 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="HUD/Theme/SaveReminder"]
+wait_time = 600.0
+autostart = true
+
+[node name="Tween" type="Tween" parent="HUD/Theme/SaveReminder"]
+
 [node name="Camera" type="Camera2D" parent="."]
 current = true
 zoom = Vector2( 0.35, 0.35 )
@@ -1341,3 +1353,4 @@ one_shot = true
 [connection signal="pressed" from="HUD/Theme/Inventory/VSplitContainer/Buttons/Drop" to="HUD/Theme/Inventory" method="_on_Drop_pressed"]
 [connection signal="pressed" from="HUD/Theme/Inventory/VSplitContainer/Buttons/Keycards" to="HUD/Theme/Inventory" method="_on_Keycards_pressed"]
 [connection signal="pressed" from="HUD/Theme/Inventory/VSplitContainer/Buttons/Notes" to="HUD/Theme/Inventory" method="_on_Notes_pressed"]
+[connection signal="timeout" from="HUD/Theme/SaveReminder/Timer" to="HUD/Theme/SaveReminder" method="_on_Timer_timeout"]

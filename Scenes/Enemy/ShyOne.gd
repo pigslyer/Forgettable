@@ -43,7 +43,7 @@ func _physics_process(_delta):
 		elif (
 				pointing_gun_at && !knows_gun_empty && 
 				!global_position.distance_squared_to(Groups.get_player().global_position) < 
-				MIN_DIST_TO_PLAYER*MIN_DIST_TO_PLAYER
+				MIN_DIST_TO_PLAYER*MIN_DIST_TO_PLAYER && $DontSurrender.is_stopped()
 			):
 			attacking = false;
 			path = [];
@@ -72,13 +72,21 @@ func _physics_process(_delta):
 		
 		
 		# surrender, we're being held at gunpoint
-		elif pointing_gun_at && !knows_gun_empty:
+		elif pointing_gun_at && !knows_gun_empty && $DontSurrender.is_stopped():
 			$Animation/AnimationPlayer.play("shy_surrender");
 			$Animation/AnimationPlayer.playback_speed = 1.0;
 			path = [];
 			can_move = false;
 			surrendering = true;
-			$SurrenderGasp.play();
+			Music.play_sfx(
+				[
+					preload("res://Assets/JakobNoises/SurrenderGaspHighShort.wav"),
+					preload("res://Assets/JakobNoises/SurrenderGaspLowShort.wav"),
+					preload("res://Assets/JakobNoises/SurrenderGaspNormalLong2.wav"),
+					preload("res://Assets/JakobNoises/SurrenderGaspNormalLong.wav"),
+				][randi()%4],
+				rand_range(0.9,1.1), 5, global_position
+			);
 		
 		
 		# we go after a while. player isn't looking at us/doesn't have a gun
@@ -93,11 +101,7 @@ func _physics_process(_delta):
 			MIN_DIST_TO_PLAYER*MIN_DIST_TO_PLAYER ||
 			!(pointing_gun_at && !knows_gun_empty))
 		):
-		can_move = true;
-		surrendering = false;
-		$UnSurrenderGasp.play();
-		$Prerun.stop();
-		_on_Prerun_timeout(true);
+		unsurrender()
 		
 	
 	elif path.empty() && running_away:
@@ -109,7 +113,16 @@ func _physics_process(_delta):
 	
 	if alerted && !running_away:
 		$Animation/Body/Head.look_at(Groups.get_player().global_position);
-	
+
+
+# also autoattacks
+func unsurrender():
+	can_move = true;
+	surrendering = false;
+	$UnSurrenderGasp.play();
+	$Prerun.stop();
+	_on_Prerun_timeout(true);
+	$DontSurrender.start();
 
 func _on_DamageArea_body_entered(_body):
 	if $AttackDelay.is_stopped() && !dead:
@@ -134,3 +147,8 @@ func _on_Prerun_timeout(force: bool = false):
 		):
 		attacking = true;
 		$ShySting.play();
+
+func set_health(val: int, loud: bool = true):
+	.set_health(val,loud);
+	if surrendering && val < 40:
+		unsurrender();

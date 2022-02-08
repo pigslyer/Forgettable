@@ -1,4 +1,4 @@
-class_name DoorTransition
+class_name DoorTransition, "res://Assets/Base/door_transition.png"
 extends Node2D
 
 signal closed;
@@ -32,19 +32,24 @@ func _ready():
 	$WhenClosed/NamePlate/Interactive.message = leads_to_room;
 
 func _on_Interactive_interacted():
-	state = OPENING;
+	if leads_to.empty():
+		Groups.say_line("Could you not. There's nothing there.");
 	
-	$WhenClosed/Scanner/Interactive.disable(true);
-	var loader := Loader.new(leads_to);
-	add_child(loader);
-	
-	
-	var new_room: PackedScene = yield(loader,"finished_loading");
-	if state == OPENING:
-		Groups.get_my_room(self).spawn_room(new_room,self);
+	elif Save.can_save():
+		state = OPENING;
 		
-		state = OPEN;
-		$AnimationPlayer.play(open_anim);
+		$WhenClosed/Scanner/Interactive.disable(true);
+		var loader := Loader.new(leads_to);
+		add_child(loader);
+		
+		var new_room: PackedScene = yield(loader,"finished_loading");
+		if state == OPENING:
+			Groups.get_my_room(self).spawn_room(new_room,self);
+			
+			state = OPEN;
+			$AnimationPlayer.play(open_anim);
+	else:
+		Groups.say_line("I can't do that while they're after me.");
 
 func open_instantly():
 	state = OPEN;
@@ -62,8 +67,9 @@ func close_safely():
 	$AnimationPlayer.play_backwards(open_anim);
 	state = CLOSED;
 	# i can't be fucked
-	var data = get_signal_connection_list("closed")[0];
-	disconnect("closed",data["target"],data["method"]);
+	var data = get_signal_connection_list("closed");
+	for conn in data:
+		disconnect("closed",conn["target"],conn["method"]);
 
 class Loader extends Node:
 	
@@ -87,11 +93,11 @@ func get_foot_override():
 	return [
 		Rect2(
 			Vector2(
-				min($WhenOpen/TopLeft.global_position.x,$WhenOpen/BottomRight.global_position.x),
-				min($WhenOpen/TopLeft.global_position.y,$WhenOpen/BottomRight.global_position.y)
+				min($TopLeft.global_position.x,$BottomRight.global_position.x),
+				min($TopLeft.global_position.y,$BottomRight.global_position.y)
 			),
 			(
-				$WhenOpen/BottomRight.position-$WhenOpen/TopLeft.position
+				$BottomRight.position-$TopLeft.position
 			).rotated(global_rotation).abs()
 		),
 		preload("res://Assets/Sounds/vent_floor.wav"),

@@ -1,12 +1,52 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://Scenes/Objects/Interactive.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Base/door_keypad2.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/Props/Keypad.gd" type="Script" id=3]
 [ext_resource path="res://Assets/Base/door_correct.wav" type="AudioStream" id=4]
 [ext_resource path="res://Assets/Base/door_incorrect.wav" type="AudioStream" id=5]
+[ext_resource path="res://Assets/UI/Font.tres" type="DynamicFont" id=6]
+[ext_resource path="res://Assets/Base/keypad_click.wav" type="AudioStream" id=8]
+
+[sub_resource type="StyleBoxFlat" id=25]
+bg_color = Color( 0.129412, 0.129412, 0.129412, 1 )
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color( 0.121569, 0.121569, 0.121569, 1 )
+border_blend = true
+shadow_color = Color( 0, 0, 0, 0.847059 )
+shadow_size = 1
+shadow_offset = Vector2( -2, 0 )
+
+[sub_resource type="StyleBoxFlat" id=26]
+bg_color = Color( 0.168627, 0.168627, 0.168627, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.121569, 0.121569, 0.121569, 1 )
+border_blend = true
+shadow_size = 1
+shadow_offset = Vector2( -4, 0 )
+
+[sub_resource type="StyleBoxFlat" id=27]
+bg_color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0, 0, 0, 1 )
+border_blend = true
+shadow_size = 1
+shadow_offset = Vector2( -2, 0 )
 
 [sub_resource type="Theme" id=1]
+default_font = ExtResource( 6 )
+Button/styles/hover = SubResource( 25 )
+Button/styles/normal = SubResource( 26 )
+Button/styles/pressed = SubResource( 27 )
 HBoxContainer/constants/separation = 16
 VBoxContainer/constants/separation = 16
 
@@ -89,6 +129,8 @@ physical_scancode = 48
 shortcut = SubResource( 22 )
 
 [node name="Keypad" type="Sprite"]
+z_index = 1024
+z_as_relative = false
 texture = ExtResource( 2 )
 script = ExtResource( 3 )
 
@@ -324,6 +366,10 @@ bus = "SFX"
 
 [node name="Incorrect" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
+bus = "SFX"
+
+[node name="Click" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
 bus = "SFX"
 
 [connection signal="interacted" from="Interactive" to="CanvasLayer/PopupPanel" method="popup"]

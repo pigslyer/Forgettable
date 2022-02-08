@@ -7,6 +7,7 @@ var filled_in: String = "";
 export (String) var code: String;
 
 func _ready():
+	
 	if code.empty():
 		push_error(str("Code in ",get_path()," isn't set."));
 	
@@ -29,6 +30,8 @@ func _key_entered(key: String):
 		filled_in = filled_in.substr(0,filled_in.length()-1);
 	
 	$CanvasLayer/PopupPanel/Panel/LineEdit.text = filled_in;
+	$Click.pitch_scale = rand_range(0.9,1.1);
+	$Click.play();
 
 # for whatever reason shortcuts don't want to work
 func _input(ev):

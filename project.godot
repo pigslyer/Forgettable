@@ -20,6 +20,11 @@ _global_script_classes=[ {
 "path": "res://Scenes/Objects/Dialogue.gd"
 }, {
 "base": "Node2D",
+"class": "Door",
+"language": "GDScript",
+"path": "res://Scenes/Props/Door.gd"
+}, {
+"base": "Node2D",
 "class": "DoorTransition",
 "language": "GDScript",
 "path": "res://Scenes/Props/DoorTransition.gd"
@@ -112,7 +117,8 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "AudioStreamPlayerFade": "",
 "Dialogue": "",
-"DoorTransition": "",
+"Door": "res://Assets/Base/door_hand_scanner.png",
+"DoorTransition": "res://Assets/Base/door_transition.png",
 "DragData": "",
 "Enemy": "",
 "Flicker": "",

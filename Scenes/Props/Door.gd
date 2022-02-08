@@ -1,14 +1,17 @@
+class_name Door, "res://Assets/Base/door_hand_scanner.png"
 extends Node2D;
 
 const UNLOCK_LINE = "It's now unlocked.";
 const LOCK_LINE = "It's now locked.";
 const NO_KEYCARD_LINE = "I haven't got the right keycard to ";
 
+const LIGHT_UNLOCKED = Color(0x8f8787);
+
 export (String) var outer_text = "";
 export (String) var keycard = "";
 
 export (bool) var open = false;
-export (bool) var locked = false;
+export (bool) var locked = false setget set_locked;
 export (bool) var enemies_can_open = true;
 
 export (String,MULTILINE) var locked_line = "The door's locked";
@@ -20,6 +23,10 @@ func data_load(data):
 	open = data[0]; locked = data[1];
 
 func _ready():
+	
+	# so we can receive data and properly open/close
+	yield(get_tree(),"idle_frame");
+	
 	if outer_text.empty():
 		$WhenClosed/Text.hide();
 		$WhenClosed/Text/Interactive.disable(true);
@@ -32,9 +39,7 @@ func _ready():
 		$WhenClosed/OuterOpen/Interactive.message = "Close";
 		$WhenClosed/InnerOpen/Interactive.message = "Close";
 	
-	if locked:
-		$WhenClosed/InnerKeycard/Interactive.message = "Unlock";
-		$WhenClosed/OuterKeycard/Interactive.message = "Unlock";
+	_update_locked();
 
 
 func _on_open(force: bool = false):
@@ -47,6 +52,7 @@ func _on_open(force: bool = false):
 			$AnimationPlayer.play("open");
 		$WhenClosed/OuterOpen/Interactive.message = "Open" if open else "Close";
 		$WhenClosed/InnerOpen/Interactive.message = "Open" if open else "Close";
+		$WhenClosed/Skkrt.play();
 		open = !open;
 		prev_open = open;
 
@@ -60,8 +66,7 @@ func toggle_locked():
 	locked = !locked;
 	$LockedSound.play();
 	Groups.say_line(LOCK_LINE if locked else UNLOCK_LINE);
-	$WhenClosed/InnerKeycard/Interactive.message = "Unlock" if locked else "Lock";
-	$WhenClosed/OuterKeycard/Interactive.message = "Unlock" if locked else "Lock";
+	_update_locked();
 
 func _on_EnemyAutoOpen_body_entered(_body):
 	if !open && enemies_can_open:
@@ -85,3 +90,16 @@ func get_foot_override():
 		),
 		preload("res://Assets/Sounds/vent_floor.wav"),
 	];
+
+func set_locked(state: bool):
+	locked = state;
+	_update_locked();
+
+func _update_locked():
+	if Groups.get_my_room(self) != null:
+		$WhenClosed/InnerKeycard/Interactive.message = "Unlock" if locked else "Lock";
+		$WhenClosed/OuterKeycard/Interactive.message = "Unlock" if locked else "Lock";
+		$WhenClosed/InnerOpen/Flicker.color = Groups.get_my_room(self).get_lock_color(self) if locked else LIGHT_UNLOCKED;
+		$WhenClosed/OuterOpen/Flicker.color = $WhenClosed/InnerOpen/Flicker.color;
+	else:
+		call_deferred("_update_locked");

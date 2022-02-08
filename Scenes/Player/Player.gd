@@ -150,6 +150,9 @@ func _physics_process(delta):
 	cam_shake_off *= CAM_SHAKE_MULT;
 	$Camera.offset = cam_shake_off;
 	$Camera.target_zoom = (CAM_ZOOM_SPRINT if sprinting else CAM_ZOOM_NORMAL) if Save.can_save() else CAM_ZOOM_COMBAT;
+	
+	# it's retarded
+	$CollisionShape2D.global_rotation = $Animated/Body.global_rotation;
 
 func _unhandled_input(ev: InputEvent):
 	if equipped != null && ev.is_action_pressed("lmb") && $EquippingDelay.is_stopped(): 
@@ -243,3 +246,12 @@ func get_item(path: String, count: int) -> int:
 
 func start_dial(path: String, onetime: bool = true, actions: Node = null):
 	$DialoguePlayer.start(path,onetime,actions);
+
+func get_camera() -> Camera2D:
+	return $Camera as Camera2D;
+
+func turn_towards(point: Vector2):
+	$Animated.angle = (point-global_position).angle();
+
+func save_reminder(on: bool):
+	$HUD/Theme/SaveReminder.displaying(on);

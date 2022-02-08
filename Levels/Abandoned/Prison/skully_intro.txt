@@ -1,3 +1,70 @@
+:Huh? Where am I? 
+:Ah, back at the cell. 
+:For how long have I been trapped in here? 
+:Days? Months? Years, even? God knows. 
+:Ugh. I can barely lift my arms and legs. 
+:Where are the damn guards? 
+:I wish someone would bring me some food. 
+:I can't even remember when the last time that I got a proper meal was.  
+:I'm alone, so alone. And cold, too. 
+:Like... a fly on a window, desperately banging its head against the glass, but to no avail. 
+:If only I could- 
 /action reveal
-hi
+;...
+/talking_to Skull
+Howdy, son!
+:Ah, it's you again. 
+Damn right it's me again! Who else d'you expect? 
+:... 
+{
+	::What exactly are you? 
+	A floating skull, that's what I am. 
+	Ain't that funny? 
+
+	::It's weird seeing you without your pipe. 
+	Hah, ain't that the truth! 
+	:Why did you keep distracting me during the trials? They beat me because of that, you know. 
+	I was simply observing you, kid. Ain't my damn fault you got distracted. 
+
+	::...
+	Well, uhm. Nice seeing ya around these parts, son. 
+}
+Anyway, I think 'twas about time I introduced myself. 
+/talking_to Earl
+The name's Earl, and oh boy, do I got a little job for ya. 
+Ya see, there's this... How should I call it... *friend* of mine, and well... 
+I got me a nice pipe a while ago, and she seems to like it a lot, 'cause she took it for herself. I know, I shoulda been more careful. But you'll get it back for me, won't ya son?
+:Why don't you just get it yourself? 
+It ain't right for a gentleman to bother a lady like that. 
+Besides, where's the fun in that? Might as well send ya instead and enjoy the show. 
+:Well, what's in it for me? 
+:You can't possibly expect me to do this for free. 
+:Not to mention the fact that I'm still locked in this fucking cell. How am I supposed to get your pipe anyway? 
+Don't ya worry about a thing, son. 
+I'll get it open right away.
 /action open_cell
+;...
+Now, lemme explain it all for ya. No, don't try to interrupt me. 
+See, Lorelai's got some... fans. They're real killjoys, every last one of them, and a bit mad too. So the halls ain't safe cos of 'em an' all. 
+You'll need a weapon if you wanna deal with them, and a proper one at that. A gun would be best, I think. 
+They might be crazy but even they will think twice if you point a gun at 'em. 
+:Of course.
+Once you step out of the cell, you'll need to go through the kitchen and then the storage area of the facility. 
+There, you'll probably see an Imp. Don't mind the fucker - he knows not to bother my... ehm, accomplices.
+Hell, he might even let you take a gander at his stash, if you butter him up right... Or if you let him butter you up.
+:What?
+He eats people, kiddo.
+:I still don't see why the hell I should help you with this.  
+Well for one, if ya don't you'll stay stuck in this damn cell. And I can guarantee you - it'll be worse than the experiments. 
+Oh, and did I mention how I'll help you escape the facility if you do this for me? 
+:Why would you help me with that? One pipe surely can't be worth all this trouble. 
+Heh, I guess I just always wanted a minion in the outside world. 
+Ya know, someone who would do my bidding. 
+Now get going, this pipe ain't just magically gonna appear back in my mouth, son. 
+
+
+
+
+
+
+

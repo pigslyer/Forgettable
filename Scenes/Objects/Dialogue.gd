@@ -4,15 +4,34 @@ extends Reference
 signal perform_action(id);
 
 var talking_to: String;
-var caret: int;
+var caret: int = 0;
 var lines: PoolStringArray;
+
+var speed_player: int = 4;
+var speed_other: int = 4;
+var speed_anon: int = 4;
+
+const SPEED := {
+	"low" : 5,
+	"medium" : 4,
+	"high" : 3,
+};
+
+var pitch_player: float = 1.1;
+var pitch_other: float = 0.8;
+var pitch_anon: float = 1;
+
+const PITCH = {
+	"low" : 0.7,
+	"medium" : 0.9,
+	"high" : 1.1,
+};
 
 func _init(path: String):
 	var file := File.new();
 	file.open(path,File.READ);
 	lines = compile(file.get_as_text());
 	file.close();
-	caret = 0;
 
 func get_line(next: int = -1):
 	var cur_line := lines[caret];
@@ -23,7 +42,8 @@ func get_line(next: int = -1):
 func _read_line(line: String, first_word: String, second_word: String, next: int):
 	match first_word:
 		"/talking_to":
-			talking_to = line.split(" ",false,1)[1];
+			var split = line.split(" ",false,1);
+			talking_to = split[1] if split.size() > 1 else "";
 		
 		"/choice":
 			return line.split(" ",true,1)[1].split("||",false);
@@ -44,6 +64,28 @@ func _read_line(line: String, first_word: String, second_word: String, next: int
 		"/action":
 			emit_signal("perform_action",second_word);
 		
+		"/speed":
+			var val = SPEED.get(line.split(" ",false)[2],4);
+			if second_word == "player":
+				speed_player = val;
+			elif second_word == "other":
+				speed_other = val;
+			elif second_word == "anon":
+				speed_anon = val;
+			else:
+				push_error(str("Couldn't set speed at line ",caret,"."));
+		
+		"/pitch":
+			var val = PITCH.get(line.split(" ",false)[2],PITCH["medium"]);
+			if second_word == "player":
+				pitch_player = val;
+			elif second_word == "other":
+				pitch_other = val;
+			elif second_word == "anon":
+				pitch_anon = val;
+			else:
+				push_error(str("Couldn't set pitch at line ",caret,"."));
+			
 		_:
 			return line;
 	
@@ -51,16 +93,11 @@ func _read_line(line: String, first_word: String, second_word: String, next: int
 
 static func compile(text: String) -> PoolStringArray:
 	
+	var start = OS.get_ticks_usec();
+	
 	# ensure text is ended
-	text += "\n/end"
-	
-	# remove comments
-	text += "\n"
-	var comment: int = text.find("##")
-	while comment != -1:
-		text.erase(comment,text.find("\n",comment)-comment)
-		comment = text.find("##",comment)
-	
+	text += "\n/end\n"
+
 	# compile choices
 	
 	var split: PoolStringArray = text.split("\n",false)
@@ -97,6 +134,13 @@ static func compile(text: String) -> PoolStringArray:
 					num_of -= 1
 				idx += 1
 			
+			# if last choice is a return from choice
+			# yes, i agree
+			if return_from[-1]:
+				split.insert(idx,"::/");
+				poses.append(idx);
+				idx += 1;
+			
 			split[begin] = "/choice "
 			gotos = "/choices "
 			var jdx: int = 0;
@@ -104,10 +148,11 @@ static func compile(text: String) -> PoolStringArray:
 				gotos += str(pos+2,"||")
 				# you may hate me, future me, but it works
 				
-				if return_from[jdx]:
-					split[begin] += split[pos].substr(3)+"||";
-				else:
-					split[begin] += split[pos].substr(2)+"||"
+				if split[pos] != "::/":
+					if return_from[jdx]:
+						split[begin] += split[pos].substr(3)+"||";
+					else:
+						split[begin] += split[pos].substr(2)+"||"
 				
 				if return_from[jdx-1]:
 					split[pos] = str("/goto ",begin);
@@ -122,5 +167,7 @@ static func compile(text: String) -> PoolStringArray:
 			split.insert(begin+1,gotos)
 			idx = begin+2
 		idx += 1
+	
+	prints(OS.get_ticks_msec(),": compiling took:",OS.get_ticks_usec()-start, " usecs.");
 	
 	return split
