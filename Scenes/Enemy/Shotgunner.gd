@@ -28,7 +28,7 @@ func attacked():
 		Groups.get_player().health -= rand_range(MELEE_DAMAGE_MIN,MELEE_DAMAGE_MAX);
 
 func _physics_process(delta):
-	if alerted && can_move:
+	if !dead && alerted && can_move:
 		
 		var angle = (global_position-Groups.get_player().global_position).angle();
 		global_rotation = wrapf(global_rotation-(angle-global_rotation)*delta*TURN_MULT*sign(abs(angle-global_rotation)-PI),-PI,PI);

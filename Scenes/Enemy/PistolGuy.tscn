@@ -1,0 +1,65 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Scenes/Objects/FlickerAlerts.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Items/LaserSightCheck.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Base/gun_in_game.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Base/laser_sight.png" type="Texture" id=4]
+[ext_resource path="res://Scenes/Enemy/EnemyBase.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/Enemy/PistolGuy.gd" type="Script" id=6]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform float max_off = 0.1f;
+uniform float percent;
+
+void fragment(){
+	vec2 changed_uv = UV;
+	changed_uv.y += max_off * clamp(percent-UV.x,0f,1f);
+	COLOR = texture(TEXTURE,changed_uv);
+	COLOR.a *= 1f-clamp(percent-UV.x,0f,1f);
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/max_off = 0.1
+shader_param/percent = 0.0
+
+[sub_resource type="OccluderPolygon2D" id=3]
+polygon = PoolVector2Array( 0, 8, 0, -8, 8, -8, 8, 8 )
+
+[node name="PistolGuy" instance=ExtResource( 5 )]
+material = SubResource( 2 )
+script = ExtResource( 6 )
+accel = 200.0
+max_speed = 100.0
+
+[node name="Handgun" type="Sprite" parent="Animation/Body/Hand" index="0"]
+texture = ExtResource( 3 )
+
+[node name="LaserSight" type="Light2D" parent="Animation/Body/Hand/Handgun" index="0"]
+position = Vector2( 9, 3 )
+z_index = 101
+z_as_relative = false
+texture = ExtResource( 4 )
+offset = Vector2( 300, 0 )
+texture_scale = 0.3
+color = Color( 1, 0, 0, 1 )
+range_z_max = 101
+range_item_cull_mask = 3
+shadow_enabled = true
+shadow_item_cull_mask = 3
+script = ExtResource( 1 )
+
+[node name="RayCast2D" type="RayCast2D" parent="Animation/Body/Hand/Handgun/LaserSight" index="0"]
+enabled = true
+cast_to = Vector2( 400, 0 )
+collision_mask = 3
+script = ExtResource( 2 )
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Animation/Body/Hand/Handgun/LaserSight/RayCast2D" index="0"]
+light_mask = 2
+position = Vector2( 29, -3 )
+occluder = SubResource( 3 )
+light_mask = 2

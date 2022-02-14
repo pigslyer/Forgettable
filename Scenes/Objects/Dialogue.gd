@@ -46,7 +46,7 @@ func _read_line(line: String, first_word: String, second_word: String, next: int
 			talking_to = split[1] if split.size() > 1 else "";
 		
 		"/choice":
-			return line.split(" ",true,1)[1].split("||",false);
+			return line.split(" ",true,1)[1].split("||",true);
 		
 		"/choices":
 			var split := second_word.split("||",false);

@@ -1,0 +1,5 @@
+/talking_to Eugene
+{
+	:::Hi, fuck you.
+	::That's all.
+}

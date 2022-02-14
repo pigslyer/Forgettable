@@ -1,14 +1,34 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scenes/Enemy/EnemyBase.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Enemy/ShyOne.gd" type="Script" id=2]
 [ext_resource path="res://Assets/Sounds/shy_one_sting.wav" type="AudioStream" id=3]
 [ext_resource path="res://Assets/JakobNoises/ChargingGrunt2.wav" type="AudioStream" id=4]
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform float max_off = 0.1f;
+uniform float percent;
+
+void fragment(){
+	vec2 changed_uv = UV;
+	changed_uv.y += max_off * clamp(percent-UV.x,0f,1f);
+	COLOR = texture(TEXTURE,changed_uv);
+	COLOR.a *= 1f-clamp(percent-UV.x,0f,1f);
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/max_off = 0.1
+shader_param/percent = 0.0
+
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 10.5, 21.5 )
 
 [node name="ShyOne" instance=ExtResource( 1 )]
+material = SubResource( 2 )
 collision_layer = 36
 script = ExtResource( 2 )
 accel = 1600.0
@@ -33,10 +53,7 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Animation/Body/DamageArea" index="0"]
 position = Vector2( 20.5, -1.5 )
-shape = SubResource( 1 )
-
-[node name="CollisionShape2D" parent="." index="1"]
-visible = false
+shape = SubResource( 3 )
 
 [node name="AttackDelay" type="Timer" parent="." index="2"]
 wait_time = 0.1

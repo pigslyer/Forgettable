@@ -46,7 +46,7 @@ visible = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="PointingGun" index="0"]
 position = Vector2( 19, 0 )
-polygon = PoolVector2Array( -8, 0, 192, -60, 192, 60 )
+polygon = PoolVector2Array( -8, 0, 192, -30, 192, 30 )
 
 [node name="LaserSight" type="Light2D" parent="." index="3"]
 position = Vector2( 9, 3 )

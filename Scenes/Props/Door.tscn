@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Assets/Base/door.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Base/door_closed.png" type="Texture" id=2]
@@ -117,9 +117,26 @@ tracks/3/keys = {
 "update": 1,
 "values": [ true, false ]
 }
+tracks/4/type = "method"
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "check_death_area"
+} ]
+}
 
 [sub_resource type="RectangleShape2D" id=9]
 extents = Vector2( 120, 80 )
+
+[sub_resource type="RectangleShape2D" id=10]
+extents = Vector2( 64, 20 )
 
 [node name="Door" type="Node2D" groups=["Overrides_footstep", "SAVES"]]
 script = ExtResource( 3 )
@@ -311,6 +328,15 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyAutoOpen"]
 shape = SubResource( 9 )
+
+[node name="DeathZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeathZone"]
+position = Vector2( 0, -79 )
+shape = SubResource( 10 )
 
 [connection signal="interacted" from="WhenClosed/OuterOpen/Interactive" to="." method="_on_open"]
 [connection signal="interacted" from="WhenClosed/OuterKeycard/Interactive" to="." method="_on_keycard"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Scenes/Enemy/EnemyBase.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Base/gun.png" type="Texture" id=2]
@@ -6,8 +6,26 @@
 [ext_resource path="res://Scenes/Enemy/Shotgunner.gd" type="Script" id=4]
 [ext_resource path="res://Assets/Base/Gunshot.wav" type="AudioStream" id=5]
 
-[sub_resource type="Animation" id=1]
-resource_name = "shotgun_idle"
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform float max_off = 0.1f;
+uniform float percent;
+
+void fragment(){
+	vec2 changed_uv = UV;
+	changed_uv.y += max_off * clamp(percent-UV.x,0f,1f);
+	COLOR = texture(TEXTURE,changed_uv);
+	COLOR.a *= 1f-clamp(percent-UV.x,0f,1f);
+}"
+
+[sub_resource type="ShaderMaterial" id=6]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/max_off = 0.1
+shader_param/percent = 0.0
+
+[sub_resource type="Animation" id=7]
 length = 4.0
 loop = true
 tracks/0/type = "value"
@@ -310,7 +328,9 @@ extents = Vector2( 142, 21 )
 extents = Vector2( 23.5, 27 )
 
 [node name="Shotgunner" instance=ExtResource( 1 )]
+material = SubResource( 6 )
 script = ExtResource( 4 )
+body = 1
 accel = 850.0
 max_speed = 400.0
 
@@ -321,7 +341,7 @@ anim_walk = "shotgun_walk"
 
 [node name="AnimationPlayer" parent="Animation" index="0"]
 autoplay = "shotgun_idle"
-anims/shotgun_idle = SubResource( 1 )
+anims/shotgun_idle = SubResource( 7 )
 anims/shotgun_melee = SubResource( 3 )
 anims/shotgun_walk = SubResource( 2 )
 blend_times = [ "idle", "walk", 0.1, "shotgun_idle", "shotgun_melee", 0.1, "shotgun_idle", "shotgun_walk", 0.1, "shotgun_melee", "idle", 0.1, "shotgun_melee", "shotgun_idle", 0.1, "shotgun_melee", "shotgun_melee", 0.1, "shotgun_melee", "shotgun_walk", 0.1, "shotgun_melee", "walk", 0.1, "walk", "idle", 0.1 ]

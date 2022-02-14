@@ -1,4 +1,4 @@
-[gd_scene load_steps=105 format=2]
+[gd_scene load_steps=107 format=2]
 
 [ext_resource path="res://Levels/RoomBase.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Objects/Interactive.gd" type="Script" id=2]
@@ -32,7 +32,6 @@
 [ext_resource path="res://Assets/Base/filing_cabinet.png" type="Texture" id=30]
 [ext_resource path="res://Assets/Base/HMI.png" type="Texture" id=31]
 [ext_resource path="res://Assets/Sounds/water_floor.wav" type="AudioStream" id=32]
-[ext_resource path="res://Scenes/Player/Player.tscn" type="PackedScene" id=33]
 [ext_resource path="res://Levels/Abandoned/SkullyConvo.gd" type="Script" id=34]
 [ext_resource path="res://Assets/Base/squidshit.png" type="Texture" id=35]
 [ext_resource path="res://Scenes/Props/WallLight.tscn" type="PackedScene" id=36]
@@ -57,6 +56,31 @@
 [ext_resource path="res://Scenes/Items/Flashlight.tscn" type="PackedScene" id=55]
 [ext_resource path="res://Assets/CampiArt/flashlight.png" type="Texture" id=56]
 [ext_resource path="res://Assets/Base/squid_tentacle.png" type="Texture" id=57]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform float max_off = 0.1f;
+uniform float percent;
+
+void fragment(){
+	vec2 changed_uv = UV;
+	changed_uv.y += max_off * clamp(percent-UV.x,0f,1f);
+	COLOR = texture(TEXTURE,changed_uv);
+	COLOR.a *= 1f-clamp(percent-UV.x,0f,1f);
+}"
+
+[sub_resource type="ShaderMaterial" id=59]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/max_off = 0.1
+shader_param/percent = 0.0
+
+[sub_resource type="ShaderMaterial" id=60]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/max_off = 0.1
+shader_param/percent = 0.0
 
 [sub_resource type="RectangleShape2D" id=45]
 extents = Vector2( 28.5, 25 )
@@ -1505,12 +1529,14 @@ tile_data = PoolIntArray( -3145754, 1, 3, -3145753, 1, 131072, -3145752, 1, 1310
 [node name="ForeshadowedAmbush" type="Node2D" parent="." index="2"]
 position = Vector2( -440, -305 )
 
-[node name="ShyOne" parent="ForeshadowedAmbush" index="0" instance=ExtResource( 16 )]
+[node name="ShyOne" parent="ForeshadowedAmbush" index="0" groups=["Group:Ambush"] instance=ExtResource( 16 )]
+material = SubResource( 59 )
 position = Vector2( -36, 9 )
 rotation = 1.25271
 deaf = true
 
-[node name="ShyOne2" parent="ForeshadowedAmbush" index="1" instance=ExtResource( 16 )]
+[node name="ShyOne2" parent="ForeshadowedAmbush" index="1" groups=["Group:Ambush"] instance=ExtResource( 16 )]
+material = SubResource( 60 )
 position = Vector2( 28, 17 )
 rotation = 1.91426
 deaf = true
@@ -2987,7 +3013,7 @@ script = ExtResource( 54 )
 
 [node name="Tentacle" type="Line2D" parent="Shower/Lorelei/Tentacles" index="0"]
 self_modulate = Color( 0.592157, 0.592157, 0.592157, 1 )
-points = PoolVector2Array( 39, -21, 86, 9, 111, 19, 126, 19, 162, 19, 174, 37, 176, 63, 190, 107, 193, 141 )
+points = PoolVector2Array( 29, -12, 67, 21, 111, 19, 126, 19, 162, 19, 174, 37, 176, 63, 190, 107, 193, 141 )
 width = 12.0
 width_curve = SubResource( 55 )
 default_color = Color( 0.105882, 0.2, 0.313726, 1 )
@@ -3367,13 +3393,9 @@ scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 15 )
 
 [node name="Flashlight" parent="Bathroom" index="7" instance=ExtResource( 39 )]
-position = Vector2( 28, -383 )
+position = Vector2( 666, -332.5 )
 texture = ExtResource( 56 )
 drops = ExtResource( 55 )
-
-[node name="Player" parent="." index="11" instance=ExtResource( 33 )]
-visible = false
-position = Vector2( -1101, -673 )
 
 [connection signal="open_cell" from="Prison/SkullyConvo" to="Prison/CellDoors" method="_cell_selected" binds= [ "5", true ]]
 [connection signal="interacted" from="Prison/CellDoors/CellControl/CellControl2/Interactive" to="Prison/CellDoors/CanvasLayer/CellControls" method="popup"]

@@ -810,6 +810,7 @@ script = ExtResource( 3 )
 texture = ExtResource( 9 )
 texture_scale = 1.2
 color = Color( 0.596078, 0.729412, 0.847059, 1 )
+shadow_enabled = true
 script = ExtResource( 10 )
 energy_min = 0.5
 energy_max = 0.8
@@ -1118,7 +1119,7 @@ __meta__ = {
 
 [node name="HSplitContainer" type="HSplitContainer" parent="HUD/Theme/Inventory/VSplitContainer"]
 margin_right = 1017.0
-margin_bottom = 484.0
+margin_bottom = 482.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 8.0
@@ -1126,13 +1127,13 @@ dragger_visibility = 1
 
 [node name="VSplitContainer" type="VSplitContainer" parent="HUD/Theme/Inventory/VSplitContainer/HSplitContainer"]
 margin_right = 502.0
-margin_bottom = 484.0
+margin_bottom = 482.0
 size_flags_horizontal = 3
 dragger_visibility = 1
 
 [node name="ItemWaffle" type="ReferenceRect" parent="HUD/Theme/Inventory/VSplitContainer/HSplitContainer/VSplitContainer"]
 margin_right = 502.0
-margin_bottom = 397.0
+margin_bottom = 395.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 15.0
@@ -1144,9 +1145,9 @@ size = Vector2( 5, 5 )
 height = 3
 
 [node name="Hotbar" type="ReferenceRect" parent="HUD/Theme/Inventory/VSplitContainer/HSplitContainer/VSplitContainer"]
-margin_top = 409.0
+margin_top = 407.0
 margin_right = 502.0
-margin_bottom = 484.0
+margin_bottom = 482.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.0
@@ -1155,7 +1156,7 @@ script = ExtResource( 15 )
 [node name="ItemDesc" type="TextEdit" parent="HUD/Theme/Inventory/VSplitContainer/HSplitContainer"]
 margin_left = 514.0
 margin_right = 1017.0
-margin_bottom = 484.0
+margin_bottom = 482.0
 size_flags_horizontal = 3
 custom_styles/read_only = SubResource( 14 )
 custom_styles/normal = SubResource( 13 )
@@ -1168,7 +1169,7 @@ __meta__ = {
 }
 
 [node name="Buttons" type="HBoxContainer" parent="HUD/Theme/Inventory/VSplitContainer"]
-margin_top = 492.0
+margin_top = 490.0
 margin_right = 1017.0
 margin_bottom = 517.0
 custom_constants/separation = 32
@@ -1178,7 +1179,7 @@ __meta__ = {
 
 [node name="Equip" type="Button" parent="HUD/Theme/Inventory/VSplitContainer/Buttons"]
 margin_right = 80.0
-margin_bottom = 25.0
+margin_bottom = 27.0
 rect_min_size = Vector2( 80, 0 )
 shortcut = SubResource( 12 )
 text = "Equip"
@@ -1186,14 +1187,14 @@ text = "Equip"
 [node name="Drop" type="Button" parent="HUD/Theme/Inventory/VSplitContainer/Buttons"]
 margin_left = 112.0
 margin_right = 192.0
-margin_bottom = 25.0
+margin_bottom = 27.0
 rect_min_size = Vector2( 80, 0 )
 text = "Drop"
 
 [node name="Keycards" type="Button" parent="HUD/Theme/Inventory/VSplitContainer/Buttons"]
 margin_left = 224.0
 margin_right = 312.0
-margin_bottom = 25.0
+margin_bottom = 27.0
 rect_min_size = Vector2( 80, 0 )
 text = "Keycards"
 
@@ -1204,6 +1205,13 @@ margin_right = 424.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 80, 0 )
 text = "Notes"
+
+[node name="Objective" type="LineEdit" parent="HUD/Theme/Inventory/VSplitContainer/Buttons"]
+margin_left = 344.0
+margin_right = 474.0
+margin_bottom = 27.0
+text = "Objective:"
+editable = false
 
 [node name="Selected" type="ReferenceRect" parent="HUD/Theme/Inventory"]
 visible = false
@@ -1346,6 +1354,7 @@ one_shot = true
 [connection signal="about_to_show" from="HUD/Theme/Inventory" to="." method="follow_mouse" binds= [ false ]]
 [connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="override_selected"]
 [connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="update_equipped"]
+[connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="update_objective"]
 [connection signal="popup_hide" from="HUD/Theme/Inventory" to="." method="follow_mouse" binds= [ true ]]
 [connection signal="gui_input" from="HUD/Theme/Inventory/VSplitContainer/HSplitContainer/VSplitContainer/ItemWaffle" to="HUD/Theme/Inventory" method="_on_ItemWaffle_gui_input"]
 [connection signal="items_changed" from="HUD/Theme/Inventory/VSplitContainer/HSplitContainer/VSplitContainer/ItemWaffle" to="HUD/Theme/Inventory" method="select"]

@@ -1,6 +1,10 @@
 class_name Enemy
 extends KinematicBody2D
 
+# if the enemy is in a Group:[name] then they'll automatically alert their whole group
+# when they become alerted
+var my_groups: PoolStringArray;
+
 const FRIC = 0.9;
 
 const EYE_BASE_SCALE = 0.03;
@@ -9,6 +13,14 @@ const EYE_INTENSIFY = 0.6;
 const EYE_INTENSIFY_SCALE = 0.1;
 
 const DROP_OFFSET = 64;
+
+enum BODIES{
+	SCIENTIST,
+	SECURITY,
+	PRISONER
+};
+
+export (BODIES) var body;
 
 export (int) var health = 100 setget set_health;
 var dead: bool = false;
@@ -38,6 +50,26 @@ func data_load(data):
 	if data is Array:
 		set_health(-1,false);
 		global_position = data[0];
+
+func _ready():
+	
+	$Animation/Body.texture = [
+		preload("res://Assets/Base/body_main.png"), 
+		preload("res://Assets/Base/body_security.png"),
+		preload("res://Assets/Player/player_body.png"),
+	][body];
+	
+	$Animation/Body/Head.texture = [
+		preload("res://Assets/Enemies/head1.png"),
+		preload("res://Assets/Enemies/head2.png"),
+		preload("res://Assets/Enemies/head3.png"),
+		preload("res://Assets/Enemies/head4.png"),
+	][str(get_path()).hash()%4];
+	
+	for group in get_groups():
+		if group.begins_with("Group:"):
+			my_groups.append(group);
+	
 
 # animations run this when an attack animation finishes
 func attacked():
@@ -76,6 +108,9 @@ func _physics_process(delta):
 		if !$PlayerWall.is_colliding():
 			set_alerted(true);
 
+const DISSOLVE_SPEED = 0.6;
+const STEPS = 10;
+
 func set_health(new_val: int, loud: bool = true):
 	
 	if new_val <= 0 && 0 < health:
@@ -85,6 +120,7 @@ func set_health(new_val: int, loud: bool = true):
 		$Animation/Body/Head/Flicker.set_enabled(false);
 		$Animation/Body/Head/Flicker2.set_enabled(false);
 		Save.save_my_data(self);
+		$CollisionShape2D.set_deferred("disabled",true);
 		
 		var split: PoolStringArray;
 		for drop in drops:
@@ -98,8 +134,17 @@ func set_health(new_val: int, loud: bool = true):
 					preload("res://Assets/JakobNoises/DyingMoan2.wav"),
 					preload("res://Assets/JakobNoises/DyingChoke.wav"),
 				][randi()%3],
-				rand_range(0.8,0.9),5
-			)
+				rand_range(0.8,0.9),20
+			);
+			
+			$Gibs.emitting = true;
+			for step in STEPS:
+				material.set_shader_param("percent",float(step)/STEPS*2);
+				yield(get_tree().create_timer(DISSOLVE_SPEED/STEPS),"timeout");
+			
+		
+		queue_free();
+		
 	elif new_val < health && is_inside_tree():
 		if loud:
 			Music.play_sfx(
@@ -107,15 +152,19 @@ func set_health(new_val: int, loud: bool = true):
 					preload("res://Assets/JakobNoises/PaintGruntHighLong.wav"),
 					preload("res://Assets/JakobNoises/PaintGruntNormal.wav")
 				][randi()%2],
-				rand_range(0.8,0.9),2
+				rand_range(0.8,0.9),7
 			);
 		set_alerted(true);
 	
 	health = new_val;
-	
 
-func set_alerted(state: bool):
+
+func set_alerted(state: bool, grouped: bool = false):
 	if !(dead && state):
+		if !grouped:
+			for group in my_groups:
+				get_tree().call_group(group,"set_alerted",true,true);
+		
 		alerted = state;
 		
 		if !state:

@@ -2,7 +2,6 @@ extends Node2D
 
 # footsteps farther than this don't get updated
 const NEAR_TO_PLAYER = 300;
-const DOOR_NO_KEY = Color.red;
 
 var audio_override_rects: Array;
 var audio_override_streams: Array;
@@ -10,9 +9,6 @@ export (Array,AudioStream) var footstep_sounds;
 
 onready var my_save_group = str("Room:",filename);
 onready var tiles = $Navigation2D/TileMap;
-
-export (Array,String) var door_keys;
-export (Array,Color) var door_colors;
 
 func _ready():
 	
@@ -147,8 +143,3 @@ func _physics_process(_delta):
 				foot.playing = playing;
 			
 			sample = null;
-
-func get_lock_color(door: Door) -> Color:
-	if door.keycard in door_keys:
-		return door_colors[door_keys.find(door.keycard)];
-	return DOOR_NO_KEY;

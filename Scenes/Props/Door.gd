@@ -7,6 +7,13 @@ const NO_KEYCARD_LINE = "I haven't got the right keycard to ";
 
 const LIGHT_UNLOCKED = Color(0x8f8787);
 
+const LIGHTS_LOCKED := {
+	"handgun_storage" : Color.yellow,
+	"storage1" : Color.teal,
+	"railway": Color.purple,
+	"/": Color.red,
+};
+
 export (String) var outer_text = "";
 export (String) var keycard = "";
 
@@ -99,7 +106,13 @@ func _update_locked():
 	if Groups.get_my_room(self) != null:
 		$WhenClosed/InnerKeycard/Interactive.message = "Unlock" if locked else "Lock";
 		$WhenClosed/OuterKeycard/Interactive.message = "Unlock" if locked else "Lock";
-		$WhenClosed/InnerOpen/Flicker.color = Groups.get_my_room(self).get_lock_color(self) if locked else LIGHT_UNLOCKED;
+		$WhenClosed/InnerOpen/Flicker.color = LIGHTS_LOCKED.get(keycard,LIGHTS_LOCKED["/"]) if locked else LIGHT_UNLOCKED;
 		$WhenClosed/OuterOpen/Flicker.color = $WhenClosed/InnerOpen/Flicker.color;
 	else:
 		call_deferred("_update_locked");
+
+func check_death_area():
+	for killable in $DeathZone.get_overlapping_bodies():
+		killable.health = -1;
+		Music.play_sfx(preload("res://Assets/Base/squelch.wav"),rand_range(0.9,1.1));
+

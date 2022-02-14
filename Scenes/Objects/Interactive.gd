@@ -12,6 +12,8 @@ export (Material) var shader = preload("res://Scenes/Objects/outline.tres");
 export (String) var message = "";
 export (bool) var disabled = false setget disable;
 
+export (String,MULTILINE) var say_line;
+
 # if filled in, starts dialogue on interact
 export (String) var dial_path = "";
 # if true, dialogue is one time
@@ -92,5 +94,7 @@ func interact():
 	if !dial_path.empty():
 		Groups.get_player().start_dial(dial_path,dial_one_time,null if str(dial_actions).empty() else get_node(dial_actions));
 		# there is literally no reason to keep it if it's just for dialogues
-		if dial_one_time && get_signal_connection_list("interacted").empty():
+		if dial_one_time && get_signal_connection_list("interacted").empty() && say_line.empty():
 			disable(true);
+	if !say_line.empty():
+		Groups.say_line(say_line);

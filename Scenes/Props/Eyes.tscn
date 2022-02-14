@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scenes/Props/Eyes.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Base/eyes.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Base/vent_wall.png" type="Texture" id=3]
+
+[node name="Eyes" type="Light2D"]
+z_index = 1000
+texture = ExtResource( 2 )
+color = Color( 0.709804, 0.0392157, 0.0392157, 1 )
+script = ExtResource( 1 )
+energy_min = 1.2
+energy_max = 1.6
+smoothing = 20
+stays_on = 4.4
+stays_off = 0.1
+
+[node name="Sprite" type="Sprite" parent="."]
+show_behind_parent = true
+scale = Vector2( 0.328, 0.688 )
+z_index = -1
+texture = ExtResource( 3 )

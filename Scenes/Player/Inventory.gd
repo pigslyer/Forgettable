@@ -139,3 +139,7 @@ func update_button():
 		button.text = "Unequip";
 	else:
 		button.text = "Equip";
+
+
+func update_objective():
+	$VSplitContainer/Buttons/Objective.text = str("Objective: ",Save.cur_objective,"!");

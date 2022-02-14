@@ -5,6 +5,7 @@ const PLAYER_BIT = 0b10;
 
 export (String,MULTILINE) var message;
 export (bool) var onetime = true;
+export (bool) var disabled = false;
 
 # since roombase only queue frees *after* getting everyone's data, this returns true
 # only if it wants to kill itself
@@ -32,7 +33,8 @@ func _ready():
 	add_to_group(Groups.SAVING);
 
 func _detected_player(_body):
-	Groups.say_line(message);
-	if onetime:
-		queue_free();
-		Save.save_my_data(self);
+	if !disabled:
+		Groups.say_line(message);
+		if onetime:
+			queue_free();
+			Save.save_my_data(self);

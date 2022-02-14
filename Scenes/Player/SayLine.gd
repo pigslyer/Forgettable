@@ -24,9 +24,9 @@ func say_line(what: String):
 	label.align = Label.ALIGN_CENTER;
 	label.add_stylebox_override("normal",style_empty);
 	
-	var cur := 1;
+	var cur := 0;
 	
-	while cur <= what.length():
+	while cur < what.length():
 		if what[cur-1] in STOPS:
 			yield(get_tree().create_timer(DELAY_PER_STOP+TIME_PER_CHAR),"timeout");
 		else:
@@ -37,12 +37,7 @@ func say_line(what: String):
 		
 		label.text += what[cur];
 		cur += 1;
-		
-#
-#	while cur <= what.length():
-#		$Tween.interpolate_callback(label,TEXT_SPEED*cur,"set_text",what.substr(0,cur));
-#		cur += 1;
-#
+	
 	$Tween.interpolate_callback(self,TEXT_SPEED*what.length()+TIME_FULL,"_remove_entry", what, label);
 	$Tween.start();
 

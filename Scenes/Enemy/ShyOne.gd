@@ -152,3 +152,6 @@ func set_health(val: int, loud: bool = true):
 	.set_health(val,loud);
 	if surrendering && val < 40:
 		unsurrender();
+	
+	if val < 0:
+		$UnSurrenderGasp.stop();

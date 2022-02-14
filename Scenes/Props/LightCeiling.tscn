@@ -8,7 +8,7 @@
 z_index = 200
 texture = ExtResource( 3 )
 texture_scale = 2.1
-color = Color( 1, 0, 0, 1 )
+color = Color( 0.905882, 0.419608, 0.419608, 1 )
 script = ExtResource( 1 )
 energy_min = 0.7
 energy_max = 0.9
