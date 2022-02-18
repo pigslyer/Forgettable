@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=2]
+[gd_scene load_steps=53 format=2]
 
 [ext_resource path="res://Assets/Player/player_body.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Player/player_head.png" type="Texture" id=2]
@@ -21,6 +21,8 @@
 [ext_resource path="res://Scenes/Props/DialoguePlayer.tscn" type="PackedScene" id=19]
 [ext_resource path="res://Scenes/Objects/pitch_randomizer.gd" type="Script" id=20]
 [ext_resource path="res://Scenes/Player/SaveReminder.gd" type="Script" id=21]
+[ext_resource path="res://Scenes/Player/Save.gd" type="Script" id=22]
+[ext_resource path="res://Scenes/Player/NewSave.gd" type="Script" id=23]
 
 [sub_resource type="CapsuleShape2D" id=24]
 radius = 11.0
@@ -745,6 +747,10 @@ pressed = true
 [sub_resource type="ShortCut" id=9]
 shortcut = SubResource( 8 )
 
+[sub_resource type="StyleBoxEmpty" id=31]
+
+[sub_resource type="StyleBoxEmpty" id=30]
+
 [sub_resource type="InputEventAction" id=20]
 action = "ui_accept"
 
@@ -948,6 +954,7 @@ __meta__ = {
 }
 
 [node name="Pause" type="PopupPanel" parent="HUD/Theme"]
+visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1021,7 +1028,6 @@ margin_top = 210.0
 margin_right = 188.0
 margin_bottom = 235.0
 size_flags_vertical = 3
-disabled = true
 text = "Save"
 
 [node name="Button4" type="Button" parent="HUD/Theme/Pause/VBoxContainer"]
@@ -1038,6 +1044,140 @@ margin_right = 188.0
 margin_bottom = 295.0
 size_flags_vertical = 3
 text = "Quit"
+
+[node name="Save" type="Popup" parent="HUD/Theme/Pause"]
+visible = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -248.5
+margin_top = -147.5
+margin_right = 248.5
+margin_bottom = 147.5
+script = ExtResource( 22 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="HUD/Theme/Pause/Save"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/Theme/Pause/Save/Panel"]
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.9
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HUD/Theme/Pause/Save/Panel/VBoxContainer"]
+margin_right = 406.0
+margin_bottom = 17.0
+custom_styles/normal = SubResource( 31 )
+text = "Save your data here."
+align = 1
+autowrap = true
+
+[node name="List" type="ItemList" parent="HUD/Theme/Pause/Save/Panel/VBoxContainer"]
+margin_top = 21.0
+margin_right = 406.0
+margin_bottom = 207.0
+size_flags_vertical = 3
+items = [ "New save", null, false, "Safety", null, false, "Imp encounter", null, false, "A BOMB?!", null, false ]
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/Theme/Pause/Save/Panel/VBoxContainer"]
+margin_top = 211.0
+margin_right = 406.0
+margin_bottom = 236.0
+custom_constants/separation = 290
+alignment = 1
+
+[node name="Button" type="Button" parent="HUD/Theme/Pause/Save/Panel/VBoxContainer/HBoxContainer"]
+margin_right = 48.0
+margin_bottom = 25.0
+text = "Save"
+
+[node name="Button2" type="Button" parent="HUD/Theme/Pause/Save/Panel/VBoxContainer/HBoxContainer"]
+margin_left = 338.0
+margin_right = 406.0
+margin_bottom = 25.0
+text = "Cancel"
+
+[node name="NewSave" type="Popup" parent="HUD/Theme/Pause/Save"]
+anchor_left = 0.1
+anchor_top = 0.12
+anchor_right = 0.9
+anchor_bottom = 0.8
+script = ExtResource( 23 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="HUD/Theme/Pause/Save/NewSave"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HUD/Theme/Pause/Save/NewSave/Panel"]
+anchor_left = 0.5
+anchor_top = 0.2
+anchor_right = 0.5
+anchor_bottom = 0.2
+margin_left = -190.0
+margin_top = -5.6
+margin_right = 190.0
+margin_bottom = 51.4
+custom_styles/normal = SubResource( 30 )
+text = "Enter the name of your save file here. It cannot contain any of the following: : / \\ ? * \" | % < >"
+align = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LineEdit" type="LineEdit" parent="HUD/Theme/Pause/Save/NewSave/Panel"]
+margin_left = 48.0
+margin_top = 115.0
+margin_right = 432.0
+margin_bottom = 142.0
+placeholder_text = "Save name"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/Theme/Pause/Save/NewSave/Panel"]
+margin_left = 48.0
+margin_top = 156.0
+margin_right = 432.0
+margin_bottom = 189.0
+custom_constants/separation = 200
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Save" type="Button" parent="HUD/Theme/Pause/Save/NewSave/Panel/HBoxContainer"]
+margin_left = 34.0
+margin_right = 82.0
+margin_bottom = 33.0
+text = "Save"
+
+[node name="Cancel" type="Button" parent="HUD/Theme/Pause/Save/NewSave/Panel/HBoxContainer"]
+margin_left = 282.0
+margin_right = 350.0
+margin_bottom = 33.0
+text = "Cancel"
 
 [node name="YouDied" type="PopupPanel" parent="HUD/Theme"]
 pause_mode = 2
@@ -1313,7 +1453,6 @@ smoothing_enabled = true
 script = ExtResource( 5 )
 
 [node name="LoudArea" type="Area2D" parent="."]
-visible = false
 collision_layer = 0
 collision_mask = 4
 monitorable = false
@@ -1346,7 +1485,19 @@ one_shot = true
 [connection signal="popup_hide" from="HUD/Theme/Pause" to="HUD/Theme/Pause" method="_on_Pause_popup_hide"]
 [connection signal="pressed" from="HUD/Theme/Pause/VBoxContainer/Button" to="HUD/Theme/Pause" method="hide"]
 [connection signal="pressed" from="HUD/Theme/Pause/VBoxContainer/Button5" to="HUD/Theme/Pause" method="_on_restart_pressed"]
+[connection signal="pressed" from="HUD/Theme/Pause/VBoxContainer/Button2" to="HUD/Theme/Pause" method="_on_save_pressed"]
 [connection signal="pressed" from="HUD/Theme/Pause/VBoxContainer/Button3" to="HUD/Theme/Pause" method="_on_quit_pressed"]
+[connection signal="about_to_show" from="HUD/Theme/Pause/Save" to="HUD/Theme/Pause/Save" method="_on_Save_about_to_show"]
+[connection signal="item_activated" from="HUD/Theme/Pause/Save/Panel/VBoxContainer/List" to="HUD/Theme/Pause/Save" method="_on_List_item_activated"]
+[connection signal="item_selected" from="HUD/Theme/Pause/Save/Panel/VBoxContainer/List" to="HUD/Theme/Pause/Save" method="_on_List_item_selected"]
+[connection signal="nothing_selected" from="HUD/Theme/Pause/Save/Panel/VBoxContainer/List" to="HUD/Theme/Pause/Save" method="_on_List_nothing_selected"]
+[connection signal="pressed" from="HUD/Theme/Pause/Save/Panel/VBoxContainer/HBoxContainer/Button" to="HUD/Theme/Pause/Save" method="_on_Button_pressed"]
+[connection signal="pressed" from="HUD/Theme/Pause/Save/Panel/VBoxContainer/HBoxContainer/Button2" to="HUD/Theme/Pause/Save" method="_on_Button2_pressed"]
+[connection signal="about_to_show" from="HUD/Theme/Pause/Save/NewSave" to="HUD/Theme/Pause/Save/NewSave" method="_on_NewSave_about_to_show"]
+[connection signal="text_changed" from="HUD/Theme/Pause/Save/NewSave/Panel/LineEdit" to="HUD/Theme/Pause/Save/NewSave" method="_on_LineEdit_text_changed"]
+[connection signal="text_entered" from="HUD/Theme/Pause/Save/NewSave/Panel/LineEdit" to="HUD/Theme/Pause/Save/NewSave" method="_on_LineEdit_text_entered"]
+[connection signal="pressed" from="HUD/Theme/Pause/Save/NewSave/Panel/HBoxContainer/Save" to="HUD/Theme/Pause/Save/NewSave" method="_on_Save_pressed"]
+[connection signal="pressed" from="HUD/Theme/Pause/Save/NewSave/Panel/HBoxContainer/Cancel" to="HUD/Theme/Pause/Save/NewSave" method="_on_Cancel_pressed"]
 [connection signal="about_to_show" from="HUD/Theme/YouDied" to="HUD/Theme/YouDied" method="_on_YouDied_about_to_show"]
 [connection signal="popup_hide" from="HUD/Theme/YouDied" to="HUD/Theme/YouDied" method="_on_YouDied_popup_hide"]
 [connection signal="pressed" from="HUD/Theme/YouDied/VBoxContainer/Button2" to="HUD/Theme/YouDied" method="_on_Button2_pressed"]

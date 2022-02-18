@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=7 format=2]
+[gd_resource type="Theme" load_steps=8 format=2]
 
 [ext_resource path="res://Assets/UI/Font.tres" type="DynamicFont" id=1]
 
@@ -45,6 +45,20 @@ border_blend = true
 corner_radius_top_right = 8
 corner_radius_bottom_left = 8
 
+[sub_resource type="StyleBoxFlat" id=6]
+content_margin_left = 24.0
+content_margin_top = 16.0
+bg_color = Color( 0.12549, 0.12549, 0.12549, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.0117647, 0.109804, 0.25098, 1 )
 border_width_left = 16
@@ -64,6 +78,7 @@ Button/styles/disabled = SubResource( 2 )
 Button/styles/hover = SubResource( 3 )
 Button/styles/normal = SubResource( 4 )
 Button/styles/pressed = SubResource( 5 )
+ItemList/styles/bg = SubResource( 6 )
 Label/styles/normal = SubResource( 1 )
 Panel/styles/panel = SubResource( 1 )
 PopupPanel/styles/panel = SubResource( 1 )

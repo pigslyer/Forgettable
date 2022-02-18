@@ -20,3 +20,7 @@ func _on_quit_pressed():
 func _on_restart_pressed():
 	Save.save_data = {};
 	get_tree().reload_current_scene();
+
+
+func _on_save_pressed():
+	$Save.popup();

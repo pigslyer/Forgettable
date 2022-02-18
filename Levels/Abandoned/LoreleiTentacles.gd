@@ -18,7 +18,7 @@ func update_tentacles():
 
 class TentacleFlicker extends Reference:
 	
-	const MAX_OFF = 16;
+	const MAX_OFF = 30;
 	const SMOOTHING = 10;
 	const INTERP = 0.9;
 	

@@ -143,3 +143,9 @@ func update_button():
 
 func update_objective():
 	$VSplitContainer/Buttons/Objective.text = str("Objective: ",Save.cur_objective,"!");
+
+func save_data():
+	return [keycards,keycard_ids];
+
+func load_data(data):
+	keycard_ids = data[1]; keycards = data[0];

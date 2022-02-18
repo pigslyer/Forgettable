@@ -2,11 +2,15 @@ extends Node2D
 
 const TURN_TIME = 0.3;
 
+var popped_out: bool = false;
+
 func _ready():
 	set_physics_process(false);
 
 func pop_out():
-	$AnimationPlayer.play("Reveal");
+	if !popped_out:
+		$AnimationPlayer.play("Reveal");
+		popped_out = true;
 
 func start_following():
 	$Tween.interpolate_property($Skully,"rotation",null,($Skully.global_position-Groups.get_player().global_position).angle(),TURN_TIME);

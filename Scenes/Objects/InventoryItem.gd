@@ -31,3 +31,7 @@ func _init(file: String, use_item = null, p: Vector2 = -Vector2.ONE, c: int = -1
 
 func _to_string():
 	return str(name," ",count," ",stack," ",pos," ",size);
+
+func save_data():
+	return [path,pos,count];
+

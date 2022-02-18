@@ -721,13 +721,12 @@ energy_max = 0.9
 smoothing = 10
 
 [node name="PlayerDetection" type="Area2D" parent="Animation/Body/Head"]
-visible = false
 collision_layer = 0
 collision_mask = 2
 monitorable = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Animation/Body/Head/PlayerDetection"]
-polygon = PoolVector2Array( 5, -1, 25, -87, 512, -320, 512, 320, 25, 87 )
+polygon = PoolVector2Array( 5, -1, 25, -87, 160, -120, 160, 120, 25, 87 )
 
 [node name="FootLeft" type="Sprite" parent="Animation/Body"]
 show_behind_parent = true
@@ -790,5 +789,5 @@ texture = ExtResource( 10 )
 [node name="Tween" type="Tween" parent="."]
 
 [connection signal="tree_exiting" from="." to="." method="set_detecting" binds= [ false ]]
-[connection signal="timeout" from="PostDeathDisableAlert" to="." method="set_alerted" binds= [ false ]]
 [connection signal="timeout" from="PostDeathDisableAlert" to="." method="_on_PostDeathDisableAlert_timeout"]
+[connection signal="timeout" from="PostDeathDisableAlert" to="." method="set_alerted" binds= [ false ]]

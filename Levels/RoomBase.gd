@@ -86,8 +86,8 @@ func spawn_room(room: PackedScene, from: DoorTransition):
 	spawned.position += from.global_position-door.global_position;
 	
 	from.connect("closed",self,"unload_room",[door]);
+	from.connect("closed",Groups,"set",["cur_room",spawned]);
 	door.connect("closed",spawned,"unload_room",[from]);
-
 
 func unload_room(other: DoorTransition):
 	for saveable in get_tree().get_nodes_in_group(my_save_group):

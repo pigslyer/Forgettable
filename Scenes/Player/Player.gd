@@ -255,3 +255,26 @@ func turn_towards(point: Vector2):
 
 func save_reminder(on: bool):
 	$HUD/Theme/SaveReminder.displaying(on);
+
+func save_data():
+	
+	return [
+		health,
+		get_waffle().items.find(equipped) if equipped != null else null,
+		equipped_item.ammo if equipped_item is Gun else null,
+		get_waffle().save_data(),
+		$HUD/Theme/Inventory.save_data(),
+	];
+
+func load_data(data):
+	health = data[0];
+	get_waffle().load_data(data[-2]);
+	$HUD/Theme/Inventory.load_data(data[-1]);
+	if data[1] != null:
+		equip(get_waffle().items[data[1]])
+	
+	if data[2] != null:
+		var item := ItemInventory.new(equipped_item.ammo_type,null,-Vector2.ONE,data[2]);
+		get_waffle().add_item(item);
+		equipped_item._on_ReloadTime_timeout();
+		equipped_item.ammo += item.count;

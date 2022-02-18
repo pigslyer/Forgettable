@@ -208,8 +208,12 @@ extents = Vector2( 23, 22 )
 
 [node name="Skully" type="Node2D"]
 script = ExtResource( 9 )
+__meta__ = {
+"_editor_description_": "skull uses parent material"
+}
 
 [node name="Skully" type="Sprite" parent="."]
+use_parent_material = true
 texture = ExtResource( 5 )
 
 [node name="Flicker" type="Light2D" parent="Skully"]

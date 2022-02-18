@@ -20,6 +20,8 @@ var rooms := {
 	
 };
 
+var cur_room: Node;
+
 func refresh_popup_disable_follow():
 	var player = get_player();
 	for popup in get_tree().get_nodes_in_group(DISABLE_FOLLOW):
@@ -30,6 +32,9 @@ func refresh_popup_disable_follow():
 
 func get_player() -> Player:
 	return get_tree().get_nodes_in_group("Player")[0];
+
+func get_player_pos() -> Vector2:
+	return get_tree().get_nodes_in_group("Player")[0].global_position;
 
 func say_line(what: String):
 	get_player().say_line(what);

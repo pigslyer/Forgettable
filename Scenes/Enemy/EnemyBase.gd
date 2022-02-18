@@ -102,7 +102,7 @@ func _physics_process(delta):
 	
 	if !(detecting || detection.get_overlapping_bodies().empty()):
 		$PlayerWall.global_rotation = 0;
-		$PlayerWall.cast_to = Groups.get_player().global_position-global_position;
+		$PlayerWall.cast_to = Groups.get_player_pos()-global_position;
 		$PlayerWall.force_raycast_update();
 		
 		if !$PlayerWall.is_colliding():
@@ -161,7 +161,7 @@ func set_health(new_val: int, loud: bool = true):
 
 func set_alerted(state: bool, grouped: bool = false):
 	if !(dead && state):
-		if !grouped:
+		if !grouped && state:
 			for group in my_groups:
 				get_tree().call_group(group,"set_alerted",true,true);
 		

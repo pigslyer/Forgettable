@@ -264,3 +264,20 @@ func _gui_input(ev: InputEvent):
 				if rect != preview_rect && bounds.x <= size.x && bounds.y <= size.y && rect.position != preview_rect.position:
 					preview_rect = rect;
 					update();
+
+func save_data():
+	
+	var ret: Array = [];
+	
+	for item in items:
+		ret.append(item.save_data());
+	
+	return ret;
+
+func load_data(data: Array):
+	
+	items.resize(data.size());
+	
+	for idx in data.size():
+		items[idx] = ItemInventory.new(data[0],null,data[1],data[2]);
+	

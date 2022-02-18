@@ -38,3 +38,38 @@ func save_my_data(node: Node):
 		save_data[room.my_save_group][str(room.get_path_to(node))] = node.data_save();
 	elif !node.is_in_group(Groups.DROPPED_ITEM):
 		push_error("Item which is neither saveable nor dropped tried to save.");
+
+const SAVE_DIR = "user://saves/";
+
+func _ready():
+	var dir := Directory.new();
+	if !dir.dir_exists(SAVE_DIR):
+		dir.make_dir_recursive(SAVE_DIR);
+
+func save_game(path: String):
+	
+	var conf := ConfigFile.new();
+	
+	conf.set_value("DATA","save_data",save_data);
+	conf.set_value("DATA","player_data",Groups.get_player().save_data());
+	conf.set_value("DATA","current_room",[Groups.cur_room.filename,Groups.cur_room.global_position]);
+	
+	conf.save(SAVE_DIR+path+".sav");
+	
+
+func get_saves() -> PoolStringArray:
+	var ret: PoolStringArray = [];
+	
+	var dir := Directory.new();
+	dir.open(SAVE_DIR);
+	
+	dir.list_dir_begin();
+	
+	var next = dir.get_next();
+	
+	while !next.empty():
+		if next.get_extension() == "sav":
+			ret.append(next);
+		next = dir.get_next();
+	
+	return ret;
