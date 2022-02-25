@@ -8,28 +8,27 @@ export (String) var ammo_type;
 export (int) var ammo_max;
 var ammo: int = 0;
 
-export (int) var jam_base = 5;
-
-export (int) var unjam_min;
-export (int) var unjam_max;
-export (int) var jam_inc_max;
-export (int) var jam_inc_min;
-var jam_chance: int = jam_base;
-var jams: int = 0;
-
 # contains shys paired with true. useful to remove duplicates
 var _aware: Dictionary;
 
 func _shoot():
 	pass;
 
+func _reload():
+	pass;
+
+func _empty():
+	pass;
+
+func _input(ev: InputEvent):
+	if ev.is_action_pressed("reload"):
+		reload();
+
 func reload():
-	if jams > 0 && $UnjamTime.is_stopped():
-		$UnjamTime.start();
-		$Unjam.play();
-	elif jams == 0 && $ReloadTime.is_stopped():
+	if $ReloadTime.is_stopped() && ammo < ammo_max && 0 < Groups.get_player().get_waffle().count_item(ammo_type):
 		$ReloadTime.start();
 		$Reload.play();
+		_reload();
 
 func equip():
 	_on_ReloadTime_timeout();
@@ -53,41 +52,29 @@ func unequip():
 
 func _use():
 	if $ReloadTime.is_stopped():
-	
-		if jams != 0:
-			$Jammed.play();
 		
-		elif ammo > 0:
-			if randi()%100 < jam_chance:
-				$JamReset.stop();
-				jams = int(rand_range(unjam_min,unjam_max));
-				Groups.say_line("Jammed!");
-				
-				_inform_empty();
-				
-			else:
-				jam_chance += int(rand_range(jam_inc_min,jam_inc_max));
-				ammo -= 1;
-				_shoot();
-				
-				$FireFrom/Flash.pre_proc();
-				$Shoot.play();
-				for enemy in $Noise.get_overlapping_bodies():
-					if !enemy.deaf:
-						enemy.alerted = true;
-				
-				# EVERYONE who knew it was shot forgets that
-				if !$ResetKnows.is_stopped():
-					$ResetKnows.stop();
-					_on_ResetKnows_timeout();
-				
-				$JamReset.start();
+		if ammo > 0:
+			ammo -= 1;
+			_shoot();
+			$Shoot.play();
+			
+			$FireFrom/Flash.pre_proc();
+			for enemy in $Noise.get_overlapping_bodies():
+				if !enemy.deaf:
+					enemy.alerted = true;
+			
+			# EVERYONE who knew it was shot forgets that
+			if !$ResetKnows.is_stopped():
+				$ResetKnows.stop();
+				_on_ResetKnows_timeout();
+			
 			
 			update_hud();
 		
 		else:
 			$Empty.play();
 			_inform_empty();
+			_empty();
 
 func _inform_empty():
 	$ResetKnows.start();
@@ -98,22 +85,12 @@ func _inform_empty():
 			shy.knows_gun_empty = true;
 
 func _hud_primary():
-	if jams > 0: return "!Unjam (R)";
 	return str(ammo,"/",Groups.get_player().get_waffle().count_item(ammo_type));
 
 
 func _on_ReloadTime_timeout():
 	ammo += Groups.get_player().get_item(ammo_type,ammo_max-ammo);
 	update_hud();
-
-func _on_UnjamTime_timeout():
-	jams -= 1;
-	if jams == 0:
-		jam_chance = jam_base;
-		_on_ReloadTime_timeout();
-
-func _on_JamReset_timeout():
-	jam_chance = jam_base;
 
 
 # everyone who was made aware that the gun is empty is now made unaware

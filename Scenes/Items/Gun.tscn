@@ -38,45 +38,25 @@ __meta__ = {
 [node name="ReloadTime" type="Timer" parent="." index="3"]
 one_shot = true
 
-[node name="UnjamTime" type="Timer" parent="." index="4"]
-one_shot = true
-
-[node name="JamReset" type="Timer" parent="." index="5"]
-one_shot = true
-
-[node name="Shoot" type="AudioStreamPlayer" parent="." index="6"]
+[node name="Shoot" type="AudioStreamPlayer" parent="." index="4"]
 stream = ExtResource( 4 )
 bus = "SFX"
 
-[node name="Empty" type="AudioStreamPlayer" parent="." index="7"]
+[node name="Empty" type="AudioStreamPlayer" parent="." index="5"]
 stream = ExtResource( 2 )
 bus = "SFX"
 
-[node name="Jammed" type="AudioStreamPlayer" parent="." index="8"]
-stream = ExtResource( 2 )
-pitch_scale = 1.3
-bus = "SFX"
-__meta__ = {
-"_editor_description_": "should use same sound as Empty"
-}
-
-[node name="Reload" type="AudioStreamPlayer" parent="." index="9"]
+[node name="Reload" type="AudioStreamPlayer" parent="." index="6"]
 bus = "SFX"
 
-[node name="Unjam" type="AudioStreamPlayer" parent="." index="10"]
-bus = "SFX"
-__meta__ = {
-"_editor_description_": "should use same sound as reload"
-}
-
-[node name="CheckMax" type="Timer" parent="." index="11"]
+[node name="CheckMax" type="Timer" parent="." index="7"]
 wait_time = 0.5
 autostart = true
 __meta__ = {
 "_editor_description_": "checks ammo count to make sure the hud is accurate"
 }
 
-[node name="ResetKnows" type="Timer" parent="." index="12"]
+[node name="ResetKnows" type="Timer" parent="." index="8"]
 wait_time = 10.0
 one_shot = true
 __meta__ = {
@@ -86,7 +66,5 @@ __meta__ = {
 [connection signal="body_entered" from="PointingGun" to="." method="_on_PointingGun_body_entered"]
 [connection signal="body_exited" from="PointingGun" to="." method="_on_PointingGun_body_exited"]
 [connection signal="timeout" from="ReloadTime" to="." method="_on_ReloadTime_timeout"]
-[connection signal="timeout" from="UnjamTime" to="." method="_on_UnjamTime_timeout"]
-[connection signal="timeout" from="JamReset" to="." method="_on_JamReset_timeout"]
 [connection signal="timeout" from="CheckMax" to="." method="update_hud"]
 [connection signal="timeout" from="ResetKnows" to="." method="_on_ResetKnows_timeout"]

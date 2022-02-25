@@ -12,6 +12,9 @@ onready var tiles = $Navigation2D/TileMap;
 
 func _ready():
 	
+	if !is_instance_valid(Groups.cur_room):
+		Groups.cur_room = self;
+	
 	if !my_save_group in Save.save_data:
 		Save.save_data[my_save_group] = {};
 	
@@ -90,6 +93,19 @@ func spawn_room(room: PackedScene, from: DoorTransition):
 	door.connect("closed",spawned,"unload_room",[from]);
 
 func unload_room(other: DoorTransition):
+	save_data();
+	for saveable in get_tree().get_nodes_in_group(my_save_group):
+		Save.save_data[my_save_group][str(get_path_to(saveable))] = saveable.data_save();
+	
+	for dropped in get_tree().get_nodes_in_group(Groups.DROPPED_ITEM):
+		if tiles.get_cellv(tiles.world_to_map(tiles.to_local(dropped.global_position))) != TileMap.INVALID_CELL:
+			dropped.queue_free();
+	
+	other.close_safely();
+	queue_free();
+
+
+func save_data():
 	for saveable in get_tree().get_nodes_in_group(my_save_group):
 		Save.save_data[my_save_group][str(get_path_to(saveable))] = saveable.data_save();
 	
@@ -100,11 +116,6 @@ func unload_room(other: DoorTransition):
 				dropped.data_save(),
 				to_local(dropped.position),
 			]);
-			dropped.queue_free();
-	
-	other.close_safely();
-	queue_free();
-
 
 func find_door_transition(id: int):
 	for node in get_tree().get_nodes_in_group(my_save_group):

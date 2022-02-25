@@ -18,6 +18,9 @@ export (Anim) var animation_type;
 
 export (Texture) var override_icon;
 
+func _ready():
+	set_process_input(false);
+
 func _equip():
 	pass;
 
@@ -37,7 +40,7 @@ func update_hud():
 	Groups.get_player()._update_hud(_hud_primary());
 
 func equip():
-	update_hud();
+	set_process_input(true);
 	_equip();
 
 func unequip():
@@ -51,6 +54,10 @@ func get_item_name():
 
 func get_item_tooltip():
 	return item_tooltip;
+
+func _unhandled_input(ev: InputEvent):
+	if ev.is_action_pressed("lmb"):
+		_use();
 
 # if left at -1, it uses item's
 static func dup(org: ItemInventory, new_pos: Vector2 = -Vector2.ONE, new_count: int = -1):

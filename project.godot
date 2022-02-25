@@ -97,7 +97,7 @@ _global_script_classes=[ {
 "base": "AudioStreamPlayer2D",
 "class": "PitchRandomizer",
 "language": "GDScript",
-"path": "res://Scenes/Objects/pitch_randomizer.gd"
+"path": "res://Scenes/Objects/pitch_randomizer2d.gd"
 }, {
 "base": "KinematicBody2D",
 "class": "Player",

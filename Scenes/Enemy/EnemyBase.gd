@@ -70,6 +70,9 @@ func _ready():
 		if group.begins_with("Group:"):
 			my_groups.append(group);
 	
+	# so they each have a unique one
+	material = material.duplicate();
+	
 
 # animations run this when an attack animation finishes
 func attacked():
@@ -125,7 +128,8 @@ func set_health(new_val: int, loud: bool = true):
 		var split: PoolStringArray;
 		for drop in drops:
 			split = drop.split(":");
-			Projectile.drop_item(ItemInventory.new(split[0],null,-Vector2.ONE,int(split[1])),global_position+Vector2(rand_range(-DROP_OFFSET,DROP_OFFSET),rand_range(-DROP_OFFSET,DROP_OFFSET)));
+			if split[0] == "item":
+				Projectile.drop_item(ItemInventory.new("res://Scenes/Items/"+split[1],null,-Vector2.ONE,int(split[2])),global_position+Vector2(rand_range(-DROP_OFFSET,DROP_OFFSET),rand_range(-DROP_OFFSET,DROP_OFFSET)));
 		
 		if loud:
 			Music.play_sfx(

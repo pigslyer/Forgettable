@@ -1,6 +1,7 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=2]
 
 [sub_resource type="Shader" id=1]
+resource_local_to_scene = true
 code = "shader_type canvas_item;
 
 uniform float max_off = 0.1f;
@@ -14,7 +15,6 @@ void fragment(){
 }"
 
 [resource]
-resource_local_to_scene = true
 shader = SubResource( 1 )
 shader_param/max_off = 0.1
 shader_param/percent = 0.0

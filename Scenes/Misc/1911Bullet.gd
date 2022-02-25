@@ -1,13 +1,13 @@
 extends KinematicBody2D
 
-export (float) var velocity_in_cells = 8;
+const VELOCITY_IN_CELLS = 8;
 
 var velocity: Vector2;
 var damage_min: int; var damage_max: int;
 var damage_target: int;
 
-func shoot(dir: float, target_layer: int, dmg_min: int, dmg_max: int):
-	velocity = Vector2(velocity_in_cells*64,0).rotated(dir);
+func shoot(dir: float, target_layer: int, dmg_min: int, dmg_max: int, vel: float = VELOCITY_IN_CELLS):
+	velocity = Vector2(vel*64,0).rotated(dir);
 	global_rotation = dir;
 	$ShotLight.pre_proc(); damage_min = dmg_min; damage_max = dmg_max;
 	collision_mask = 0b1 | target_layer; damage_target = target_layer;

@@ -26,8 +26,6 @@ func data_load(data):
 func dial_action(id):
 	if id == "throw_key":
 		$AnimationPlayer.play("ThrowCard");
-	elif id == "throw_key_2":
-		pass;
 	
 	elif id == "start_info":
 		state += 1;

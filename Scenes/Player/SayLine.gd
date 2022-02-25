@@ -49,6 +49,7 @@ func _remove_entry(what: String, label: Label):
 		if used[idx] == what:
 			used.remove(idx);
 			break;
+		idx += 1;
 
 
 

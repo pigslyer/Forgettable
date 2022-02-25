@@ -52,7 +52,10 @@ var cam_last_shake_down := false;
 var cam_shake_off := Vector2.ZERO;
 
 func _ready():
-		
+	
+	if !visible:
+		show();
+	
 	var hotbar_items = [];
 	hotbar_items.resize(hotbar.SLOTS);
 	hotbar.items = hotbar_items;
@@ -78,7 +81,6 @@ func equip(item: ItemInventory):
 			equipped_item = load(item.path).instance(); $Animated/Body/ArmRight/Hand.add_child(equipped_item);
 			equipped_item.equip(); equipped = item;
 			has_gun = equipped_item is Gun;
-			$EquippingDelay.start();
 	
 	emit_signal("equipped_new");
 
@@ -154,34 +156,6 @@ func _physics_process(delta):
 	# it's retarded
 	$CollisionShape2D.global_rotation = $Animated/Body.global_rotation;
 
-func _unhandled_input(ev: InputEvent):
-	if equipped != null && ev.is_action_pressed("lmb") && $EquippingDelay.is_stopped(): 
-			equipped_item._use();
-	
-	# not sure if scrolling should skip over empties (why would you want it not to?)
-	# or if it should auto move you to the hotbar if you've got a non hotbar thing on
-	# (probably should)
-	
-	if ev.is_action_pressed("wheel_down") != ev.is_action_pressed("wheel_up"):
-		if equipped in hotbar.items:
-			var diff: int = Input.get_action_strength("wheel_up") - Input.get_action_strength("wheel_down");
-			var starting: int = hotbar.items.find(equipped);
-			var idx: int = wrapi(starting+diff,0,hotbar.SLOTS);
-			
-			while starting != idx && hotbar.items[idx] != null:
-				idx = wrapi(idx+diff,0,hotbar.SLOTS);
-			
-			if starting != idx: equip(hotbar.items[idx]);
-		else:
-			var diff: int = -1 if ev.is_action_pressed("wheel_down") else 1;
-			var idx: int = hotbar.SLOTS-1 if ev.is_action_pressed("wheel_down") else 0;
-			
-			while !(idx == -1 || idx == hotbar.SLOTS) && hotbar.items[idx] != null:
-				idx = wrapi(idx+diff,0,hotbar.SLOTS);
-			
-			if !(idx == -1 || idx == hotbar.SLOTS):
-				equip(hotbar.items[idx]);
-
 func _unhandled_key_input(ev: InputEventKey):
 	
 	if ev.is_action_pressed("interact") && closest != null:
@@ -195,9 +169,6 @@ func _unhandled_key_input(ev: InputEventKey):
 	
 	if ev.pressed && !ev.echo && ev.physical_scancode >= KEY_1 && ev.physical_scancode < KEY_1+hotbar.SLOTS:
 		equip(hotbar.items[ev.physical_scancode-KEY_1]);
-	
-	if has_gun && ev.is_action_pressed("reload"):
-		equipped_item.reload();
 	
 	if OS.is_debug_build():
 		if ev.is_action_pressed("debug_fullbright"):
@@ -259,7 +230,7 @@ func save_reminder(on: bool):
 func save_data():
 	
 	return [
-		health,
+		health, global_position,
 		get_waffle().items.find(equipped) if equipped != null else null,
 		equipped_item.ammo if equipped_item is Gun else null,
 		get_waffle().save_data(),
@@ -268,13 +239,15 @@ func save_data():
 
 func load_data(data):
 	health = data[0];
+	global_position = data[1];
 	get_waffle().load_data(data[-2]);
 	$HUD/Theme/Inventory.load_data(data[-1]);
-	if data[1] != null:
-		equip(get_waffle().items[data[1]])
-	
 	if data[2] != null:
-		var item := ItemInventory.new(equipped_item.ammo_type,null,-Vector2.ONE,data[2]);
+		equip(get_waffle().items[data[2]])
+	
+	# if we had a gun equipped
+	if data[3] != null:
+		var item := ItemInventory.new(equipped_item.ammo_type,null,-Vector2.ONE,data[3]);
 		get_waffle().add_item(item);
 		equipped_item._on_ReloadTime_timeout();
 		equipped_item.ammo += item.count;

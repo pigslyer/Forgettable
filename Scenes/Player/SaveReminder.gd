@@ -10,6 +10,9 @@ func displaying(on: bool):
 		$Tween.interpolate_property(self,"self_modulate",Color8(255,255,255,0),Color8(255,255,255,255),FADE_IN_TIME);
 		$Tween.start();
 		$Timer.stop();
-	elif !on:
+	elif on:
+		$Timer.stop();
+		$Timer.start();
+	else:
 		modulate.a = 0;
 		$Timer.start();

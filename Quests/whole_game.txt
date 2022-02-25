@@ -1,0 +1,154 @@
+since the standard in this doc is that choices are returnable, - will be used before choices which are, and -- in front of those that aren't
+note - none of the humans have names, the monsters do. why, i don't know, i just find it funny.
+
+theme: ?????
+
+monsters:
+
+earl - a playful skull, who just wants to have fun - hedonism
+fatty (Vlad) - a greedy imp, who won't do anything if he doesn't see a profit. hates being called fatty (claims his name is Vlad), everyone still calls him fatty unless they're trying to get something from him - greed
+lorelei - a horrific, lonely monster that snaps and kills those who try to be with her - sorrow/loneliness
+werther - a turtle that has seemingly snapped and just wants to watch the world burn to assert his existence (sets mines everywhere) - anger
+
+humans:
+
+the player - always a puppet, tortured for his failure, can't lash out (even his escape is a puppeteering). allied with earl - sorrowful/angry
+the prisoner - used to be an agent, now he's been captured and tortured. once freed tries to go to lorelei, never seen again. allied with lorelei - lonely
+the tormentor - used to be one of the scientists that ran the experiments. killed by one of imp's men (implied by coat in imp's room) - greedy
+the bomber - one of the player's rescue agents, who allied with werther, which ultimately corrupted him. now he wants to destroy the facility. player can ally with him. used to be allied with werther - angry
+the reasercher - the resarcher who released all the monsters, now haunted by her actions. optionally interacted with if player finds keycard to her office - regretful
+the helpless - a wounded tormentor, whom the player can show either the mercy of death or the mercy of life - pleading
+
+act 0 - the tutorial:
+
+handled by me
+
+act 1 - the pipe arc:
+
+-> prison
+the player wakes up in his cell
+EARL introduces himself, releases player and tells him to get him his pipe from lorelei, watch out for the fatty along the way
+/action start_info to autostart lore convo
+player can follow up with lore questions{
+	- what kind of creatures even are you (referring to earl, fatty, lorelei) - monsters from another dimension, presumably accidentally summoned by a foolish human scientist
+		- how many other monsters are there? - there's also werther, but we'll get to him.
+		- what's your goal here? - same as you humans, depends on who you're talking to. for me, it's having a good time. for fatty, it's being fat. for lorelei, it's being a sad sack of squid
+	- is everyone else dead? - everyone important. there's still some crazies around, looting and killing, but they're just extras.
+		-- extras? - they don't matter, do they?
+		-- the staff too? - especially the staff.
+}
+player can encounter THE PRISONER near his cell. PRISONER asks him to release him in exchange for a powerful weapon (SMG), informs him that fatty might know where the key is
+
+-> canteen
+in canteen, he encounters the tormentor, who tries to ask him for help to escape - even if player does want to help, he gets nabbed
+
+-> storage
+large, open area with a bit of exploration. player has to talk to fatty and get gun to progress
+FATTY is in a meat storage area which he's mostly picked clean. he sits atop a throne of bones and the TORMENTOR's now bloody coat is lying on the ground (interacting with coat gives player the cell key)
+FATTY first introduces himself (player calls him Fatty at first, but he gets pissed and tells him to call him Vlad
+player has a choice between 1. genuinely calling him VLAD (/action hes_vlad), 2. sarcastically calling him VLAD, 3. telling him to fuck off and still calling him fatty
+FATTY asks him what it is EARL wants, PLAYER tells him that he has to go to LORELEI
+FATTY says sure, he's willing to give him a keycard that'll let him access Medical, but there's some annoying crazies that've made their home there, pls kill
+player has a choice between 1. saying ok 2. saying he'd rather not kill people (insert longer exchange (8 or so lines) of tugging and pulling where the player has to eventually agree to killing them) 3. being all the way down to kill some bitches. /action throw_key to throw the player the keycard
+/action start_info to ditto
+player can follow up with lore questions{
+	- is Earl trustworthy? - what do you think? if he likes you, he is. i take it he does, so yeah, he probably is
+		-- he seems like the trustworthy sort
+		-- there's something fishy. he seems far too powerful to really need my help.
+	- where is cell control key? - i dunno, why do you wanna? (if you can find a way to subtly hint that he should look in the coat, feel free)
+		-- i'd like to check if there's anyone i can save. (lines should be compatible with him either already meeting the PRISONER or not)
+		-- that's my business.
+}
+PLAYER uses keycard to get gun, ammo and flashlight, path to Medical
+
+-> Medical
+player has to kill some crazies
+
+one of the crazies drops a keycard to a nearby medical room, inside of which is the HELPLESS, lying in a pool of his own blood.
+he asks the player to help him. player can 1. say it's too late for him 2. say nah fam and kill him, violently (/action kill), which ends the dialogue
+player can then ask him one question before he dies (/action die), which also ends the dialogue{
+	-- who was I? - idk, one day you just appeared in one of the cells with the other volunteers
+ 	-- what is your group's plan? - the plan WAS to break out of the facility via the elevator, but as you could see, the hall was rigged to blow. i accidentally set off the mines. now we were trying to find medical supplies to heal me, but then you came along
+	-- how to get to the last office?  - FATTY probably has a key, but he won't give it up for free
+	-- were you scientists aware of the monsters? - we knew you volunteers complained about them, but we were told to just dismiss these sightings as cries for help/attention and nothing more
+}
+last office belongs to the REASECHER (keycard acquired much later)
+player gets into an online call with her, in which they can ask a couple of questions{
+	- who was I? - some sort of secret agent, who'd broken into the facility to get secret records and break out one of the staff here.
+		- what happened? - you got caught and our bosses told us to add you to the volunteer program. nothing personal.
+		- who did I work for?	 - we don't know. you wouldn't break under torture. presumably the same people who've also tried to break in though. i'm sure you've seen them.
+			-- of course. (he's either bluffing or truthful)
+			-- no? - (he's either truthful or acting dumb for info) - hm. i'm sure we captured another of your group, but i'm not sure he's survived this late into the facility's demise.
+		- who was I supposed to break out? - me. why, i don't know. i see now that that would've been the best course of action. sorry.
+	- who are you? - a scientist that made a mistake. - a mistake? (she explains that she had the opportunity to escape this place without causing so much bloodshed in the form of the player, but now she's had to kill everyone for her own freedom)
+	- were you scientists aware of the monsters? - most weren't. some of us were contacted by them. i, for example, was contacted by a floating skull calling himself Earl.
+}
+
+-> Abandoned
+
+after walking down a really long fucking hallway and fighting some folks, player enters the massive shower rooms with the massive LORELEI
+player has to walk past all her smelly, drippy tentacles and right up to her face to talk to her
+as he speaks she keeps mentioning how lonely, alone, sad, loveless etc. she is. 
+the player can acknowledge it the first time and ask what's wrong, whereupon she will talk his ear off about how since she's been released here she hasn't had long contact with anyone and how she's accidentally killed all those she has talked to. 
+the player is given a couple of opportunities to tell her to shut up and go back to the main conversation
+at all other points in the conversation when she mentions this loneliness, the player won't be given a chance to respond, either because it's assumed that he doesn't care if he skipped the first one, or because he's grown weary of listening to her if he didn't
+the main conversation starts with introductions (she mentions how sad she is, player can follow up), then she starts talking about the other monsters and their followers (and how lonely she is because she keeps accidentally kill her own)
+then the topic of EARL's pipe is brought up and she shifts one of her tentacles to reveal where it is (/action reveal). 
+we follow up with lore questions{
+	- why did you take Earl's pipe? - i was hoping he'd send someone to retrieve it so I could speak with them. with you.
+	- how many people have you killed? - a couple dozen.
+	- is it so hard to just control yourself? (she goes on to explain how it isn't so simple. this should be somewhat reminiscent of the classic "just don't be sad" thing)
+}
+
+act 2 - the hijacking arc:
+
+-> Prison
+player has to talk to Earl and give him his pipe (/action give_pipe), whereupon he is congratulated on a job well done and starts to lay out his escape plan
+the only escape from the facility comes in the form of an elevator past the entrance hall. problem is, werther has set up mines in that area, so player needs a mine detector.
+FATTY might know where to find one
+lore{
+	- what's WERTHER's problem? - he found jesus or something and now he keeps talking about how he'll "assert his existence" by blowing shit up (not exact phrasing)
+	- leads on the entrance hall? - werther's not going to reveal anything, but his new assistant might (EARL is going to track down the BOMBER, who he thinks was probably ex-special forces or some such, considering his positive disposition towards explosive ordenance)
+	- LORELEI sounds like she could use some emotional support. (should be shorter) - she cried at you too, huh? she's always like that, nothing will ever please her.
+}
+
+-> Storage
+FATTY's like, sure, i'll tell you, but you gotta find something for me in that area too. player can tell him he doesn't wanna, but fatty gets angry and tells him that he can't get to that mine detector without knowing the passcode, player calms him down
+FATTY tells him that the code to the mine detector is 8730. while he's in the area, he should also try to find some plastic explosives on the train.
+lore{
+	- what's your goal? - escaping this wretched facility, WERTHER's got the entrance locked up tight, so I'm consdering blowing up the old rail tunnel using those plastic explosives
+	- why not go down and get those yourself? - my old allies betrayed me at the first chance they got and are now holding down the railway. that's why i need you to break in and kill them.
+}
+-> Railway
+
+he does so, killing >0 people along the way
+upon finding mine detector we go to
+
+act 3 - the detector arc
+
+-> Storage
+
+player can go and give the plastic explosives (if found) to VLAD, who will then thank him for his honesty and admit that he had no way of stopping him from just walking past without them, then chucks him the key to the REASERCHER's office (/action throw_key_2)
+lore{
+	- what's this unlock? - the office of the head of reaserch. seeing as you used to be a volunteer, i trust you'll be interested in what she has in there.
+	- what are you gonna do? - now that you've cleared out the railway and given me access to those explosives, i'll plant them and escape.
+	(to end this, the options to say goodbye should be "bye Fatty" and "bye Vlad", with calling him Fatty stopping the player from interacting with him again)
+}
+
+-> Prison
+
+While the player was gone BOMBER has planned mines in the prison area, as well as laser traps in the long hallway
+when player gets to EARL in PRISON, EARL warns him to ready his mine detector and step through carefully, because some nutjob has set up explosives n' shit. nutjob used to be allied with WERTHER but it seems he knows a way past the bombed out hallway in medical
+player has to go and talk to him in order to find out how.
+he's hidden in the observation room.
+
+if he's released PRISONER, going to LORELEI he'll find a fresh pool of blood near her mouth. talking to her, he has 3 choices on how to initiate the conversation 1. aggresively asking where he is, 2. calmly asking where he is, 3. saying that he sees it's too late for prisoner and leaving
+LORELEI is regretful of his death
+
+player can get to him by going through the testing chamber and talking through the window. the exchange with BOMBER will be written by me
+
+-> Entrance hall
+
+in the middle of the minefield is WERTHER, the conversation with whom I will write
+
+game ends with final monologue in the elevator, where player plans out his future as 1. forgetting all this ever happend 2. learning of his past 3. learning from his past (i'll cut these up based on how much of his past he finds out)

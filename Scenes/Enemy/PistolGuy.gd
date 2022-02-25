@@ -1,11 +1,10 @@
 extends Enemy
 
-const GUN_MAX_ANGLE = deg2rad(50);
-const GUN_SEARCH_SPEED = ( 3 )/GUN_MAX_ANGLE*2;
+const GUN_MAX_ANGLE = deg2rad(36);
+const GUN_ANGLE_OFF_PLAYER = deg2rad(20);
+const MAX_RANGE_FROM_PLAYER_SQUARED = 400 * 400;
 
-const TURN_MULT = 1.6;
-const GUN_ANGLE_OFF_PLAYER = deg2rad(5);
-const MAX_RANGE_FROM_PLAYER = 400;
+const SHOOT_TIME = 0.3;
 
 const DAMAGE_MIN = 25;
 const DAMAGE_MAX = 35;
@@ -13,72 +12,109 @@ const DAMAGE_MAX = 35;
 const LASER_DEFAULT = Vector2(0.8,1.2);
 const LASER_TARGETTING = Vector2(1.2,1.6);
 
-var search_mult := 1;
+var rotator := Rotator.new(self);
 
 onready var starting_angle = global_rotation;
-onready var angle_max = global_rotation+GUN_MAX_ANGLE;
-onready var angle_min = global_rotation-GUN_MAX_ANGLE;
+onready var gun_ray: RayCast2D = $Animation/Body/Hand/Handgun/LaserSight/PlayerCheck;
 
-onready var gun: Node2D = $Animation/Body/Hand/Handgun;
-onready var gun_ray: RayCast2D = $Animation/Body/Hand/Handgun/LaserSight/RayCast2D;
-
-func _physics_process(delta):
+func _physics_process(delta: float):
 	
-	if !dead && can_move && velocity.is_equal_approx(Vector2.ZERO) && $ShootTime.is_stopped():
+	# if we're reloading we don't do jack diddly
+	if !$Animation/Body/Hand/Handgun.is_reloading():
 		
-		# follow laser sight
-		var prev_rot: float = gun.global_rotation;
-		rotation = wrapf(rotation-(prev_rot-rotation)*delta*TURN_MULT*sign(abs(prev_rot-rotation)-PI),-PI,PI);
-		gun.global_rotation = prev_rot;
-		
-		$Head.global_rotation = gun.global_rotation;
-		
-		if alerted:
+		# shoot player
+		if gun_ray.get_collider() == Groups.get_player() && $NoShootTime.is_stopped():
+			$Animation/Body/Hand/Handgun.set_laser_energy(LASER_TARGETTING);
+			set_physics_process(false);
+			$Animation/Body/Hand/Handgun.shoot();
 			
-			# player has exited range
-			if global_position.distance_squared_to(Groups.get_player_pos()) > MAX_RANGE_FROM_PLAYER*MAX_RANGE_FROM_PLAYER:
-				set_alerted(false);
-				angle_min = starting_angle-GUN_MAX_ANGLE;
-				angle_max = starting_angle+GUN_MAX_ANGLE;
-			
-			else:
-				# we aren't looking at him, follow him for a little bit
-				if gun_ray.get_collider() != Groups.get_player():
-					if $ReactionTime.is_stopped():
-						$ReactionTime.start();
-				
-				elif $NoShoot.is_stopped() && $ShootTime.is_stopped():
-					$ShootTime.start();
-					$Animation/Body/Hand/Handgun/LaserSight.energy_min = LASER_TARGETTING.x;
-					$Animation/Body/Hand/Handgun/LaserSight.energy_max = LASER_TARGETTING.y;
-				
-				angle_min = get_angle_to(Groups.get_player_pos())-GUN_ANGLE_OFF_PLAYER;
-				angle_max = angle_min+2*GUN_ANGLE_OFF_PLAYER;
-		
-		elif $ReactionTime.is_stopped() && gun_ray.get_collider() == Groups.get_player():
-			$ReactionTime.start();
-		
-		if !$ShootTime.is_stopped():
 			return;
 		
-		# move laser sight
-		gun.global_rotation += search_mult+GUN_SEARCH_SPEED*delta;
-		if gun.global_rotation > angle_max || gun.global_rotation < angle_min:
-			gun.global_rotation = clamp(gun.global_rotation,angle_min,angle_max);
-			search_mult *= -1;
+		# focus on player, conditionally unalert
+		elif alerted:
+			
+			# player is hiding, start stop hiding timer
+			if !is_detecting_player() && $PlayerNotSeen.is_stopped():
+				$PlayerNotSeen.start();
+			
+			# player isn't hiding anymore, don't do above. demorganed
+			elif is_detecting_player() && !$PlayerNotSeen.is_stopped():
+				$PlayerNotSeen.stop();
+			
+			# follow player anyway
+			rotator.rotate((Groups.get_player_pos()-global_position).angle(),GUN_ANGLE_OFF_PLAYER);
+		
+		# look around
+		else:
+			
+			if gun_ray.get_collider() == Groups.get_player():
+				set_alerted(true);
+			
+			rotator.rotate(starting_angle,GUN_MAX_ANGLE);
+		
+		rotator.update(delta);
 
 
-func _on_LosePlayer_timeout():
-	if gun_ray.get_collider() != Groups.get_player() && $Animation/Body/Head/PlayerDetection.get_overlapping_bodies().empty():
-		set_alerted(false);
-	else:
-		set_alerted(true);
+func is_detecting_player() -> bool:
+	
+	if Groups.get_player_pos().distance_squared_to(global_position) > MAX_RANGE_FROM_PLAYER_SQUARED:
+		return false;
+	
+	$PlayerWall.cast_to = Groups.get_player_pos()-global_position;
+	$PlayerWall.global_rotation = 0;
+	$PlayerWall.force_raycast_update();
+	
+	return !$PlayerWall.is_colliding();
 
 
-func _on_ShootTime_timeout():
-	var bullet := preload("res://Scenes/Misc/1911Bullet.tscn").instance();
-	Projectile.add_child(bullet);
-	bullet.shoot(gun.global_rotation,0b10,DAMAGE_MIN,DAMAGE_MAX);
-	bullet.global_position = $Animation/Body/Hand/Handgun/FireFrom.global_position;
-	$Animation/Body/Hand/Handgun/LaserSight.energy_min = LASER_DEFAULT.x;
-	$Animation/Body/Hand/Handgun/LaserSight.energy_max = LASER_DEFAULT.y;
+func _on_PlayerNotSeen_timeout():
+	set_alerted(is_detecting_player());
+
+
+class Rotator extends Reference:
+	
+	const ROTATE_PERCENT = 0.8;
+	const CYCLE_DELAY = 0.3;
+	const MIN_DIFF = deg2rad(5); # if we're within this, switch direction
+	
+	var _target: Node2D;
+	var _base: float; var _off: float;
+	var _target_angle: float;
+	var _go: bool = true;
+	var _timer := Timer.new();
+	
+	func _init(node: Node2D):
+		_target = node; _timer.one_shot = true;
+		node.add_child(_timer);
+	
+	func rotate(base: float, off: float):
+		
+		if base != _base || off != _off:
+			_base = base; _off = off;
+			_go = off != 0;
+			_timer.stop();
+			
+			# if we're between, go in the direction we were going (don't change _go_up)
+			# if we aren't, snap to the closer one and go away from it
+			if !_go:
+				_target.global_rotation = base;
+			
+			_target.global_rotation = clamp(_target.global_rotation,base-off,base+off);
+			
+			_target_angle = base + (off if _target.global_rotation < base else -off);
+	
+	func update(delta: float):
+		
+		if _go && _timer.is_stopped():
+			_target.global_rotation = lerp_angle(_target.global_rotation,_target_angle,ROTATE_PERCENT*delta)
+			
+			if is_equal_approx(Vector2.RIGHT.rotated(_target.global_rotation).angle(),Vector2.RIGHT.rotated(_target_angle).angle()):
+				_target_angle = 2*_base-_target_angle;
+				_timer.start(CYCLE_DELAY);
+			
+
+func stop_shooting():
+	$Animation/Body/Hand/Handgun.set_laser_energy(LASER_DEFAULT);
+	$NoShootTime.start();
+	set_physics_process(true);
+	

@@ -10,6 +10,8 @@ var collision := CollisionPolygon2D.new();
 
 var alerting := [];
 
+export (float) var area_scale = 1;
+
 func _ready():
 	# generate polygon from texture, 
 	# credit to Austin on Godot forums
@@ -27,13 +29,14 @@ func _ready():
 	area.collision_mask = FLICKER_ALERT;
 	area.collision_layer = 0;
 	area.monitorable = false;
+	area.scale = Vector2(area_scale,area_scale);
 	
 	area.add_child(collision);
 	add_child(area); add_child(ray);
 	
 
 func _physics_process(_delta):
-		
+	
 	if on:
 		ray.global_rotation = 0;
 		ray.global_scale = Vector2.ONE;

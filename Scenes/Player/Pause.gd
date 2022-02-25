@@ -1,14 +1,16 @@
-extends PopupPanel
+extends Popup
 
 func _on_Pause_about_to_show():
 	get_tree().paused = true;
-	$VBoxContainer/SliderMusic.value = AudioServer.get_bus_volume_db(1);
-	$VBoxContainer/SliderSFX.value = AudioServer.get_bus_volume_db(2);
+	# button 2 is save button
+	$Panel/VBoxContainer/Button2.disabled = !Save.can_save();
+	$Panel/VBoxContainer/SliderMusic.value = AudioServer.get_bus_volume_db(1);
+	$Panel/VBoxContainer/SliderSFX.value = AudioServer.get_bus_volume_db(2);
 
 func _on_Pause_popup_hide():
 	get_tree().paused = false;
-	AudioServer.set_bus_volume_db(1,$VBoxContainer/SliderMusic.value);
-	AudioServer.set_bus_volume_db(2,$VBoxContainer/SliderSFX.value);
+	AudioServer.set_bus_volume_db(1,$Panel/VBoxContainer/SliderMusic.value);
+	AudioServer.set_bus_volume_db(2,$Panel/VBoxContainer/SliderSFX.value);
 	
 
 func _on_quit_pressed():

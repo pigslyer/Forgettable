@@ -50,9 +50,12 @@ func save_game(path: String):
 	
 	var conf := ConfigFile.new();
 	
+	Groups.cur_room.save_data();
 	conf.set_value("DATA","save_data",save_data);
 	conf.set_value("DATA","player_data",Groups.get_player().save_data());
 	conf.set_value("DATA","current_room",[Groups.cur_room.filename,Groups.cur_room.global_position]);
+	conf.set_value("DATA","state",cur_state);
+	conf.set_value("DATA","objective",cur_objective);
 	
 	conf.save(SAVE_DIR+path+".sav");
 	
