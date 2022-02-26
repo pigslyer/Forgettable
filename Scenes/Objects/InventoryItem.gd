@@ -4,7 +4,8 @@ extends Reference
 var path: String;
 
 var pos: Vector2;
-var size: Vector2;
+var size: Vector2 setget , get_size;
+var rotated: bool; # rotated doesn't change item size, getter rotates
 var count: int;
 var stack: int;
 
@@ -12,10 +13,14 @@ var name: String;
 var tooltip: String;
 var texture: Texture;
 
+func get_size(rot: bool = true) -> Vector2:
+	return Vector2(size.y,size.x) if rotated && rot else size;
+
 # use item should be itemBase. can't declare it because of cyclic reference
-func _init(file: String, use_item = null, p: Vector2 = -Vector2.ONE, c: int = -1):
+func _init(file: String, use_item = null, p: Vector2 = -Vector2.ONE, c: int = -1, rot: bool = false):
 	path = file;
 	pos = p;
+	rotated = rot;
 	
 	if use_item == null:
 		use_item = load(file).instance();
@@ -33,5 +38,5 @@ func _to_string():
 	return str(name," ",count," ",stack," ",pos," ",size);
 
 func save_data():
-	return [path,pos,count];
+	return [path,pos,count,rotated];
 

@@ -9,6 +9,7 @@
 [node name="Main" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
+visible = false
 position = Vector2( 438, -217 )
 rotation = 0.454498
 

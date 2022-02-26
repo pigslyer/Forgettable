@@ -72,6 +72,7 @@ static func dup(org: ItemInventory, new_pos: Vector2 = -Vector2.ONE, new_count: 
 	item.name = org.name;
 	item.stack = org.stack;
 	item.size = org.size;
+	item.rotated = org.rotated;
 	
 	return item;
 

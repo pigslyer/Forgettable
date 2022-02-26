@@ -52,19 +52,21 @@ func add_item(item: ItemInventory):
 	# creating new item
 	if item.count > 0:
 		var has_space: bool;
+		var item_size = item.get_size(false);
 		
-		for y in height-item.size.y+1:
-			for x in size.x-item.size.x+1:
+		for y in height-item_size.y+1:
+			for x in size.x-item_size.x+1:
 				
 				has_space = true;
 				
-				for i in range(x,x+item.size.x):
-					for j in range(y,y+item.size.y):
+				for i in range(x,x+item_size.x):
+					for j in range(y,y+item_size.y):
 						if grid[i][j] != null:
 							has_space = false;
 				
 				if has_space:
 					items.append(ItemBase.dup(item,Vector2(x,y),min(item.count,item.stack)));
+					item.rotated = false;
 					item.count -= min(item.count,item.stack);
 					
 					if item.count == 0:
@@ -76,7 +78,35 @@ func add_item(item: ItemInventory):
 								# non null value until we can
 								# call update_data and clear it
 								grid[i][j] = self;
-	
+		
+		item_size = Vector2(item_size.y,item_size.x);
+		
+		for y in height-item_size.y+1:
+			for x in size.x-item_size.x+1:
+				
+				has_space = true;
+				
+				for i in range(x,x+item_size.x):
+					for j in range(y,y+item_size.y):
+						if grid[i][j] != null:
+							has_space = false;
+				
+				if has_space:
+					items.append(ItemBase.dup(item,Vector2(x,y),min(item.count,item.stack)));
+					item.rotated = true;
+					item.count -= min(item.count,item.stack);
+					
+					if item.count == 0:
+						update_data();
+						return;
+					else:
+						for i in range(x,x+item.size.x):
+							for j in range(y,y+item.size.y):
+								# non null value until we can
+								# call update_data and clear it
+								grid[i][j] = self;
+		
+		
 	update_data();
 
 func count_item(path: String) -> int:
@@ -130,31 +160,13 @@ func drop_data(pos, data):
 	if data is DragData.ItemHotbar:
 		data.hotbar.items.remove(data.hotbar.items.find(data.item));
 		data.hotbar.update();
-		return;
 	
-	pos = (pos/step).floor();
+	else:
+		data.item.pos = (pos/step).floor();
+		preview_rect = PREVIEW_NO_RECT;
+		emit_signal("items_changed",data.item);
+		update_data();
 	
-	for x in range(data.pos.x,data.pos.x+data.size.x):
-		for y in range(data.pos.y,data.pos.y+data.size.y):
-			data.grid[x][y] = null;
-	
-	for x in range(pos.x,pos.x+data.size.x):
-		for y in range(pos.y,pos.y+data.size.y):
-			data.grid[x][y] = data.item;
-	
-	# before modifying position, in case we want to use it
-	if data.waffle != self:
-		data.waffle.items.remove(data.waffle.items.find(data.item));
-		items.append(data.item);
-		if Groups.get_player().equipped == data.item: Groups.get_player().equip(null);
-		data.waffle.emit_signal("items_changed",data.item);
-		data.waffle.update();
-	
-	data.item.pos = pos;
-	preview_rect = PREVIEW_NO_RECT;
-	emit_signal("items_changed",data.item);
-	update();
-
 
 func get_drag_data(pos):
 	pos = (pos/step).floor();
@@ -193,10 +205,10 @@ func _draw():
 				draw_rect(Rect2(Vector2(x,y)*step+Vector2(1,1),step-Vector2(2,2)),TAKEN_COLOR);
 		
 		tex_size = item.texture.get_size();
-		tex_size /= max(tex_size.x/(step.x*item.size.x),tex_size.y/(step.y*item.size.y));
-		offset = (step*item.size-tex_size)/2;
+		tex_size /= max(tex_size.x/(step.x*item.get_size(false).x),tex_size.y/(step.y*item.get_size(false).y));
+		offset = (step*item.get_size(false)-tex_size)/2;
 		
-		draw_texture_rect(item.texture,Rect2(item.pos*step+offset,tex_size),false);
+		draw_texture_rect(item.texture,Rect2(item.pos*step+offset,Vector2(tex_size.y,tex_size.x) if item.rotated else tex_size),false,Color8(255,255,255),item.rotated);
 		if item.stack > 1:
 			draw_string(get_theme_default_font(),(item.pos+item.size)*step+ITEM_NUM_OFF,str(item.count));
 	
@@ -215,6 +227,7 @@ func _draw():
 				PREVIEW_COLOR_AVAIL if has_space else PREVIEW_COLOR_UNAVAIL,
 				false,4
 		);
+	
 
 func set_items(new_items: Array):
 	items = new_items;
@@ -243,11 +256,13 @@ func get_at_pos(pos: Vector2) -> ItemInventory:
 
 
 func _make_preview(item: ItemInventory) -> Control:
-	var tex := TextureRect.new();
-	tex.expand = true;
-	tex.texture = item.texture;
-	tex.rect_size = item.size*step;
-	
+	var tex := Control.new();
+	tex.set_script(load("res://Scenes/Objects/ItemDragPreview.gd"))
+	tex.setup(item.texture,item.size*step,item.rotated);
+#	tex.expand = true;
+#	tex.texture = item.texture;
+#	tex.rect_size = item.size*step;
+#
 	return tex;
 
 
@@ -280,4 +295,6 @@ func load_data(data: Array):
 	
 	for idx in data.size():
 		items[idx] = ItemInventory.new(data[0],null,data[1],data[2]);
+		items[idx].rotated = data[3];
 	
+	update_data();

@@ -5,7 +5,11 @@ class ItemDrag extends Reference:
 	var item: ItemInventory;
 	var pos setget ,get_pos; func get_pos() -> Vector2: return item.pos;
 	var size setget ,get_size; func get_size() -> Vector2: return item.size;
-	var grid setget ,get_grid; func get_grid() -> Array: return waffle.grid;
+	var rot: bool setget set_rot, get_rot;
+	
+	func set_rot(state: bool):
+		item.rotated = state;
+	func get_rot() -> bool: return item.rot;
 	
 	func _notification(what):
 		if what == NOTIFICATION_PREDELETE:
