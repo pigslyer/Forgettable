@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=2]
+[gd_scene load_steps=55 format=2]
 
 [ext_resource path="res://Assets/Player/player_body.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Player/player_head.png" type="Texture" id=2]
@@ -23,6 +23,7 @@
 [ext_resource path="res://Scenes/Player/SaveReminder.gd" type="Script" id=21]
 [ext_resource path="res://Scenes/Player/Save.gd" type="Script" id=22]
 [ext_resource path="res://Scenes/Player/NewSave.gd" type="Script" id=23]
+[ext_resource path="res://Scenes/Misc/LoadGame.tscn" type="PackedScene" id=24]
 
 [sub_resource type="CapsuleShape2D" id=24]
 radius = 11.0
@@ -956,6 +957,7 @@ __meta__ = {
 }
 
 [node name="Pause" type="Popup" parent="HUD/Theme"]
+visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1008,7 +1010,6 @@ margin_top = 86.0
 margin_right = 188.0
 margin_bottom = 121.0
 size_flags_vertical = 3
-disabled = true
 text = "Load"
 
 [node name="Button5" type="Button" parent="HUD/Theme/Pause/Panel/VBoxContainer"]
@@ -1131,6 +1132,7 @@ margin_bottom = 25.0
 text = "Cancel"
 
 [node name="NewSave" type="Popup" parent="HUD/Theme/Pause/Save"]
+visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1200,6 +1202,8 @@ margin_left = 282.0
 margin_right = 350.0
 margin_bottom = 33.0
 text = "Cancel"
+
+[node name="LoadGame" parent="HUD/Theme/Pause" instance=ExtResource( 24 )]
 
 [node name="YouDied" type="PopupPanel" parent="HUD/Theme"]
 pause_mode = 2
@@ -1279,9 +1283,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HSplitContainer" type="HSplitContainer" parent="HUD/Theme/Inventory/VSplitContainer"]
+[node name="Objective" type="LineEdit" parent="HUD/Theme/Inventory/VSplitContainer"]
 margin_right = 1017.0
-margin_bottom = 482.0
+margin_bottom = 27.0
+text = "No objective."
+editable = false
+selecting_enabled = false
+
+[node name="HSplitContainer" type="HSplitContainer" parent="HUD/Theme/Inventory/VSplitContainer"]
+margin_top = 35.0
+margin_right = 1017.0
+margin_bottom = 484.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 8.0
@@ -1289,13 +1301,13 @@ dragger_visibility = 1
 
 [node name="VSplitContainer" type="VSplitContainer" parent="HUD/Theme/Inventory/VSplitContainer/HSplitContainer"]
 margin_right = 502.0
-margin_bottom = 482.0
+margin_bottom = 449.0
 size_flags_horizontal = 3
 dragger_visibility = 1
 
 [node name="ItemWaffle" type="ReferenceRect" parent="HUD/Theme/Inventory/VSplitContainer/HSplitContainer/VSplitContainer"]
 margin_right = 502.0
-margin_bottom = 395.0
+margin_bottom = 368.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 15.0
@@ -1304,12 +1316,12 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 size = Vector2( 5, 5 )
-height = 3
+height = 2
 
 [node name="Hotbar" type="ReferenceRect" parent="HUD/Theme/Inventory/VSplitContainer/HSplitContainer/VSplitContainer"]
-margin_top = 407.0
+margin_top = 380.0
 margin_right = 502.0
-margin_bottom = 482.0
+margin_bottom = 449.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.0
@@ -1318,11 +1330,12 @@ script = ExtResource( 15 )
 [node name="ItemDesc" type="TextEdit" parent="HUD/Theme/Inventory/VSplitContainer/HSplitContainer"]
 margin_left = 514.0
 margin_right = 1017.0
-margin_bottom = 482.0
+margin_bottom = 449.0
 size_flags_horizontal = 3
 custom_styles/read_only = SubResource( 14 )
 custom_styles/normal = SubResource( 13 )
 readonly = true
+selecting_enabled = false
 smooth_scrolling = true
 wrap_enabled = true
 caret_blink = true
@@ -1331,7 +1344,7 @@ __meta__ = {
 }
 
 [node name="Buttons" type="HBoxContainer" parent="HUD/Theme/Inventory/VSplitContainer"]
-margin_top = 490.0
+margin_top = 492.0
 margin_right = 1017.0
 margin_bottom = 517.0
 custom_constants/separation = 32
@@ -1341,7 +1354,7 @@ __meta__ = {
 
 [node name="Equip" type="Button" parent="HUD/Theme/Inventory/VSplitContainer/Buttons"]
 margin_right = 80.0
-margin_bottom = 27.0
+margin_bottom = 25.0
 rect_min_size = Vector2( 80, 0 )
 shortcut = SubResource( 12 )
 text = "Equip"
@@ -1349,14 +1362,14 @@ text = "Equip"
 [node name="Drop" type="Button" parent="HUD/Theme/Inventory/VSplitContainer/Buttons"]
 margin_left = 112.0
 margin_right = 192.0
-margin_bottom = 27.0
+margin_bottom = 25.0
 rect_min_size = Vector2( 80, 0 )
 text = "Drop"
 
 [node name="Keycards" type="Button" parent="HUD/Theme/Inventory/VSplitContainer/Buttons"]
 margin_left = 224.0
 margin_right = 312.0
-margin_bottom = 27.0
+margin_bottom = 25.0
 rect_min_size = Vector2( 80, 0 )
 text = "Keycards"
 
@@ -1367,13 +1380,6 @@ margin_right = 424.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 80, 0 )
 text = "Notes"
-
-[node name="Objective" type="LineEdit" parent="HUD/Theme/Inventory/VSplitContainer/Buttons"]
-margin_left = 344.0
-margin_right = 474.0
-margin_bottom = 27.0
-text = "Objective:"
-editable = false
 
 [node name="Selected" type="ReferenceRect" parent="HUD/Theme/Inventory"]
 visible = false
@@ -1504,6 +1510,7 @@ color = Color( 0, 0, 0, 1 )
 [connection signal="popup_hide" from="HUD/Theme/Pause" to="HUD/Theme/Pause" method="_on_Pause_popup_hide"]
 [connection signal="pressed" from="HUD/Theme/Pause/Panel/VBoxContainer/Button" to="HUD/Theme/Pause" method="hide"]
 [connection signal="pressed" from="HUD/Theme/Pause/Panel/VBoxContainer/Button2" to="HUD/Theme/Pause" method="_on_save_pressed"]
+[connection signal="pressed" from="HUD/Theme/Pause/Panel/VBoxContainer/Button4" to="HUD/Theme/Pause" method="_on_load_pressed"]
 [connection signal="pressed" from="HUD/Theme/Pause/Panel/VBoxContainer/Button5" to="HUD/Theme/Pause" method="_on_restart_pressed"]
 [connection signal="pressed" from="HUD/Theme/Pause/Panel/VBoxContainer/Button3" to="HUD/Theme/Pause" method="_on_quit_pressed"]
 [connection signal="about_to_show" from="HUD/Theme/Pause/Save" to="HUD/Theme/Pause/Save" method="_on_Save_about_to_show"]
@@ -1525,8 +1532,8 @@ color = Color( 0, 0, 0, 1 )
 [connection signal="pressed" from="HUD/Theme/YouDied/VBoxContainer/Button" to="HUD/Theme/YouDied" method="hide"]
 [connection signal="about_to_show" from="HUD/Theme/Inventory" to="." method="follow_mouse" binds= [ false ]]
 [connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="update_equipped"]
-[connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="override_selected"]
 [connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="update_objective"]
+[connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="override_selected"]
 [connection signal="popup_hide" from="HUD/Theme/Inventory" to="." method="follow_mouse" binds= [ true ]]
 [connection signal="gui_input" from="HUD/Theme/Inventory/VSplitContainer/HSplitContainer/VSplitContainer/ItemWaffle" to="HUD/Theme/Inventory" method="_on_ItemWaffle_gui_input"]
 [connection signal="items_changed" from="HUD/Theme/Inventory/VSplitContainer/HSplitContainer/VSplitContainer/ItemWaffle" to="HUD/Theme/Inventory" method="select"]

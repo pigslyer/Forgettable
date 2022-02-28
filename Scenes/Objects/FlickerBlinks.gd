@@ -5,6 +5,8 @@ export (bool) var randomize_state = true;
 export (float) var stays_on = 0.2;
 export (float) var stays_off = 0.2;
 
+export (bool) var pre_proc_on = true;
+
 var stayed: float;
 
 func _ready():
@@ -18,3 +20,6 @@ func _process(delta):
 		if (stayed > stays_on && on) || (stayed > stays_off && !on):
 			on = !on;
 			stayed = 0;
+			
+			if on && pre_proc_on:
+				pre_proc();

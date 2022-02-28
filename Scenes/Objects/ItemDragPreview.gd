@@ -1,26 +1,43 @@
 extends Control
 
+signal rotated;
+
 var sprite := Sprite.new();
-var rot: bool;
+var item: ItemInventory;
+var step: Vector2;
 
 func _ready():
 	add_child(sprite);
 	sprite.centered = false;
 
-func setup(tex: Texture, target_size: Vector2, rotated: bool):
-	sprite.texture = tex;
-	sprite.scale = target_size/tex.get_size();
-	rot = rotated;
+func setup(i: ItemInventory, s: Vector2, waffle):
+	sprite.texture = i.texture;
+	step = s;
+	sprite.scale = step*i.size/i.texture.get_size();
+	item = i;
+	item.currently_rotated = i.rotated;
+	connect("rotated",waffle,"update_preview_rect");
+	
+	if item.currently_rotated:
+		sprite.rotation = PI/2;
+		sprite.offset.y = -sprite.get_rect().size.y;
+		sprite.flip_v = true;
+		sprite.scale = Vector2(step.y,step.x)*item.get_size(false)/sprite.texture.get_size();
 
 func _input(ev: InputEvent):
-	if ev.is_action_pressed("rmb"):
-		rot = !rot;
-		get_viewport().gui_get_drag_data().rotated = rot;
+	if ev.is_action_pressed("rotate"):
+		item.currently_rotated = !item.currently_rotated;
 		
-		if rot:
+		if item.currently_rotated:
 			sprite.rotation = PI/2;
-			sprite.offset.y = sprite.texture.get_size().y*sprite.scale.y;
+			sprite.offset.y = -sprite.get_rect().size.y;
+			sprite.flip_v = true;
+			sprite.scale = Vector2(step.y,step.x)*item.get_size(false)/sprite.texture.get_size();
 		
 		else:
 			sprite.rotation = 0;
 			sprite.offset = Vector2.ZERO;
+			sprite.flip_v = false;
+			sprite.scale = step*item.get_size(false)/sprite.texture.get_size();
+		
+		emit_signal("rotated");

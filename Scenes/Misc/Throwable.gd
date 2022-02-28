@@ -2,6 +2,7 @@ extends RigidBody2D
 
 const DROP_TIME = 0.2;
 const STARTING_SCALE = Vector2(1.3,1.3);
+const ENDING_SCALE = Vector2(0.8,0.8);
 const DROPPED_MODULATE = Color8(179,179,179);
 
 const DISAPPEAR_TIME = 0.4;
@@ -39,7 +40,7 @@ func throw(texture: Texture, force: Vector2, drop_sound: AudioStream = null, pos
 		_positional = positional;
 		set_physics_process(true);
 	
-	$Tween.interpolate_property($Sprite,"scale",STARTING_SCALE,Vector2.ONE,DROP_TIME);
+	$Tween.interpolate_property($Sprite,"scale",STARTING_SCALE,ENDING_SCALE,DROP_TIME);
 	$Tween.interpolate_property(self,"modulate",null,DROPPED_MODULATE,DROP_TIME);
 	$Tween.start();
 

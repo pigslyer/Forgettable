@@ -1,0 +1,142 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Assets/UI/HUDTheme.tres" type="Theme" id=1]
+[ext_resource path="res://Scenes/Misc/LoadGame.gd" type="Script" id=2]
+
+[sub_resource type="StyleBoxEmpty" id=1]
+
+[sub_resource type="StyleBoxEmpty" id=2]
+
+[node name="LoadGame" type="Popup"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -253.0
+margin_top = -147.5
+margin_right = 253.0
+margin_bottom = 147.5
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+anchor_left = 0.1
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.9
+margin_left = 0.399998
+margin_top = 0.5
+margin_right = 0.600006
+margin_bottom = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer"]
+margin_right = 405.0
+margin_bottom = 17.0
+custom_styles/normal = SubResource( 1 )
+text = "Select save file."
+align = 1
+
+[node name="Saves" type="ItemList" parent="Panel/VBoxContainer"]
+margin_top = 21.0
+margin_right = 405.0
+margin_bottom = 207.0
+size_flags_vertical = 3
+allow_reselect = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxContainer"]
+margin_top = 211.0
+margin_right = 405.0
+margin_bottom = 236.0
+custom_constants/separation = 80
+alignment = 1
+
+[node name="Load" type="Button" parent="Panel/VBoxContainer/HBoxContainer"]
+margin_left = 5.0
+margin_right = 103.0
+margin_bottom = 25.0
+text = "Load game"
+
+[node name="Delete" type="Button" parent="Panel/VBoxContainer/HBoxContainer"]
+margin_left = 183.0
+margin_right = 251.0
+margin_bottom = 25.0
+text = "Delete"
+
+[node name="Cancel" type="Button" parent="Panel/VBoxContainer/HBoxContainer"]
+margin_left = 331.0
+margin_right = 399.0
+margin_bottom = 25.0
+text = "Cancel"
+
+[node name="Popup" type="Popup" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -187.5
+margin_top = -64.5
+margin_right = 187.5
+margin_bottom = 64.5
+
+[node name="Panel" type="Panel" parent="Popup"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Popup/Panel"]
+margin_left = 39.0
+margin_top = 22.0
+margin_right = 339.0
+margin_bottom = 82.0
+custom_styles/normal = SubResource( 2 )
+text = "Are you sure you'd like to load this save?"
+autowrap = true
+clip_text = true
+
+[node name="Confirm" type="Button" parent="Popup/Panel"]
+anchor_left = 0.1
+anchor_top = 0.85
+anchor_right = 0.1
+anchor_bottom = 0.85
+margin_top = -25.0
+margin_right = 38.0
+text = "Yes, please."
+align = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Cancel" type="Button" parent="Popup/Panel"]
+anchor_left = 0.9
+anchor_top = 0.85
+anchor_right = 0.9
+anchor_bottom = 0.85
+margin_left = -148.0
+margin_top = -25.0
+text = "No, thank you."
+align = 2
+
+[connection signal="about_to_show" from="." to="." method="_on_LoadGame_about_to_show"]
+[connection signal="item_activated" from="Panel/VBoxContainer/Saves" to="." method="_on_Saves_item_activated"]
+[connection signal="item_selected" from="Panel/VBoxContainer/Saves" to="." method="_on_Saves_item_selected"]
+[connection signal="nothing_selected" from="Panel/VBoxContainer/Saves" to="." method="_on_Saves_nothing_selected"]
+[connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer/Load" to="." method="_on_Load_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer/Delete" to="." method="_on_Delete_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/HBoxContainer/Cancel" to="." method="_on_Cancel_pressed"]
+[connection signal="pressed" from="Popup/Panel/Confirm" to="." method="_on_Confirm_pressed"]
+[connection signal="pressed" from="Popup/Panel/Cancel" to="Popup" method="hide"]

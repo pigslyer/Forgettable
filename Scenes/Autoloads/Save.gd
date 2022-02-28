@@ -46,20 +46,6 @@ func _ready():
 	if !dir.dir_exists(SAVE_DIR):
 		dir.make_dir_recursive(SAVE_DIR);
 
-func save_game(path: String):
-	
-	var conf := ConfigFile.new();
-	
-	Groups.cur_room.save_data();
-	conf.set_value("DATA","save_data",save_data);
-	conf.set_value("DATA","player_data",Groups.get_player().save_data());
-	conf.set_value("DATA","current_room",[Groups.cur_room.filename,Groups.cur_room.global_position]);
-	conf.set_value("DATA","state",cur_state);
-	conf.set_value("DATA","objective",cur_objective);
-	
-	conf.save(SAVE_DIR+path+".sav");
-	
-
 func get_saves() -> PoolStringArray:
 	var ret: PoolStringArray = [];
 	
@@ -76,3 +62,42 @@ func get_saves() -> PoolStringArray:
 		next = dir.get_next();
 	
 	return ret;
+
+func save_game(path: String):
+	
+	var conf := ConfigFile.new();
+	
+	Groups.cur_room.save_data();
+	conf.set_value("DATA","save_data",save_data);
+	conf.set_value("DATA","player_data",Groups.get_player().save_data());
+	conf.set_value("DATA","current_room",[Groups.cur_room.filename,Groups.cur_room.global_position]);
+	conf.set_value("DATA","state",cur_state);
+	conf.set_value("DATA","objective",cur_objective);
+	
+	conf.save(SAVE_DIR+path+".sav");
+
+func load_game(path: String):
+	
+	var conf := ConfigFile.new();
+	conf.load(SAVE_DIR+path+".sav");
+	
+	save_data = conf.get_value("DATA","save_data",{});
+	cur_objective = conf.get_value("DATA","objective","");
+	cur_state = conf.get_value("DATA","state");
+	
+	for node in Projectile.get_children():
+		node.queue_free();
+	
+	get_tree().change_scene("res://Scenes/Main/MainLoad.tscn");
+	
+	# wait for scene switch
+	yield(get_tree(),"idle_frame");
+	
+	get_tree().current_scene.load_room(conf.get_value("DATA","current_room"));
+	Groups.get_player().load_data(conf.get_value("DATA","player_data"));
+	
+
+func delete_save(path: String):
+	var dir := Directory.new();
+	dir.remove(SAVE_DIR+path+".sav");
+	

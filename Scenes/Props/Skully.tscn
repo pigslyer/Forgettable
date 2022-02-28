@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Scenes/Objects/Flicker2.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Base/light_smol.png" type="Texture" id=2]
@@ -40,6 +40,23 @@ scale = 0.4
 scale_random = 0.2
 scale_curve = SubResource( 39 )
 color = Color( 0.513726, 0.513726, 0.513726, 1 )
+
+[sub_resource type="Animation" id=46]
+resource_name = "Pasive"
+length = 4.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Skully:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.1, 1.1 ) ]
+}
 
 [sub_resource type="Animation" id=43]
 length = 0.001
@@ -275,8 +292,10 @@ pitch_scale = 0.8
 bus = "SFX"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Pasive = SubResource( 46 )
 anims/RESET = SubResource( 43 )
 anims/Reveal = SubResource( 44 )
+next/Reveal = "Pasive"
 
 [node name="InvisWall" type="StaticBody2D" parent="."]
 position = Vector2( 50, 0 )
@@ -285,6 +304,5 @@ collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InvisWall"]
 shape = SubResource( 45 )
-disabled = true
 
 [node name="Tween" type="Tween" parent="."]

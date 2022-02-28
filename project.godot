@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node",
+"class": "ActedConvo",
+"language": "GDScript",
+"path": "res://Scenes/Objects/PerActConvo.gd"
+}, {
 "base": "AudioStreamPlayer",
 "class": "AudioStreamPlayerFade",
 "language": "GDScript",
@@ -120,6 +125,7 @@ _global_script_classes=[ {
 "path": "res://Scenes/Objects/WorldState.gd"
 } ]
 _global_script_class_icons={
+"ActedConvo": "",
 "AudioStreamPlayerFade": "",
 "Dialogue": "",
 "Door": "res://Assets/Base/door_hand_scanner.png",
@@ -291,6 +297,12 @@ camera_mouse_follow={
 backspace={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":16777220,"unicode":0,"echo":false,"script":null)
+ ]
+}
+rotate={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":82,"unicode":0,"echo":false,"script":null)
+, Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":2,"pressed":false,"doubleclick":false,"script":null)
  ]
 }
 

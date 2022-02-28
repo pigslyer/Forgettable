@@ -55,7 +55,7 @@ func _on_ItemWaffle_gui_input(ev: InputEvent):
 			override_tooltip();
 			update_button();
 			tooltip.text = "";
-	elif ev.is_action_pressed("rmb") && waffle.get_at_pos(ev.position) != null:
+	elif ev.is_action_pressed("rmb") && waffle.get_at_pos(ev.position) != null && (!get_viewport().gui_get_drag_data() is DragData.ItemDrag):
 		selected = waffle.get_at_pos(ev.position);
 		_on_Drop_pressed();
 		update_button();
@@ -142,7 +142,7 @@ func update_button():
 
 
 func update_objective():
-	$VSplitContainer/Buttons/Objective.text = str("Objective: ",Save.cur_objective,"!");
+	$VSplitContainer/Objective.text = str("Objective: ",Save.cur_objective,"!");
 
 func save_data():
 	return [keycards,keycard_ids];

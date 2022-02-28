@@ -13,8 +13,14 @@ var name: String;
 var tooltip: String;
 var texture: Texture;
 
+var currently_rotated: bool;
+var size_rot: Vector2 setget , get_rot_size;
+
 func get_size(rot: bool = true) -> Vector2:
 	return Vector2(size.y,size.x) if rotated && rot else size;
+
+func get_rot_size() -> Vector2:
+	return Vector2(size.y,size.x) if currently_rotated else size;
 
 # use item should be itemBase. can't declare it because of cyclic reference
 func _init(file: String, use_item = null, p: Vector2 = -Vector2.ONE, c: int = -1, rot: bool = false):

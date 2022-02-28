@@ -26,3 +26,7 @@ func _on_restart_pressed():
 
 func _on_save_pressed():
 	$Save.popup();
+
+
+func _on_load_pressed():
+	$LoadGame.popup();

@@ -23,7 +23,7 @@ func shoot_bullet():
 	inst.global_position = $FireFrom.global_position;
 	inst.shoot(global_rotation,0b100,DAMAGE_MIN,DAMAGE_MAX);
 	Projectile.add_child(inst);
-	
+	ammo -= 1;
 
 func expunge_shell():
 	var throw := preload("res://Scenes/Misc/Throwable.tscn").instance();

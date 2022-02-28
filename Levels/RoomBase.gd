@@ -129,25 +129,23 @@ func _physics_process(_delta):
 	var idx: int;
 	var sample: AudioStream;
 	var player_pos = Groups.get_player().global_position;
+	var foot_local_pos: Vector2;
 	var playing: bool;
 	
 	for foot in get_tree().get_nodes_in_group(Groups.FOOTSTEP):
-		if (
-				tiles.get_cellv(tiles.world_to_map(tiles.to_local(foot.global_position))) != TileMap.INVALID_CELL && 
-				foot.global_position.distance_squared_to(player_pos) < 
-				NEAR_TO_PLAYER*NEAR_TO_PLAYER
-			):
+		if (foot.global_position.distance_squared_to(player_pos) < NEAR_TO_PLAYER*NEAR_TO_PLAYER):
+			foot_local_pos = tiles.to_local(foot.global_position)
 			idx = 0;
 			playing = foot.playing;
 			
 			while idx < audio_override_rects.size():
-				if audio_override_rects[idx].has_point(tiles.to_local(foot.global_position)):
+				if audio_override_rects[idx].has_point(foot_local_pos):
 					sample = audio_override_streams[idx];
 					break;
 				idx += 1;
 			
-			if idx == audio_override_rects.size():
-				sample = footstep_sounds[tiles.get_cellv(tiles.world_to_map(tiles.to_local(foot.global_position)))];
+			if idx == audio_override_rects.size() && tiles.get_cellv(tiles.world_to_map(foot_local_pos)) != TileMap.INVALID_CELL:
+				sample = footstep_sounds[tiles.get_cellv(tiles.world_to_map(foot_local_pos))];
 			
 			if sample != foot.stream:
 				foot.stream = sample;

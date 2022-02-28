@@ -8,8 +8,8 @@ bounce = 0.2
 
 [node name="Throwable" type="RigidBody2D"]
 z_index = 10
-collision_layer = 18
-collision_mask = 19
+collision_layer = 2
+collision_mask = 3
 physics_material_override = SubResource( 1 )
 gravity_scale = 0.0
 linear_damp = 10.0

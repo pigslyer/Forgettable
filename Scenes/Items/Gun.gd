@@ -54,11 +54,8 @@ func _use():
 	if $ReloadTime.is_stopped():
 		
 		if ammo > 0:
-			ammo -= 1;
 			_shoot();
-			$Shoot.play();
 			
-			$FireFrom/Flash.pre_proc();
 			for enemy in $Noise.get_overlapping_bodies():
 				if !enemy.deaf:
 					enemy.alerted = true;
