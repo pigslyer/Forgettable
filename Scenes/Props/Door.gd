@@ -99,8 +99,9 @@ func get_foot_override():
 	];
 
 func set_locked(state: bool):
-	locked = state;
-	_update_locked();
+	if state != locked:
+		locked = state;
+		_update_locked();
 
 func _update_locked():
 	if Groups.get_my_room(self) != null:

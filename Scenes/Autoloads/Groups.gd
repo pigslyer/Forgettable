@@ -15,6 +15,10 @@ const ENEMY = "ENEMY";
 # popped up and allow it again once hidden
 const DISABLE_FOLLOW = "popup_disable_follow";
 
+# when tech goggles are taken on/off, calls these classes'
+# tech_goggles/1 method with the parameter on/off
+const TECH_GOGGLES = "goggles";
+
 # maps room group to room node
 var rooms := {
 	

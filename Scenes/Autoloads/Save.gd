@@ -32,10 +32,11 @@ var save_data := {
 func can_save() -> bool:
 	return detecting == 0;
 
-func save_my_data(node: Node):
+# if null, it'll call save_data, otherwise it'll take the data passed along
+func save_my_data(node: Node, data = null):
 	if node.is_in_group(Groups.SAVING):
 		var room = Groups.get_my_room(node);
-		save_data[room.my_save_group][str(room.get_path_to(node))] = node.data_save();
+		save_data[room.my_save_group][str(room.get_path_to(node))] = node.data_save() if data == null else data;
 	elif !node.is_in_group(Groups.DROPPED_ITEM):
 		push_error("Item which is neither saveable nor dropped tried to save.");
 

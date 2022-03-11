@@ -589,7 +589,9 @@ collision_mask = 2
 script = ExtResource( 4 )
 __meta__ = {
 "_editor_description_": "drops format:
-item:<path_relative_to_Items/>:count"
+item:<path_relative_to_Items/>:count
+group format:
+Group:<name>"
 }
 accel = 500.0
 max_speed = 300.0

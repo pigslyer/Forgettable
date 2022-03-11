@@ -82,6 +82,7 @@ pitch_scale = 0.8
 attenuation = 0.297302
 bus = "SFX"
 
+[connection signal="animation_started" from="Animation/AnimationPlayer" to="." method="_on_AnimationPlayer_animation_started"]
 [connection signal="body_entered" from="Animation/Body/DamageArea" to="." method="_on_DamageArea_body_entered"]
 [connection signal="timeout" from="AttackDelay" to="." method="_on_AttackDelay_timeout"]
 [connection signal="timeout" from="Prerun" to="." method="_on_Prerun_timeout"]

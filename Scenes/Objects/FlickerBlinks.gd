@@ -22,4 +22,4 @@ func _process(delta):
 			stayed = 0;
 			
 			if on && pre_proc_on:
-				pre_proc();
+				fill_to(0.5);

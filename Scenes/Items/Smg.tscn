@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Scenes/Items/Gun.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Base/smg_in_game.png" type="Texture" id=2]
@@ -12,6 +12,23 @@
 [ext_resource path="res://Assets/Sounds/gun_loading.wav" type="AudioStream" id=10]
 [ext_resource path="res://Assets/Sounds/gun_cock.wav" type="AudioStream" id=11]
 [ext_resource path="res://Assets/Sounds/gun_unloading.wav" type="AudioStream" id=12]
+[ext_resource path="res://Assets/Base/Gunshot.wav" type="AudioStream" id=13]
+
+[sub_resource type="Animation" id=4]
+resource_name = "Empty"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Slide:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, -3 ), Vector2( -2, -3 ) ]
+}
 
 [sub_resource type="Animation" id=1]
 resource_name = "Fire"
@@ -24,14 +41,11 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0.075, 0.091 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0.025 ),
+"transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
 "method": "shoot"
-}, {
-"args": [  ],
-"method": "expunge_shell"
 } ]
 }
 tracks/1/type = "value"
@@ -41,7 +55,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.075, 0.2 ),
+"times": PoolRealArray( 0, 0.025, 0.2 ),
 "transitions": PoolRealArray( 0.129408, 4.5948, 1 ),
 "update": 0,
 "values": [ Vector2( 0, 0 ), Vector2( -1, 0 ), Vector2( 0, 0 ) ]
@@ -53,7 +67,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0.075 ),
+"times": PoolRealArray( 0.025 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
@@ -67,7 +81,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.075, 0.2 ),
+"times": PoolRealArray( 0, 0.025, 0.2 ),
 "transitions": PoolRealArray( 1, 2.92817, 1 ),
 "update": 0,
 "values": [ Vector2( 3, -3 ), Vector2( 0, -3 ), Vector2( 3, -3 ) ]
@@ -79,7 +93,7 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0.075 ),
+"times": PoolRealArray( 0.025 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [ 0.0 ],
@@ -212,7 +226,7 @@ tracks/9/keys = {
 
 [sub_resource type="Animation" id=3]
 resource_name = "Reload"
-length = 1.6
+length = 3.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Hand:position")
 tracks/0/interp = 2
@@ -220,10 +234,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2, 0.3, 0.4, 0.6, 0.7, 0.9, 1, 1.1, 1.2, 1.4, 1.5, 1.6 ),
-"transitions": PoolRealArray( 1, 1, 1, 1.03526, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.3, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8, 2, 2.1, 2.3, 2.7, 2.9, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1.03526, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 17, -1 ), Vector2( 12, -3 ), Vector2( 12, -14 ), Vector2( 12, -14 ), Vector2( 12, -30 ), Vector2( -20, -30 ), Vector2( 12, -33 ), Vector2( 12, -3 ), Vector2( 10, -7 ), Vector2( 5, -6 ), Vector2( 2, -6 ), Vector2( 7, -8 ), Vector2( 17, -1 ) ]
+"values": [ Vector2( 17, -1 ), Vector2( 12, -3 ), Vector2( 12, -3 ), Vector2( 12, -14 ), Vector2( 12, -14 ), Vector2( 12, -30 ), Vector2( -20, -30 ), Vector2( 12, -33 ), Vector2( 12, -3 ), Vector2( 12, -3 ), Vector2( 10, -7 ), Vector2( 5, -6 ), Vector2( 2, -6 ), Vector2( 7, -8 ), Vector2( 17, -1 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Hand:rotation_degrees")
@@ -232,7 +246,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2, 0.3, 0.4, 0.7, 1, 1.1, 1.2, 1.4, 1.5, 1.6 ),
+"times": PoolRealArray( 0, 0.3, 0.8, 1, 1.4, 1.8, 2.1, 2.3, 2.7, 2.9, 3 ),
 "transitions": PoolRealArray( 1, 1, 0.812253, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ -59.9999, -80.1548, -80.1548, -160.0, -67.6664, -80.1548, -80.1548, -80.1548, -80.1548, -80.1548, -59.9999 ]
@@ -244,10 +258,10 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.2, 0.3, 0.4, 0.6, 0.7, 0.9, 1, 1.1, 1.2, 1.4, 1.5, 1.6 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.3, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8, 2.1, 2.3, 2.7, 2.9, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0.6, 0.6 ), Vector2( 0.6, 0.6 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 0.6, 0.6 ), Vector2( 0.8, 0.8 ), Vector2( 0.8, 0.8 ), Vector2( 0.8, 0.8 ), Vector2( 0.8, 0.8 ), Vector2( 0.6, 0.6 ) ]
+"values": [ Vector2( 0.6, 0.6 ), Vector2( 0.6, 0.6 ), Vector2( 0.4, 0.4 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 0.6, 0.6 ), Vector2( 0.8, 0.8 ), Vector2( 0.8, 0.8 ), Vector2( 0.8, 0.8 ), Vector2( 0.8, 0.8 ), Vector2( 0.6, 0.6 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("Hand/Mag:visible")
@@ -256,7 +270,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4, 0.7, 1 ),
+"times": PoolRealArray( 0, 0.3, 1, 1.4, 1.8 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ false, true, false, true, false ]
@@ -268,10 +282,10 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 0.2, 0.3, 0.9, 1, 1.1, 1.5, 1.6 ),
-"transitions": PoolRealArray( 1, 1.68179, 1, 1, 1.68179, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.3, 0.5, 0.8, 1.7, 1.9, 2.2, 2.9, 3 ),
+"transitions": PoolRealArray( 1, 1.68179, 1, 1, 1, 1.68179, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 0.480469, 0.480469, 0.480469, 1 ), Color( 0.480469, 0.480469, 0.480469, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.480469, 0.480469, 0.480469, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.480469, 0.480469, 0.480469, 1 ) ]
+"values": [ Color( 0.480469, 0.480469, 0.480469, 1 ), Color( 0.480469, 0.480469, 0.480469, 1 ), Color( 0.227451, 0.227451, 0.227451, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.227451, 0.227451, 0.227451, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.480469, 0.480469, 0.480469, 1 ) ]
 }
 tracks/5/type = "method"
 tracks/5/path = NodePath(".")
@@ -280,7 +294,7 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0.4 ),
+"times": PoolRealArray( 1 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
@@ -294,7 +308,7 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0.1, 0.2, 1.4 ),
+"times": PoolRealArray( 0.2, 0.3, 2.5 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "values": [ {
 "args": [ 0.5 ],
@@ -314,9 +328,9 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 0, 1.1, 1.5 ),
+"times": PoolRealArray( 0, 2.1, 2.8 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
+"update": 0,
 "values": [ 0, 1, 0 ]
 }
 tracks/8/type = "value"
@@ -326,8 +340,8 @@ tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 0, 1.2, 1.5, 1.6 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 2.3, 2.7, 2.8 ),
+"transitions": PoolRealArray( 1, 1, 3.73213, 1 ),
 "update": 0,
 "values": [ Vector2( 3, -3 ), Vector2( 3, -3 ), Vector2( 0, -3 ), Vector2( 3, -3 ) ]
 }
@@ -338,7 +352,7 @@ tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 0, 0.2, 0.3, 0.6, 0.9, 1.5 ),
+"times": PoolRealArray( 0, 0.3, 0.8, 1.2, 1.6, 2.7 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 0.0, -19.2332, 0.0, 0.0, -12.1508, 0.0 ]
@@ -350,7 +364,7 @@ tracks/10/loop_wrap = true
 tracks/10/imported = false
 tracks/10/enabled = true
 tracks/10/keys = {
-"times": PoolRealArray( 1.3 ),
+"times": PoolRealArray( 2.4 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [ 0.0 ],
@@ -364,7 +378,7 @@ tracks/11/loop_wrap = true
 tracks/11/imported = false
 tracks/11/enabled = true
 tracks/11/keys = {
-"times": PoolRealArray( 1 ),
+"times": PoolRealArray( 1.8 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [ 0.0 ],
@@ -378,7 +392,183 @@ tracks/12/loop_wrap = true
 tracks/12/imported = false
 tracks/12/enabled = true
 tracks/12/keys = {
-"times": PoolRealArray( 0.1 ),
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+} ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "ReloadEmpty"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Hand:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8, 2, 2.1, 2.3, 2.7, 2.9, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1.03526, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 17, -1 ), Vector2( 12, -3 ), Vector2( 12, -3 ), Vector2( 12, -14 ), Vector2( 12, -14 ), Vector2( 12, -30 ), Vector2( -20, -30 ), Vector2( 12, -33 ), Vector2( 12, -3 ), Vector2( 12, -3 ), Vector2( 10, -7 ), Vector2( 5, -6 ), Vector2( 2, -6 ), Vector2( 7, -8 ), Vector2( 17, -1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Hand:rotation_degrees")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3, 0.8, 1, 1.4, 1.8, 2.1, 2.3, 2.7, 2.9, 3 ),
+"transitions": PoolRealArray( 1, 1, 0.812253, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ -59.9999, -80.1548, -80.1548, -160.0, -67.6664, -80.1548, -80.1548, -80.1548, -80.1548, -80.1548, -59.9999 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Hand:scale")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.3, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8, 2.1, 2.3, 2.7, 2.9, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.6, 0.6 ), Vector2( 0.6, 0.6 ), Vector2( 0.4, 0.4 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 0.6, 0.6 ), Vector2( 0.8, 0.8 ), Vector2( 0.8, 0.8 ), Vector2( 0.8, 0.8 ), Vector2( 0.8, 0.8 ), Vector2( 0.6, 0.6 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Hand/Mag:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.3, 1, 1.4, 1.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false, true, false ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Hand:modulate")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.3, 0.5, 0.8, 1.7, 1.9, 2.2, 2.9, 3 ),
+"transitions": PoolRealArray( 1, 1.68179, 1, 1, 1, 1.68179, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.480469, 0.480469, 0.480469, 1 ), Color( 0.480469, 0.480469, 0.480469, 1 ), Color( 0.227451, 0.227451, 0.227451, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.227451, 0.227451, 0.227451, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.480469, 0.480469, 0.480469, 1 ) ]
+}
+tracks/5/type = "method"
+tracks/5/path = NodePath(".")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "throw_mag"
+} ]
+}
+tracks/6/type = "method"
+tracks/6/path = NodePath("Flashlight")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0.2, 0.3, 2.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"values": [ {
+"args": [ 0.5 ],
+"method": "fill_to"
+}, {
+"args": [ false ],
+"method": "set_enabled"
+}, {
+"args": [ true ],
+"method": "set_enabled"
+} ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Hand:z_index")
+tracks/7/interp = 0
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 2.1, 2.8 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0, 1, 0 ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Slide:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 1.8, 2.3, 2.7, 2.8 ),
+"transitions": PoolRealArray( 1, 6.06287, 1, 3.73213, 1 ),
+"update": 0,
+"values": [ Vector2( 0, -3 ), Vector2( 0, -3 ), Vector2( 3, -3 ), Vector2( 0, -3 ), Vector2( 3, -3 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath(".:rotation_degrees")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0, 0.3, 0.8, 1.2, 1.6, 2.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, -19.2332, 0.0, 0.0, -12.1508, 0.0 ]
+}
+tracks/10/type = "method"
+tracks/10/path = NodePath("SlideSound")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 2.4 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+} ]
+}
+tracks/11/type = "method"
+tracks/11/path = NodePath("Loading")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 1.8 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+} ]
+}
+tracks/12/type = "method"
+tracks/12/path = NodePath("Unloading")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0.2 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [ 0.0 ],
@@ -399,12 +589,13 @@ ammo_type = "res://Scenes/Items/AmmoSmg.tscn"
 ammo_max = 30
 
 [node name="FireFrom" parent="." index="0"]
-position = Vector2( 17, 0 )
+position = Vector2( 28, -1 )
 
 [node name="ReloadTime" parent="." index="3"]
-wait_time = 1.6
+wait_time = 3.0
 
 [node name="Shoot" parent="." index="4"]
+stream = ExtResource( 13 )
 volume_db = 5.0
 pitch_scale = 1.25
 
@@ -419,7 +610,7 @@ shadow_enabled = true
 script = ExtResource( 4 )
 energy_min = 0.5
 energy_max = 0.8
-smoothing = 8
+smoothing = 30
 area_scale = 0.6
 
 [node name="Hand" type="Sprite" parent="." index="10"]
@@ -440,35 +631,32 @@ texture = ExtResource( 8 )
 position = Vector2( 3, -3 )
 texture = ExtResource( 9 )
 
-[node name="Firerate" type="Timer" parent="." index="12"]
+[node name="FireratePause" type="Timer" parent="." index="12"]
 wait_time = 0.1
-
-[node name="FireratePause" type="Timer" parent="." index="13"]
-wait_time = 0.2
 one_shot = true
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="14"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="13"]
+anims/Empty = SubResource( 4 )
 anims/Fire = SubResource( 1 )
 anims/RESET = SubResource( 2 )
 anims/Reload = SubResource( 3 )
+anims/ReloadEmpty = SubResource( 5 )
 
-[node name="ShellFrom" type="Position2D" parent="." index="15"]
+[node name="ShellFrom" type="Position2D" parent="." index="14"]
 position = Vector2( 8.5, 1.5 )
 
-[node name="SlideSound" type="AudioStreamPlayer" parent="." index="16"]
+[node name="SlideSound" type="AudioStreamPlayer" parent="." index="15"]
 stream = ExtResource( 11 )
 pitch_scale = 0.88
 bus = "SFX"
 
-[node name="Loading" type="AudioStreamPlayer" parent="." index="17"]
+[node name="Loading" type="AudioStreamPlayer" parent="." index="16"]
 stream = ExtResource( 10 )
 pitch_scale = 0.8
 bus = "SFX"
 
-[node name="Unloading" type="AudioStreamPlayer" parent="." index="18"]
+[node name="Unloading" type="AudioStreamPlayer" parent="." index="17"]
 stream = ExtResource( 12 )
 volume_db = 5.0
 pitch_scale = 0.8
 bus = "SFX"
-
-[connection signal="timeout" from="Firerate" to="." method="_on_Firerate_timeout"]

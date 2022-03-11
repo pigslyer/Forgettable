@@ -149,14 +149,11 @@ ignore_blocker = true
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="PopupPanel" type="Popup" parent="CanvasLayer" groups=["popup_disable_follow"]]
-anchor_left = 0.1
+anchor_left = 0.65
 anchor_top = 0.1
-anchor_right = 0.9
+anchor_right = 0.95
 anchor_bottom = 0.9
 theme = SubResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Panel" type="Panel" parent="CanvasLayer/PopupPanel"]
 anchor_right = 1.0
@@ -166,9 +163,9 @@ __meta__ = {
 }
 
 [node name="LineEdit" type="LineEdit" parent="CanvasLayer/PopupPanel/Panel"]
-margin_left = 102.0
+margin_left = 28.0
 margin_top = 39.0
-margin_right = 508.0
+margin_right = 355.0
 margin_bottom = 94.0
 editable = false
 __meta__ = {
@@ -176,23 +173,18 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PopupPanel/Panel"]
-anchor_left = 0.1
-anchor_top = 0.2
-anchor_right = 0.9
-anchor_bottom = 0.8
-margin_right = 40.0
-margin_bottom = 40.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+anchor_left = 0.05
+anchor_top = 0.23
+anchor_right = 0.95
+anchor_bottom = 0.9
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer"]
-margin_right = 859.0
+margin_right = 345.0
 margin_bottom = 84.0
 size_flags_vertical = 3
 
 [node name="Button" type="Button" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer/HBoxContainer"]
-margin_right = 275.0
+margin_right = 104.0
 margin_bottom = 84.0
 focus_mode = 0
 size_flags_horizontal = 3
@@ -204,8 +196,8 @@ shortcut = SubResource( 3 )
 text = "1"
 
 [node name="Button2" type="Button" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer/HBoxContainer"]
-margin_left = 291.0
-margin_right = 567.0
+margin_left = 120.0
+margin_right = 224.0
 margin_bottom = 84.0
 focus_mode = 0
 size_flags_horizontal = 3
@@ -217,8 +209,8 @@ shortcut = SubResource( 5 )
 text = "2"
 
 [node name="Button3" type="Button" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer/HBoxContainer"]
-margin_left = 583.0
-margin_right = 859.0
+margin_left = 240.0
+margin_right = 345.0
 margin_bottom = 84.0
 focus_mode = 0
 size_flags_horizontal = 3
@@ -231,12 +223,12 @@ text = "3"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer"]
 margin_top = 100.0
-margin_right = 859.0
+margin_right = 345.0
 margin_bottom = 184.0
 size_flags_vertical = 3
 
 [node name="Button" type="Button" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer/HBoxContainer2"]
-margin_right = 275.0
+margin_right = 104.0
 margin_bottom = 84.0
 focus_mode = 0
 size_flags_horizontal = 3
@@ -248,8 +240,8 @@ shortcut = SubResource( 9 )
 text = "4"
 
 [node name="Button2" type="Button" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer/HBoxContainer2"]
-margin_left = 291.0
-margin_right = 567.0
+margin_left = 120.0
+margin_right = 224.0
 margin_bottom = 84.0
 focus_mode = 0
 size_flags_horizontal = 3
@@ -261,8 +253,8 @@ shortcut = SubResource( 11 )
 text = "5"
 
 [node name="Button3" type="Button" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer/HBoxContainer2"]
-margin_left = 583.0
-margin_right = 859.0
+margin_left = 240.0
+margin_right = 345.0
 margin_bottom = 84.0
 focus_mode = 0
 size_flags_horizontal = 3
@@ -275,12 +267,12 @@ text = "6"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer"]
 margin_top = 200.0
-margin_right = 859.0
+margin_right = 345.0
 margin_bottom = 284.0
 size_flags_vertical = 3
 
 [node name="Button" type="Button" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer/HBoxContainer3"]
-margin_right = 275.0
+margin_right = 104.0
 margin_bottom = 84.0
 focus_mode = 0
 size_flags_horizontal = 3
@@ -292,8 +284,8 @@ shortcut = SubResource( 15 )
 text = "7"
 
 [node name="Button2" type="Button" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer/HBoxContainer3"]
-margin_left = 291.0
-margin_right = 567.0
+margin_left = 120.0
+margin_right = 224.0
 margin_bottom = 84.0
 focus_mode = 0
 size_flags_horizontal = 3
@@ -305,8 +297,8 @@ shortcut = SubResource( 17 )
 text = "8"
 
 [node name="Button3" type="Button" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer/HBoxContainer3"]
-margin_left = 583.0
-margin_right = 859.0
+margin_left = 240.0
+margin_right = 345.0
 margin_bottom = 84.0
 focus_mode = 0
 size_flags_horizontal = 3
@@ -319,12 +311,12 @@ text = "9"
 
 [node name="HBoxContainer4" type="HBoxContainer" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer"]
 margin_top = 300.0
-margin_right = 859.0
+margin_right = 345.0
 margin_bottom = 385.0
 size_flags_vertical = 3
 
 [node name="Button" type="Button" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer/HBoxContainer4"]
-margin_right = 275.0
+margin_right = 104.0
 margin_bottom = 85.0
 focus_mode = 0
 size_flags_horizontal = 3
@@ -336,8 +328,8 @@ shortcut = SubResource( 21 )
 text = "DELETE"
 
 [node name="Button2" type="Button" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer/HBoxContainer4"]
-margin_left = 291.0
-margin_right = 567.0
+margin_left = 120.0
+margin_right = 224.0
 margin_bottom = 85.0
 focus_mode = 0
 size_flags_horizontal = 3
@@ -349,8 +341,8 @@ shortcut = SubResource( 23 )
 text = "0"
 
 [node name="Button3" type="Button" parent="CanvasLayer/PopupPanel/Panel/VBoxContainer/HBoxContainer4"]
-margin_left = 583.0
-margin_right = 859.0
+margin_left = 240.0
+margin_right = 345.0
 margin_bottom = 85.0
 focus_mode = 0
 size_flags_horizontal = 3

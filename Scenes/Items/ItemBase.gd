@@ -17,6 +17,9 @@ export (Vector2) var item_size = Vector2.ONE;
 export (Anim) var animation_type;
 
 export (Texture) var override_icon;
+# if false, equipping/unequipping sends a signal to player that
+# they interpret as they will
+export (bool) var equippable = true;
 
 func _ready():
 	set_process_input(false);
@@ -73,6 +76,7 @@ static func dup(org: ItemInventory, new_pos: Vector2 = -Vector2.ONE, new_count: 
 	item.stack = org.stack;
 	item.size = org.size;
 	item.rotated = org.rotated;
+	item.equippable = org.equippable;
 	
 	return item;
 

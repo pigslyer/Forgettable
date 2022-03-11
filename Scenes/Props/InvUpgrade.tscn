@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scenes/Props/InvUpgrade.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Base/belt.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/Objects/Interactive.gd" type="Script" id=3]
+
+[node name="InventoryUpgrade" type="Sprite" groups=["SAVES"]]
+texture = ExtResource( 2 )
+script = ExtResource( 1 )
+
+[node name="Interactive" type="Control" parent="."]
+margin_left = -34.0
+margin_top = -8.0
+margin_right = 34.0
+margin_bottom = 11.0
+script = ExtResource( 3 )
+message = "Belt"
+say_line = "It's a bit tight, but now I should 
+at least be able to carry more stuff."
+
+[node name="Tween" type="Tween" parent="."]
+
+[connection signal="interacted" from="Interactive" to="." method="_on_Interactive_interacted"]

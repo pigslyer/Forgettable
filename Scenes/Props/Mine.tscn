@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scenes/Props/Mine.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Objects/Flicker2.gd" type="Script" id=2]
 [ext_resource path="res://Assets/Base/light_smol.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Sounds/detector_ping.wav" type="AudioStream" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 32.0
@@ -10,7 +11,7 @@ radius = 32.0
 [sub_resource type="CircleShape2D" id=2]
 radius = 64.0
 
-[node name="Mine" type="Area2D"]
+[node name="Mine" type="Area2D" groups=["SAVES"]]
 collision_layer = 256
 collision_mask = 6
 script = ExtResource( 1 )
@@ -34,5 +35,11 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea"]
 shape = SubResource( 2 )
+
+[node name="Beep" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
+volume_db = 3.0
+pitch_scale = 0.5
+bus = "SFX"
 
 [connection signal="body_entered" from="." to="." method="_on_Mine_body_entered"]

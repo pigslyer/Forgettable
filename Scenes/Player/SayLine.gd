@@ -8,9 +8,12 @@ const TIME_PER_CHAR = 0.03;
 
 var used: PoolStringArray;
 var style_empty := StyleBoxEmpty.new();
+var font := preload("res://Assets/UI/Font.tres").duplicate();
 
 func _init():
 	mouse_filter = MOUSE_FILTER_IGNORE;
+	font.outline_size = 1;
+	font.outline_color = Color.black;
 
 func say_line(what: String):
 	
@@ -23,6 +26,7 @@ func say_line(what: String):
 	label.autowrap = true;
 	label.align = Label.ALIGN_CENTER;
 	label.add_stylebox_override("normal",style_empty);
+	label.add_font_override("font",font);
 	
 	var cur := 0;
 	

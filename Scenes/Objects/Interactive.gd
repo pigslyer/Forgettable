@@ -32,6 +32,10 @@ func _ready():
 	clickable(STATE_UNAVAIL);
 	mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND;
 	_place();
+	set_focus_mode(FOCUS_ALL);
+	
+	connect("mouse_entered",self,"grab_focus",[],CONNECT_DEFERRED);
+	connect("mouse_exited",self,"release_focus");
 
 func replace():
 	area.queue_free();

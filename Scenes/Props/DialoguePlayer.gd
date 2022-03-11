@@ -37,6 +37,7 @@ func start(path: String, one_time: bool = true, actions: Node = null):
 func stop():
 	$Theme.hide();
 	var data = reader.get_signal_connection_list("perform_action");
+	interpolating = false;
 	if !data.empty():
 		reader.disconnect("perform_action",data[0]["target"],data[0]["method"]);
 

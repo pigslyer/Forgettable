@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Assets/Base/tech_goggles_item.png" type="Texture" id=1]
+[ext_resource path="res://Scenes/Items/ItemBase.tscn" type="PackedScene" id=2]
+
+[node name="TechGoggles" instance=ExtResource( 2 )]
+item_name = "Tech Goggles"
+item_tooltip = "NVGs + power lines"
+item_size = Vector2( 3, 2 )
+override_icon = ExtResource( 1 )
+equippable = false

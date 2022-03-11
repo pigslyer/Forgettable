@@ -7,11 +7,12 @@
 [node name="EmergencyLight" type="Light2D"]
 z_index = 200
 texture = ExtResource( 3 )
-texture_scale = 2.1
+texture_scale = 2.3
 color = Color( 0.905882, 0.419608, 0.419608, 1 )
+shadow_enabled = true
 script = ExtResource( 1 )
-energy_min = 0.7
-energy_max = 0.9
+energy_min = 1.2
+energy_max = 1.4
 smoothing = 80
 stays_on = 10.0
 

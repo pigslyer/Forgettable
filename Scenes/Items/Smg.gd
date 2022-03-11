@@ -3,23 +3,47 @@ extends Gun
 const DAMAGE_MIN = 30;
 const DAMAGE_MAX = 45;
 
+# in miliseconds
+const FIRERATE = 80;
+
+var last_shot = 0;
+
+func _ready():
+	set_process(false);
+
 func _shoot():
-	if $FireratePause.is_stopped():
-		$Firerate.start();
-		$FireratePause.start();
-		$AnimationPlayer.play("Fire")
+	shoot();
+	expunge_shell();
+	Music.play_sfx($Shoot.stream,$Shoot.pitch_scale,$Shoot.volume_db);
+
+func _use():
+	if ammo > 0:
+		set_process($FireratePause.is_stopped());
+	else:
+		$Empty.play();
+
+func _process(_delta):
+	if last_shot+FIRERATE < OS.get_ticks_msec():
+		if ammo > 0:
+			._use();
+			last_shot = OS.get_ticks_msec();
+		else:
+			_empty();
+			set_process(false);
 
 func _reload():
-	$AnimationPlayer.play("Reload");
-
-func _on_Firerate_timeout():
 	if ammo > 0:
-		$AnimationPlayer.play("Fire");
-		$FireratePause.start();
+		$AnimationPlayer.play("Reload");
+	else:
+		$AnimationPlayer.play("ReloadEmpty");
+
+func _empty():
+	$AnimationPlayer.play("Empty");
 
 func _unhandled_input(ev: InputEvent):
-	if ev.is_action_released("lmb"):
-		$Firerate.stop();
+	if ev.is_action_released("lmb") || ev.is_action_pressed("reload"):
+		set_process(false);
+		$FireratePause.start();
 
 func shoot():
 	var inst = preload("res://Scenes/Misc/1911Bullet.tscn").instance();
@@ -36,7 +60,7 @@ func expunge_shell():
 	Projectile.add_child(throw);
 	throw.throw(
 			preload("res://Assets/Base/handgun_casing.png"),
-			Vector2(-50,180*4).rotated(global_rotation),
+			Vector2(-50,180*3).rotated(global_rotation),
 			preload("res://Assets/Sounds/casing_dropping.wav"), true,
 			PoolVector2Array([Vector2(0,0),Vector2(6,0),Vector2(6,2),Vector2(0,2)])
 	);

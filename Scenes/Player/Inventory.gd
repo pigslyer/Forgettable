@@ -84,10 +84,17 @@ func _input(ev):
 
 # not sure if i should use a signal. wanna be handsy tho
 func _on_Equip_pressed():
-	Groups.get_player().equip(selected);
+	if selected.equippable:
+		Groups.get_player().equip(selected);
+	else:
+		Groups.get_player().equip_special(selected.path);
+	
 
 # no, i don't know what this function does
 func _on_Drop_pressed():
+	if !selected.equippable:
+		Groups.get_player().equip_special(selected.path,true);
+	
 	items.remove(items.find(selected));
 	if Groups.get_player().equipped == selected: Groups.get_player().equip(null);
 	waffle.update_data();
@@ -95,6 +102,7 @@ func _on_Drop_pressed():
 	override_selected();
 	update_button();
 	tooltip.text = "";
+	
 	selected = null;
 
 
@@ -135,7 +143,7 @@ func update_button():
 	var equipped = Groups.get_player().equipped;
 	var button: Button = $VSplitContainer/Buttons/Equip;
 	
-	if equipped != null && equipped == selected:
+	if (equipped != null && equipped == selected) || (selected != null && Groups.get_player().special_equipped(selected.path)):
 		button.text = "Unequip";
 	else:
 		button.text = "Equip";

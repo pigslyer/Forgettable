@@ -1,0 +1,63 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Scenes/Objects/Interactive.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Props/Grate.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Base/grate.png" type="Texture" id=3]
+
+[sub_resource type="Animation" id=17]
+resource_name = "Open"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -88, -95 ), Vector2( -23, -95 ) ]
+}
+
+[sub_resource type="Animation" id=18]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -88, -95 ) ]
+}
+
+[sub_resource type="RectangleShape2D" id=16]
+extents = Vector2( 36, 12 )
+
+[node name="Grate" type="Sprite" groups=["SAVES"]]
+position = Vector2( -88, -95 )
+texture = ExtResource( 3 )
+script = ExtResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Open = SubResource( 17 )
+anims/RESET = SubResource( 18 )
+
+[node name="Interactive" type="Control" parent="."]
+margin_left = -34.0
+margin_top = -7.0
+margin_right = 35.0
+margin_bottom = 5.0
+script = ExtResource( 1 )
+message = "Grate"
+say_line = "The grate won't budge."
+ignore_blocker = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource( 16 )

@@ -32,6 +32,7 @@ func _ready():
 				saveable.data_load(Save.save_data[my_save_group][path]);
 	
 	Groups.call_deferred("refresh_popup_disable_follow");
+	get_tree().call_group(Groups.TECH_GOGGLES,"tech_goggles",Groups.get_player().has_goggles)
 	
 	var exceps: Array;
 	var cur: int;

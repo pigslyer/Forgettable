@@ -51,6 +51,9 @@ var has_gun: bool = false;
 var cam_last_shake_down := false;
 var cam_shake_off := Vector2.ZERO;
 
+var has_goggles: bool = false;
+var has_pipe: bool = false;
+
 func _ready():
 	
 	if !visible:
@@ -129,24 +132,29 @@ func _physics_process(delta):
 	
 	# interactive display
 	
-	closest = null;
-	inter_label.visible = !interactive.get_overlapping_areas().empty();
-	if inter_label.visible:
-		var closest_angle: float;
-		
-		for inter in interactive.get_overlapping_areas():
-			if (
-					inter.get_parent().cur_state == Interactive.STATE_CLICKABLE && 
-					(closest == null || 
-					abs((interactive.global_position-inter.global_position).angle()-interactive.global_rotation) < closest_angle)):
-					
-				closest = inter;
-				closest_angle = abs((interactive.global_position-global_position).angle()-interactive.global_rotation);
-		
-		if closest == null || closest.get_parent().message.empty():
-			inter_label.hide();
-		else:
-			inter_label.text = closest.get_parent().message;
+	if $DialoguePlayer/Theme.get_focus_owner() is Interactive:
+		inter_label.visible = true;
+		closest = $DialoguePlayer/Theme.get_focus_owner().area;
+		inter_label.text = closest.get_parent().message;
+	else:
+		closest = null;
+		inter_label.visible = !interactive.get_overlapping_areas().empty();
+		if inter_label.visible:
+			var closest_angle: float;
+			
+			for inter in interactive.get_overlapping_areas():
+				if (
+						inter.get_parent().cur_state == Interactive.STATE_CLICKABLE && 
+						(closest == null || 
+						abs((interactive.global_position-inter.global_position).angle()-interactive.global_rotation) < closest_angle)):
+						
+					closest = inter;
+					closest_angle = abs((interactive.global_position-global_position).angle()-interactive.global_rotation);
+			
+			if closest == null || closest.get_parent().message.empty():
+				inter_label.hide();
+			else:
+				inter_label.text = closest.get_parent().message;
 	
 	# cam shake
 	cam_shake_off *= CAM_SHAKE_MULT;
@@ -235,13 +243,14 @@ func save_data():
 		equipped_item.ammo if equipped_item is Gun else null,
 		get_waffle().save_data(),
 		$HUD/Theme/Inventory.save_data(),
+		has_goggles,
 	];
 
 func load_data(data):
 	health = data[0];
 	global_position = data[1];
-	get_waffle().load_data(data[-2]);
-	$HUD/Theme/Inventory.load_data(data[-1]);
+	get_waffle().load_data(data[4]);
+	$HUD/Theme/Inventory.load_data(data[5]);
 	if data[2] != null:
 		equip(get_waffle().items[data[2]])
 	
@@ -251,3 +260,26 @@ func load_data(data):
 		get_waffle().add_item(item);
 		equipped_item._on_ReloadTime_timeout();
 		equipped_item.ammo += item.count;
+	
+	if data[6]:
+		equip_special("res://Scenes/Items/TechGoggles.tscn");
+	
+	# better too many than too few imo
+	get_tree().call_group(Groups.TECH_GOGGLES,"tech_goggles",has_goggles);
+
+func equip_special(path: String, dropping: bool = false):
+	match path:
+		"res://Scenes/Items/TechGoggles.tscn":
+			has_goggles = !has_goggles && !dropping;
+			$Animated/Body/Head/TechGoggles.visible = has_goggles;
+			get_tree().call_group(Groups.TECH_GOGGLES,"tech_goggles",has_goggles);
+
+func special_equipped(path: String) -> bool:
+	match path:
+		"res://Scenes/Items/TechGoggles.tscn":
+			return has_goggles;
+	
+	return false;
+
+func get_dial_player():
+	return $DialoguePlayer;

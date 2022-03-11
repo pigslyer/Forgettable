@@ -155,3 +155,11 @@ func set_health(val: int, loud: bool = true):
 	
 	if val < 0:
 		$UnSurrenderGasp.stop();
+
+
+func _on_AnimationPlayer_animation_started(anim_name: String):
+	if anim_name == "idle" || anim_name == "walk":
+		$Animation/Body/Hand.hide();
+		$Animation/Body/HandOther.hide();
+	elif anim_name == "shy_attacK":
+		$Animation/Body/HandOther.hide();

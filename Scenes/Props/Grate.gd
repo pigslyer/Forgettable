@@ -3,26 +3,23 @@ extends Sprite
 const IS_LOCKED = "The grate won't budge.";
 
 export (bool) var open = false;
-export (bool) var locked = false;
 
 func data_save():
-	return [open,locked];
+	return open;
 
 func data_load(data):
-	open = data[0]; locked = data[1];
-
+	open = data;
+	if data:
+		open_vent(true);
 
 func _ready():
-	
-	yield(get_tree(),"idle_frame");
-	
-	
+	if open:
+		open_vent(true);
 
-func toggle_locked():
-	locked = !locked;
-
-func _on_Interactive_interacted():
-	if locked:
-		Groups.say_line(IS_LOCKED);
-	else:
-		pass;
+func open_vent(instant: bool = false):
+	
+	open = true;
+	$AnimationPlayer.play("Open");
+	$Interactive.disabled = true;
+	if instant:
+		$AnimationPlayer.seek($AnimationPlayer.current_animation_length);

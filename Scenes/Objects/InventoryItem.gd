@@ -16,6 +16,8 @@ var texture: Texture;
 var currently_rotated: bool;
 var size_rot: Vector2 setget , get_rot_size;
 
+var equippable: bool;
+
 func get_size(rot: bool = true) -> Vector2:
 	return Vector2(size.y,size.x) if rotated && rot else size;
 
@@ -39,6 +41,8 @@ func _init(file: String, use_item = null, p: Vector2 = -Vector2.ONE, c: int = -1
 	size = use_item.item_size;
 	count = use_item.count if c == -1 else c;
 	stack = use_item.stack_size;
+	
+	equippable = use_item.equippable;
 
 func _to_string():
 	return str(name," ",count," ",stack," ",pos," ",size);
@@ -46,3 +50,5 @@ func _to_string():
 func save_data():
 	return [path,pos,count,rotated];
 
+func load_data(data):
+	_init(data[0],null,data[1],data[2],data[3]);

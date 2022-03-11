@@ -293,16 +293,18 @@ func save_data():
 	
 	ret.push_back(height);
 	
+	print(ret);
 	return ret;
 
 func load_data(data: Array):
 	
+	print(data)
 	height = data.pop_back();
-	
+	print(data)
 	items.resize(data.size());
 	
 	for idx in data.size():
-		items[idx] = ItemInventory.new(data[0],null,data[1],data[2]);
-		items[idx].rotated = data[3];
+		items[idx] = ItemInventory.new(data[idx][0],null,data[idx][1],data[idx][2]);
+		items[idx].rotated = data[idx][3];
 	
 	update_data();
