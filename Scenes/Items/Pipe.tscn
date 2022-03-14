@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/Items/ItemBase.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Base/pipe.png" type="Texture" id=2]
+
+[node name="Pipe" instance=ExtResource( 1 )]
+texture = ExtResource( 2 )
+item_name = "Pipe"
+item_tooltip = "Earl's pipe, previously held by Lorelei's fat squid guts. I'm kind of tempted to try it though..."
+item_size = Vector2( 2, 1 )
+equippable = false

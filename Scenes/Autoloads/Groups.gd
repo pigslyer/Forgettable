@@ -32,6 +32,8 @@ func refresh_popup_disable_follow():
 		if !popup.is_connected("about_to_show",player,"follow_mouse"):
 			popup.connect("about_to_show",player,"follow_mouse",[false]);
 			popup.connect("popup_hide",player,"follow_mouse",[true],CONNECT_DEFERRED);
+			popup.connect("popup_hide",get_viewport(),"set_input_as_handled");
+			popup.connect("popup_hide",popup,"release_focus");
 
 
 func get_player() -> Player:

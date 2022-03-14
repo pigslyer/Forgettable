@@ -5,7 +5,7 @@
 [ext_resource path="res://Assets/Sounds/shy_one_sting.wav" type="AudioStream" id=3]
 [ext_resource path="res://Assets/JakobNoises/ChargingGrunt2.wav" type="AudioStream" id=4]
 
-[sub_resource type="Shader" id=1]
+[sub_resource type="Shader" id=62]
 code = "shader_type canvas_item;
 
 uniform float max_off = 0.1f;
@@ -20,7 +20,7 @@ void fragment(){
 
 [sub_resource type="ShaderMaterial" id=2]
 resource_local_to_scene = true
-shader = SubResource( 1 )
+shader = SubResource( 62 )
 shader_param/max_off = 0.1
 shader_param/percent = 0.0
 

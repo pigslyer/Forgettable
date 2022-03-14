@@ -17,7 +17,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.4 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( -88, -95 ), Vector2( -23, -95 ) ]
+"values": [ Vector2( 0, 0 ), Vector2( 65, 0 ) ]
 }
 
 [sub_resource type="Animation" id=18]
@@ -32,32 +32,36 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( -88, -95 ) ]
+"values": [ Vector2( 0, 0 ) ]
 }
 
 [sub_resource type="RectangleShape2D" id=16]
 extents = Vector2( 36, 12 )
 
-[node name="Grate" type="Sprite" groups=["SAVES"]]
-position = Vector2( -88, -95 )
-texture = ExtResource( 3 )
+[node name="Grate" type="Node2D" groups=["SAVES"]]
 script = ExtResource( 2 )
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="Grate" type="Sprite" parent="."]
+texture = ExtResource( 3 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Grate"]
 anims/Open = SubResource( 17 )
 anims/RESET = SubResource( 18 )
 
-[node name="Interactive" type="Control" parent="."]
+[node name="Interactive" type="Control" parent="Grate"]
 margin_left = -34.0
 margin_top = -7.0
 margin_right = 35.0
 margin_bottom = 5.0
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 message = "Grate"
 say_line = "The grate won't budge."
 ignore_blocker = true
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="StaticBody2D" type="StaticBody2D" parent="Grate"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Grate/StaticBody2D"]
 shape = SubResource( 16 )

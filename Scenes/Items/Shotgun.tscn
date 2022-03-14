@@ -1,0 +1,667 @@
+[gd_scene load_steps=19 format=2]
+
+[ext_resource path="res://Scenes/Items/Gun.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Base/shotgun_in_game.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Player/hand.png" type="Texture" id=3]
+[ext_resource path="res://Scenes/Objects/FlickerAlerts.gd" type="Script" id=4]
+[ext_resource path="res://Assets/Base/testcone5.png" type="Texture" id=5]
+[ext_resource path="res://Scenes/Items/Shotgun.gd" type="Script" id=6]
+[ext_resource path="res://Assets/Base/shotgun_pump.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Sounds/shotgun_shoot.wav" type="AudioStream" id=8]
+[ext_resource path="res://Assets/Sounds/shotgun_pump.wav" type="AudioStream" id=9]
+[ext_resource path="res://Assets/Base/bullet.png" type="Texture" id=10]
+[ext_resource path="res://Assets/Sounds/shell_loading.wav" type="AudioStream" id=11]
+[ext_resource path="res://Scenes/Objects/PitchRandomzier.gd" type="Script" id=12]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 300.0
+
+[sub_resource type="Animation" id=3]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Pump:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 4, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Pump:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Hand:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 4.01381, -3 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Hand:rotation_degrees")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 63.9037 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Hand/Shell:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Hand:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0.54902, 0.54902, 0.54902, 1 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath(".:rotation_degrees")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Hand/Shell:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 2.86665, -0.0234528 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Hand/Shell:rotation_degrees")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Pump:rotation_degrees")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "ReloadGetShells"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/path = NodePath("Hand:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 4.01381, -3 ), Vector2( 3, -20 ), Vector2( -20, -20 ), Vector2( 3, -20 ), Vector2( -2.30769, 1.92308 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Hand:rotation_degrees")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 63.9037, 94.8874, 125.151, 94.8874, 105.85 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Hand:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1, 0.7, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.54902, 0.54902, 0.54902, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.54902, 0.54902, 0.54902, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Hand/Shell:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath(".:rotation_degrees")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.5, 0.8 ),
+"transitions": PoolRealArray( 1, 0.450625, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, -11.7613 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Hand/Shell:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 2.86665, -0.0234528 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Hand/Shell:rotation_degrees")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/7/type = "method"
+tracks/7/path = NodePath("Pump/Flashlight")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ false ],
+"method": "set_enabled"
+} ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "ReloadLoadShell"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Hand/Shell:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Hand/Shell:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3, 0.4 ),
+"transitions": PoolRealArray( 0.353554, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 2.86665, -0.0234528 ), Vector2( -1.58346, -0.883156 ), Vector2( 2.86665, -0.0234528 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Hand/Shell:rotation_degrees")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, -14.2458, 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Hand:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -2.30769, 1.92308 ), Vector2( -2.22004, 1.50209 ), Vector2( -2.30769, 1.92308 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Hand:rotation_degrees")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 105.85, 90.0, 105.85 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath(".:rotation_degrees")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ -11.7613 ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Hand:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0.54902, 0.54902, 0.54902, 1 ) ]
+}
+tracks/7/type = "method"
+tracks/7/path = NodePath(".")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0.3 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "shell_loaded"
+} ]
+}
+tracks/8/type = "method"
+tracks/8/path = NodePath("ShellLoading")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+} ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "ReloadPump"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/path = NodePath("Hand:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 0.277392, 0.329877, 1 ),
+"update": 0,
+"values": [ Vector2( -2.30769, 1.92308 ), Vector2( 4.014, -3 ), Vector2( 1.53846, -3 ), Vector2( 4.014, -3 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Hand:rotation_degrees")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 105.85, 63.9, 63.9, 63.9 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Hand/Shell:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Pump:position")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 0.277392, 0.329877, 1 ),
+"update": 0,
+"values": [ Vector2( 4, 0 ), Vector2( 1.53846, 0 ), Vector2( 4, 0 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Pump:rotation_degrees")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 0.0 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath(".:rotation_degrees")
+tracks/5/interp = 2
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.1, 0.4, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 0.554785, 1 ),
+"update": 0,
+"values": [ -11.8, -11.8, -14.4, 0.0 ]
+}
+tracks/6/type = "method"
+tracks/6/path = NodePath("Pump/Flashlight")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ true ],
+"method": "set_enabled"
+} ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Hand:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0.54902, 0.54902, 0.54902, 1 ) ]
+}
+tracks/8/type = "method"
+tracks/8/path = NodePath("PumpSound")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+} ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "Shoot"
+length = 0.6
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.1, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "shoot"
+}, {
+"args": [  ],
+"method": "expunge_shell"
+} ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Pump:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3, 0.5, 0.6 ),
+"transitions": PoolRealArray( 1, 0.277393, 0.329877, 1 ),
+"update": 0,
+"values": [ Vector2( 4, 0 ), Vector2( 4, 0 ), Vector2( 0, 0 ), Vector2( 4, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Hand:position")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.3, 0.5, 0.6 ),
+"transitions": PoolRealArray( 1, 0.277393, 0.329877, 1 ),
+"update": 0,
+"values": [ Vector2( 4.01381, -3 ), Vector2( 4.01381, -3 ), Vector2( 0.769231, -3 ), Vector2( 4.01381, -3 ) ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath("FireFrom/Flash")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "pre_proc"
+} ]
+}
+tracks/4/type = "method"
+tracks/4/path = NodePath("Shoot")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+} ]
+}
+tracks/5/type = "method"
+tracks/5/path = NodePath("PumpSound")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.3 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+} ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath(".:rotation_degrees")
+tracks/6/interp = 2
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 0.297302, 0.535887, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, -14.4263, 0.0 ]
+}
+
+[node name="Shotgun" instance=ExtResource( 1 )]
+position = Vector2( 13, 2 )
+scale = Vector2( 1.3, 1.3 )
+z_index = 1022
+z_as_relative = false
+texture = ExtResource( 2 )
+script = ExtResource( 6 )
+item_name = "Shotgun"
+item_tooltip = "A 12-gauge shotgun with a flashlight attached to the pump. It packs a mean punch."
+item_size = Vector2( 3, 2 )
+animation_type = 2
+ammo_type = "res://Scenes/Items/ShotgunShell.tscn"
+ammo_max = 8
+
+[node name="FireFrom" parent="." index="0"]
+position = Vector2( 13.875, -0.384615 )
+
+[node name="Flash" parent="FireFrom" index="0"]
+texture_scale = 0.15
+color = Color( 0.752941, 0.529412, 0, 1 )
+energy_min = 2.4
+energy_max = 2.8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Noise" index="0"]
+visible = false
+position = Vector2( 13.8462, -0.384615 )
+shape = SubResource( 1 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="PointingGun" index="0"]
+visible = false
+position = Vector2( 21.5385, -0.384615 )
+polygon = PoolVector2Array( -8, 0, 120, -30, 120, 30 )
+
+[node name="Shoot" parent="." index="4"]
+stream = ExtResource( 8 )
+
+[node name="ShootTimer" type="Timer" parent="." index="9"]
+wait_time = 0.55
+one_shot = true
+
+[node name="Hand" type="Sprite" parent="." index="10"]
+modulate = Color( 0.54902, 0.54902, 0.54902, 1 )
+position = Vector2( 4.01381, -3 )
+rotation = 1.11533
+scale = Vector2( 0.6, 0.6 )
+z_index = -1
+texture = ExtResource( 3 )
+
+[node name="Shell" type="Sprite" parent="Hand" index="0"]
+visible = false
+position = Vector2( 2.86665, -0.0234528 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 10 )
+
+[node name="Pump" type="Sprite" parent="." index="11"]
+self_modulate = Color( 0.694118, 0.694118, 0.694118, 1 )
+show_behind_parent = true
+position = Vector2( 4, 0 )
+texture = ExtResource( 7 )
+
+[node name="Flashlight" type="Light2D" parent="Pump" index="0"]
+position = Vector2( 2, -0.5 )
+texture = ExtResource( 5 )
+offset = Vector2( 108, 0 )
+texture_scale = 0.6
+color = Color( 0.968627, 0.933333, 0.396078, 1 )
+range_z_max = 1021
+shadow_enabled = true
+script = ExtResource( 4 )
+energy_min = 0.5
+energy_max = 0.8
+smoothing = 30
+area_scale = 0.6
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="12"]
+anims/RESET = SubResource( 3 )
+anims/ReloadGetShells = SubResource( 4 )
+anims/ReloadLoadShell = SubResource( 5 )
+anims/ReloadPump = SubResource( 6 )
+anims/Shoot = SubResource( 2 )
+
+[node name="CasingEject" type="Position2D" parent="." index="13"]
+visible = false
+position = Vector2( -4.61539, 2.69231 )
+
+[node name="PumpSound" type="AudioStreamPlayer" parent="." index="14"]
+stream = ExtResource( 9 )
+bus = "SFX"
+
+[node name="ShellLoading" type="AudioStreamPlayer" parent="." index="15"]
+stream = ExtResource( 11 )
+bus = "SFX"
+script = ExtResource( 12 )

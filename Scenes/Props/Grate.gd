@@ -1,4 +1,4 @@
-extends Sprite
+extends Node2D
 
 const IS_LOCKED = "The grate won't budge.";
 
@@ -14,12 +14,14 @@ func data_load(data):
 
 func _ready():
 	if open:
+		open = false;
 		open_vent(true);
 
 func open_vent(instant: bool = false):
 	
-	open = true;
-	$AnimationPlayer.play("Open");
-	$Interactive.disabled = true;
-	if instant:
-		$AnimationPlayer.seek($AnimationPlayer.current_animation_length);
+	if !open:
+		open = true;
+		$Grate/AnimationPlayer.play("Open");
+		$Grate/Interactive.disabled = true;
+		if instant:
+			$Grate/AnimationPlayer.seek($Grate/AnimationPlayer.current_animation_length);

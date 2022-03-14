@@ -21,7 +21,7 @@ export (bool) var open = false;
 export (bool) var locked = false setget set_locked;
 export (bool) var enemies_can_open = true;
 
-export (String,MULTILINE) var locked_line = "The door's locked";
+export (String,MULTILINE) var locked_line = "The door's locked.";
 
 onready var prev_open: bool = open;
 

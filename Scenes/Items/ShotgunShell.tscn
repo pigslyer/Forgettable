@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/Items/ItemBase.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Base/bullet.png" type="Texture" id=2]
+
+[node name="ShotgunShell" instance=ExtResource( 1 )]
+texture = ExtResource( 2 )
+item_name = "12-gauge shell"
+item_tooltip = "A 12-gauge shotgun shell. These have to be loaded in one shell at a time."
+count = 8
+stack_size = 8
+item_size = Vector2( 1, 2 )
+animation_type = 1

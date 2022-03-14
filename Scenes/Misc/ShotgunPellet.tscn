@@ -6,7 +6,6 @@
 radius = 2.0
 
 [node name="ShotgunPellet" instance=ExtResource( 1 )]
-velocity_in_cells = 8.5
 
 [node name="Sprite" parent="." index="0"]
 scale = Vector2( 0.125, 0.25 )
@@ -14,6 +13,6 @@ scale = Vector2( 0.125, 0.25 )
 [node name="CollisionShape2D" parent="." index="1"]
 shape = SubResource( 1 )
 
-[node name="ShotLight" parent="." index="3"]
+[node name="ShotLight" parent="." index="4"]
 energy_min = 0.6
 energy_max = 0.9

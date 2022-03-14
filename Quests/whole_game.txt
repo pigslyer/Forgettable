@@ -146,6 +146,7 @@ if he's released PRISONER, going to LORELEI he'll find a fresh pool of blood nea
 LORELEI is regretful of his death
 
 player can get to him by going through the testing chamber and talking through the window. the exchange with BOMBER will be written by me
+vent code: 3321
 
 -> Entrance hall
 

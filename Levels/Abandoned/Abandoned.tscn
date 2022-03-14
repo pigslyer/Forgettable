@@ -1,4 +1,4 @@
-[gd_scene load_steps=116 format=2]
+[gd_scene load_steps=131 format=2]
 
 [ext_resource path="res://Levels/RoomBase.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Objects/Interactive.gd" type="Script" id=2]
@@ -62,8 +62,16 @@
 [ext_resource path="res://Scenes/Items/AmmoSmg.tscn" type="PackedScene" id=60]
 [ext_resource path="res://Assets/Base/ammo_smg.png" type="Texture" id=61]
 [ext_resource path="res://Assets/LiamNoises/squid.wav" type="AudioStream" id=62]
+[ext_resource path="res://Scenes/Items/ShotgunShell.tscn" type="PackedScene" id=63]
 [ext_resource path="res://Scenes/Props/VentLight.tscn" type="PackedScene" id=64]
 [ext_resource path="res://Assets/Base/light_engineering.png" type="Texture" id=65]
+[ext_resource path="res://Scenes/Enemy/Shotgunner.tscn" type="PackedScene" id=66]
+[ext_resource path="res://Assets/Base/bullet.png" type="Texture" id=67]
+[ext_resource path="res://Scenes/Objects/PerActConvo.gd" type="Script" id=68]
+[ext_resource path="res://Levels/Abandoned/Lorelei.gd" type="Script" id=69]
+[ext_resource path="res://Assets/LiamNoises/burp.wav" type="AudioStream" id=70]
+[ext_resource path="res://Scenes/Items/Pipe.tscn" type="PackedScene" id=71]
+[ext_resource path="res://Assets/Base/pipe.png" type="Texture" id=72]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -1511,6 +1519,44 @@ extents = Vector2( 789.5, 164 )
 [sub_resource type="RectangleShape2D" id=52]
 extents = Vector2( 68, 20 )
 
+[sub_resource type="Shader" id=62]
+code = "shader_type canvas_item;
+
+uniform float max_off = 0.1f;
+uniform float percent;
+
+void fragment(){
+	vec2 changed_uv = UV;
+	changed_uv.y += max_off * clamp(percent-UV.x,0f,1f);
+	COLOR = texture(TEXTURE,changed_uv);
+	COLOR.a *= 1f-clamp(percent-UV.x,0f,1f);
+}"
+
+[sub_resource type="ShaderMaterial" id=64]
+resource_local_to_scene = true
+shader = SubResource( 62 )
+shader_param/max_off = 0.1
+shader_param/percent = 0.0
+
+[sub_resource type="Shader" id=65]
+code = "shader_type canvas_item;
+
+uniform float max_off = 0.1f;
+uniform float percent;
+
+void fragment(){
+	vec2 changed_uv = UV;
+	changed_uv.y += max_off * clamp(percent-UV.x,0f,1f);
+	COLOR = texture(TEXTURE,changed_uv);
+	COLOR.a *= 1f-clamp(percent-UV.x,0f,1f);
+}"
+
+[sub_resource type="ShaderMaterial" id=66]
+resource_local_to_scene = true
+shader = SubResource( 65 )
+shader_param/max_off = 0.1
+shader_param/percent = 0.0
+
 [sub_resource type="RectangleShape2D" id=54]
 extents = Vector2( 266, 244 )
 
@@ -1529,8 +1575,97 @@ extents = Vector2( 25, 12 )
 radius = 35.0
 height = 32.0
 
+[sub_resource type="Animation" id=67]
+resource_name = "PukeItOut"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/path = NodePath("Pipe:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.2, 0.4, 0.5, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 35 ), Vector2( 2, 42 ), Vector2( 3, 57 ), Vector2( 3, 64 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Pipe:rotation_degrees")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.2, 0.4, 0.5, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 43.8848, 131.318, 191.63 ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath("Burp")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+} ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath("Pipe")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.7 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ false ],
+"method": "disable"
+} ]
+}
+
+[sub_resource type="Animation" id=68]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Pipe:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 6 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Pipe:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+
 [sub_resource type="OccluderPolygon2D" id=53]
 polygon = PoolVector2Array( 63.4999, -39.5001, 63.4999, -37.5001, -104.5, -37.5, -104.5, -39.5 )
+
+[sub_resource type="ShaderMaterial" id=63]
+resource_local_to_scene = true
+shader = SubResource( 62 )
+shader_param/max_off = 0.1
+shader_param/percent = 0.0
 
 [node name="Abandoned" instance=ExtResource( 1 )]
 
@@ -2715,6 +2850,46 @@ shape = SubResource( 51 )
 position = Vector2( -879, 80 )
 shape = SubResource( 52 )
 
+[node name="ShyOne" parent="Lab" index="4" instance=ExtResource( 16 )]
+material = SubResource( 64 )
+position = Vector2( -29, 16 )
+rotation = -2.52748
+
+[node name="ShyOne2" parent="Lab" index="5" instance=ExtResource( 16 )]
+material = SubResource( 64 )
+position = Vector2( -42, -187 )
+rotation = 2.78969
+
+[node name="ShyOne3" parent="Lab" index="6" instance=ExtResource( 16 )]
+material = SubResource( 64 )
+position = Vector2( 278, -151 )
+rotation = 0.600029
+
+[node name="Shotgunner" parent="Lab" index="7" instance=ExtResource( 66 )]
+material = SubResource( 66 )
+position = Vector2( 260, -59 )
+
+[node name="ShotgunShell" parent="Lab" index="8" instance=ExtResource( 39 )]
+position = Vector2( 286, -93 )
+rotation = 0.400486
+texture = ExtResource( 67 )
+drops = ExtResource( 63 )
+count = 4
+
+[node name="ShotgunShell2" parent="Lab" index="9" instance=ExtResource( 39 )]
+position = Vector2( 305, -67 )
+rotation = 1.00888
+texture = ExtResource( 67 )
+drops = ExtResource( 63 )
+count = 3
+
+[node name="ShotgunShell3" parent="Lab" index="10" instance=ExtResource( 39 )]
+position = Vector2( 315, -123 )
+rotation = 1.37804
+texture = ExtResource( 67 )
+drops = ExtResource( 63 )
+count = 5
+
 [node name="LabViewing" type="Node2D" parent="." index="8"]
 position = Vector2( -25, -934 )
 
@@ -3029,6 +3204,7 @@ texture = ExtResource( 29 )
 
 [node name="Lorelei" type="Node2D" parent="Shower" index="4"]
 position = Vector2( 14, -242 )
+script = ExtResource( 69 )
 
 [node name="Squid" type="AudioStreamPlayer2D" parent="Shower/Lorelei" index="0"]
 stream = ExtResource( 62 )
@@ -3240,6 +3416,24 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 message = "Lorelei"
+
+[node name="ActedConvo" type="Node" parent="Shower/Lorelei" index="6"]
+script = ExtResource( 68 )
+
+[node name="Burp" type="AudioStreamPlayer" parent="Shower/Lorelei" index="7"]
+stream = ExtResource( 70 )
+pitch_scale = 1.45
+bus = "SFX"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Shower/Lorelei" index="8"]
+anims/PukeItOut = SubResource( 67 )
+anims/RESET = SubResource( 68 )
+
+[node name="Pipe" parent="Shower/Lorelei" index="9" instance=ExtResource( 39 )]
+position = Vector2( 1, 6 )
+texture = ExtResource( 72 )
+drops = ExtResource( 71 )
+disabled = true
 
 [node name="Puddles" type="Node2D" parent="Shower" index="5"]
 
@@ -3538,6 +3732,11 @@ texture = ExtResource( 15 )
 position = Vector2( -16, -384 )
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 15 )
+
+[node name="ShyOne" parent="Bathroom" index="7" instance=ExtResource( 16 )]
+material = SubResource( 63 )
+position = Vector2( -145, -52 )
+body = 2
 
 [node name="SnakeEaterHallway" type="Node2D" parent="." index="11"]
 position = Vector2( 331, -652 )

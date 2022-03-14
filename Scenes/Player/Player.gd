@@ -273,11 +273,18 @@ func equip_special(path: String, dropping: bool = false):
 			has_goggles = !has_goggles && !dropping;
 			$Animated/Body/Head/TechGoggles.visible = has_goggles;
 			get_tree().call_group(Groups.TECH_GOGGLES,"tech_goggles",has_goggles);
+			say_line("I put on the goggles." if has_goggles else "I take off the goggles.");
+		"res://Scenes/Items/Pipe.tscn":
+			has_pipe = !has_pipe && !dropping;
+			$Animated/Body/Head/Pipe.visible = has_pipe;
+			say_line("I put the pipe in my mouth." if has_pipe else "I take the pipe out of my mouth.\nYuck!");
 
 func special_equipped(path: String) -> bool:
 	match path:
 		"res://Scenes/Items/TechGoggles.tscn":
 			return has_goggles;
+		"res://Scenes/Items/Pipe.tscn":
+			return has_pipe;
 	
 	return false;
 
