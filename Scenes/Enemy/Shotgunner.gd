@@ -6,8 +6,8 @@ const AMMO = 8;
 
 var ammo = AMMO;
 
-const PROJECTILES = 7;
-const ANGLE = deg2rad(12.5);
+const PROJECTILES = 8;
+const ANGLE = deg2rad(3);
 
 const TURN_MULT = 0.7;
 
@@ -27,45 +27,47 @@ func attacked():
 	if !area_melee.get_overlapping_bodies().empty():
 		Groups.get_player().health -= rand_range(MELEE_DAMAGE_MIN,MELEE_DAMAGE_MAX);
 
-func _physics_process(delta):
-	if !dead && alerted && can_move:
+func _physics_process(_delta):
+	if !dead && alerted && can_move && $Flinching.is_stopped():
 		
-		var angle = (global_position-Groups.get_player().global_position).angle();
-		global_rotation = wrapf(global_rotation-(angle-global_rotation)*delta*TURN_MULT*sign(abs(angle-global_rotation)-PI),-PI,PI);
+		$PlayerWall.global_rotation = 0;
+		$PlayerWall.cast_to = Groups.get_player_pos()-global_position;
+		$PlayerWall.force_raycast_update();
 		
-		if area_shotgun.get_overlapping_bodies().empty():
-			first_seen = NOT_SEEN;
+		if $PlayerWall.is_colliding():
+			path = Groups.get_simple_path_player(global_position);
 		
-		if !area_shotgun.get_overlapping_bodies().empty():
-			if first_seen == NOT_SEEN:
-				first_seen = OS.get_ticks_msec();
+		else:
+			look_at(Groups.get_player_pos());
 			
-			if first_seen + FIRE_TIME < OS.get_ticks_msec():
-				$PlayerWall.global_rotation = 0;
-				$PlayerWall.cast_to = Groups.get_player().global_position-global_position;
-				$PlayerWall.force_raycast_update();
+			if area_shotgun.get_overlapping_bodies().empty():
+				first_seen = NOT_SEEN;
+			
+			if !area_shotgun.get_overlapping_bodies().empty():
+				if first_seen == NOT_SEEN:
+					first_seen = OS.get_ticks_msec();
 				
-				if !$PlayerWall.is_colliding():
+				if first_seen + FIRE_TIME < OS.get_ticks_msec():
 					can_move = false;
 					$Animation/AnimationPlayer.play("shotgun_idle");
 					
-					yield(get_tree().create_timer(0.2),"timeout");
+					yield(get_tree().create_timer(0.6),"timeout");
 					_shoot();
 					
 					yield(get_tree().create_timer(POST_FIRE_DELAY),"timeout");
 					can_move = true;
-				
-				first_seen = NOT_SEEN;
-		
-		elif !area_melee.get_overlapping_bodies().empty():
-			can_move = false;
-			$Animation/AnimationPlayer.play("shotgun_melee");
-			$Animation/AnimationPlayer.playback_speed = 1.0;
-			yield($Animation/AnimationPlayer,"animation_finished");
+					
+					first_seen = NOT_SEEN;
 			
-			can_move = true;
-		else:
-			path = Groups.get_simple_path_player(global_position);
+			elif !area_melee.get_overlapping_bodies().empty():
+				can_move = false;
+				$Animation/AnimationPlayer.play("shotgun_melee");
+				$Animation/AnimationPlayer.playback_speed = 1.0;
+				yield($Animation/AnimationPlayer,"animation_finished");
+				
+				can_move = true;
+			else:
+				path = Groups.get_simple_path_player(global_position);
 
 func _shoot():
 	

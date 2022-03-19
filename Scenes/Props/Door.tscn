@@ -136,7 +136,7 @@ tracks/4/keys = {
 extents = Vector2( 120, 80 )
 
 [sub_resource type="RectangleShape2D" id=10]
-extents = Vector2( 64, 20 )
+extents = Vector2( 50, 20 )
 
 [node name="Door" type="Node2D" groups=["Overrides_footstep", "SAVES"]]
 script = ExtResource( 3 )
@@ -145,6 +145,7 @@ __meta__ = {
 }
 
 [node name="WhenOpen" type="Sprite" parent="."]
+z_index = -5
 texture = ExtResource( 2 )
 
 [node name="TopLeft" type="Position2D" parent="WhenOpen"]
@@ -335,7 +336,8 @@ collision_mask = 6
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DeathZone"]
-position = Vector2( 0, -79 )
+visible = false
+position = Vector2( 0, 67 )
 shape = SubResource( 10 )
 
 [connection signal="interacted" from="WhenClosed/OuterOpen/Interactive" to="." method="_on_open"]

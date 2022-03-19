@@ -20,7 +20,7 @@ func _reload():
 func _empty():
 	pass;
 
-func _input(ev: InputEvent):
+func _unhandled_input(ev: InputEvent):
 	if ev.is_action_pressed("reload"):
 		reload();
 
@@ -29,6 +29,7 @@ func reload():
 		$ReloadTime.start();
 		$Reload.play();
 		_reload();
+		Groups.get_player().can_inventory = false;
 
 func equip():
 	_on_ReloadTime_timeout();
@@ -88,6 +89,7 @@ func _hud_primary():
 func _on_ReloadTime_timeout():
 	ammo += Groups.get_player().get_item(ammo_type,ammo_max-ammo);
 	update_hud();
+	Groups.get_player().can_inventory = true;
 
 
 # everyone who was made aware that the gun is empty is now made unaware

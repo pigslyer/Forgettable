@@ -92,6 +92,7 @@ func spawn_room(room: PackedScene, from: DoorTransition):
 	from.connect("closed",self,"unload_room",[door]);
 	from.connect("closed",Groups,"set",["cur_room",spawned]);
 	door.connect("closed",spawned,"unload_room",[from]);
+	get_tree().call_group(Interactive.GROUP,"check_delete");
 
 func unload_room(other: DoorTransition):
 	save_data();

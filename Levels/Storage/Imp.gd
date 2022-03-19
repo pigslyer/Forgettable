@@ -4,9 +4,10 @@ func dial_action(id):
 	if id == "throw_key":
 		$AnimationPlayer.play("ThrowCard");
 	
+	elif id == "throw_key2":
+		$AnimationPlayer.play("ThrowCard2");
+	
 	elif id == "start_info":
-		# wait until the dialogue wraps up
-		yield(get_tree(),"idle_frame");
 		$ActedConvo.start_dial(true);
 	
 	elif id == "has_explosives":

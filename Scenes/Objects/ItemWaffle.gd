@@ -220,17 +220,22 @@ func _draw():
 	if preview_rect != PREVIEW_NO_RECT:
 		var has_space: bool = true;
 		var item = get_viewport().gui_get_drag_data().item;
-		for x in range(preview_rect.position.x,preview_rect.position.x+preview_rect.size.x):
-			for y in range(preview_rect.position.y,preview_rect.position.y+preview_rect.size.y):
-				if (grid[x][y] != null && grid[x][y] != item) || y >= height:
-					has_space = false;
-					break;
 		
-		draw_rect(
-				Rect2(preview_rect.position*step,preview_rect.size*step),
-				PREVIEW_COLOR_AVAIL if has_space else PREVIEW_COLOR_UNAVAIL,
-				false,4
-		);
+		var tl = preview_rect.position;
+		var br = preview_rect.position+preview_rect.size;
+		
+		if tl.x >= 0 && tl.y >= 0 && br.x <= size.x && br.y <= height:
+			for x in range(preview_rect.position.x,preview_rect.position.x+preview_rect.size.x):
+				for y in range(preview_rect.position.y,preview_rect.position.y+preview_rect.size.y):
+					if (grid[x][y] != null && grid[x][y] != item) || y >= height:
+						has_space = false;
+						break;
+			
+			draw_rect(
+					Rect2(preview_rect.position*step,preview_rect.size*step),
+					PREVIEW_COLOR_AVAIL if has_space else PREVIEW_COLOR_UNAVAIL,
+					false,4
+			);
 	
 
 func set_items(new_items: Array):
@@ -293,14 +298,11 @@ func save_data():
 	
 	ret.push_back(height);
 	
-	print(ret);
 	return ret;
 
 func load_data(data: Array):
 	
-	print(data)
 	height = data.pop_back();
-	print(data)
 	items.resize(data.size());
 	
 	for idx in data.size():

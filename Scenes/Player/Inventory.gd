@@ -66,7 +66,10 @@ func _input(ev):
 			hide();
 			get_viewport().set_input_as_handled();
 		
+		# don't
+		return;
 		# bind to hotbar shortcut
+# warning-ignore:unreachable_code
 		if ev is InputEventKey && ev.pressed && !ev.echo && ev.physical_scancode >= KEY_1 && ev.physical_scancode < KEY_1+hotbar.SLOTS:
 			var item = selected if selected != null else waffle.get_at_pos(get_local_mouse_position()-waffle.rect_position);
 			
@@ -96,6 +99,8 @@ func _on_Drop_pressed():
 		Groups.get_player().equip_special(selected.path,true);
 	
 	items.remove(items.find(selected));
+	if selected in hotbar.items:
+		hotbar.items[hotbar.items.find(selected)] = null;
 	if Groups.get_player().equipped == selected: Groups.get_player().equip(null);
 	waffle.update_data();
 	Projectile.drop_item(selected,Groups.get_player().global_position);
@@ -150,7 +155,7 @@ func update_button():
 
 
 func update_objective():
-	$VSplitContainer/Objective.text = str("Objective: ",Save.cur_objective,"!");
+	$VSplitContainer/Objective.text = str("Objective: ",Save.cur_objective);
 
 func save_data():
 	return [keycards,keycard_ids];

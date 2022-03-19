@@ -1,5 +1,8 @@
 extends Node2D
 
+export (NodePath) var enemy1;
+export (NodePath) var enemy2;
+
 onready var ray: RayCast2D = $FlickerBlinks/RayCast2D;
 
 func data_save():
@@ -22,3 +25,6 @@ func _physics_process(_delta):
 			$Alarm.play();
 			$Mine.disabled = false;
 			
+			$Shotgunner.path = Groups.get_simple_path($Shotgunner.global_position,$Enemy1Pos.global_position);
+			
+			$Shotgunner2.path = Groups.get_simple_path($Shotgunner2.global_position,$Enemy2Pos.global_position);

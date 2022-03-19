@@ -47,6 +47,10 @@ func _on_Handgun_picked_up():
 	enemy3.path = Groups.get_simple_path(enemy3.global_position,$Enemy3TargetPos.global_position);
 	
 	Save.save_my_data(self);
+	
+	yield(get_tree().create_timer(3),"timeout");
+	enemy2.rotation_degrees = -90;
+	
 
 func _on_Banging_finished():
 	

@@ -13,7 +13,7 @@ const DROPPED_ITEM_KEY = "Dropped_Items";
 
 # DON'T FORGET TO SET THIS ON NEW GAME
 var cur_state: int = STATE.PIPE setget cur_state_changed;
-var cur_objective: String;
+var cur_objective: String = "No objective.";
 var detecting: int = 0 setget set_detecting;
 
 func set_detecting(new_val: int):
@@ -48,7 +48,7 @@ func _ready():
 		dir.make_dir_recursive(SAVE_DIR);
 
 func get_saves() -> PoolStringArray:
-	var ret: PoolStringArray = [];
+	var ret: Array = [];
 	
 	var dir := Directory.new();
 	dir.open(SAVE_DIR);
@@ -62,7 +62,14 @@ func get_saves() -> PoolStringArray:
 			ret.append(next);
 		next = dir.get_next();
 	
-	return ret;
+	ret.sort_custom(self,"_sort_custom");
+	
+	return PoolStringArray(ret);
+
+func _sort_custom(a: String, b: String):
+	# i love memory inefficient things
+	var file := File.new();
+	return file.get_modified_time(SAVE_DIR+a) > file.get_modified_time(SAVE_DIR+b);
 
 func save_game(path: String):
 	
@@ -94,9 +101,9 @@ func load_game(path: String):
 	# wait for scene switch
 	yield(get_tree(),"idle_frame");
 	
-	get_tree().current_scene.load_room(conf.get_value("DATA","current_room"));
 	Groups.get_player().load_data(conf.get_value("DATA","player_data"));
-	
+	get_tree().current_scene.load_room(conf.get_value("DATA","current_room"));
+	get_tree().call_group(Interactive.GROUP,"check_delete");
 
 func delete_save(path: String):
 	var dir := Directory.new();

@@ -51,6 +51,8 @@ func _on_Saves_nothing_selected():
 
 func _on_Confirm_pressed():
 	if loading:
+		get_tree().paused = false;
+		get_parent().set_block_signals(true);
 		Save.load_game(items.get_item_metadata(items.get_selected_items()[0]));
 	else:
 		Save.delete_save(items.get_item_metadata(items.get_selected_items()[0]));

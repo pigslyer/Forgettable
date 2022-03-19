@@ -44,6 +44,10 @@ func fill_to(percent: float):
 			queue.push_back(rand_range(energy_min,energy_max));
 			last += queue[-1];
 
+func clear():
+	queue.clear();
+	last = 0;
+
 func set_enabled(state: bool):
 	on = state;
 

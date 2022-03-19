@@ -8,11 +8,14 @@ var dir: int;
 
 func _ready():
 	set_physics_process(false);
+	if Save.save_data.get("tortured",false):
+		queue_free();
 
 func dial_action(id):
 	if id == "unbind":
 		$AnimationPlayer.play("Unbind");
 		$TalkTo.disable(true);
+		Save.save_data["tortured"] = true;
 
 func _on_TalkTo_interacted():
 	_look_at(Groups.get_player().global_position);

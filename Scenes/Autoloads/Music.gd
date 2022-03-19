@@ -19,6 +19,7 @@ func _init():
 	add_child(_player);
 	_player.bus = "Music";
 	add_child(tween);
+	_player.connect("finished",_player,"play");
 
 func play_music(stream: AudioStream, fade: bool = true):
 	if tween.is_active() || _player.stream == stream:

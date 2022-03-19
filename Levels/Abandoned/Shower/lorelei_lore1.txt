@@ -1,0 +1,6 @@
+/talking_to Lorelei
+{
+	::Hm, yes, choice 1.
+	::Hm, yes, choice 2.
+	:Hm, no.
+}

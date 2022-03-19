@@ -1,0 +1,5 @@
+/talking_to Lorelei
+Hmm, yes, pipe.
+/action reveal
+;...
+/action lore

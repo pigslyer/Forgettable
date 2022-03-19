@@ -1,10 +1,10 @@
 extends Gun
 
-const DAMAGE_MIN = 6;
-const DAMAGE_MAX = 12;
+const DAMAGE_MIN = 10;
+const DAMAGE_MAX = 13;
 
-const ANGLE = deg2rad(5);
-const PROJECTILES = 14;
+const ANGLE = deg2rad(3);
+const PROJECTILES = 8;
 
 var reloading: bool = false;
 var can_do_stuff: bool = true;
@@ -31,6 +31,7 @@ func _shoot():
 	$ShootTimer.start();
 
 func _reload():
+	Groups.get_player().can_inventory = false;
 	$AnimationPlayer.play("ReloadGetShells");
 	can_do_stuff = false;
 	
@@ -44,6 +45,7 @@ func _reload():
 		# ensures that at least 1 shell is loaded
 		can_do_stuff = true;
 	
+	Groups.get_player().can_inventory = true;
 	if reloading:
 		can_do_stuff = false;
 		$AnimationPlayer.play("ReloadPump");
@@ -81,12 +83,14 @@ func expunge_shell():
 	var throw := preload("res://Scenes/Misc/Throwable.tscn").instance();
 	throw.position = $CasingEject.global_position;
 	throw.rotation = $CasingEject.global_rotation+deg2rad(30);
+	throw.scale = Vector2(0.2,0.2);
 	Projectile.add_child(throw);
+	throw.starting_scale = Vector2(0.2,0.2);
+	throw.ending_scale = Vector2(0.15,0.15);
 	throw.throw(
-			preload("res://Assets/Base/handgun_casing.png"),
+			preload("res://Assets/Base/bullet.png"),
 			Vector2(-50,180).rotated(global_rotation),
-			preload("res://Assets/Sounds/casing_dropping.wav"), true,
-			PoolVector2Array([Vector2(0,0),Vector2(6,0),Vector2(6,2),Vector2(0,2)])
+			preload("res://Assets/Sounds/shotgun_shell.wav"), true
 	);
 	throw.delay_z_reset(z_index+1,0.1);
 	throw.set_pitch(rand_range(0.9,1.1));

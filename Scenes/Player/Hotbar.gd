@@ -1,6 +1,6 @@
 extends ReferenceRect
 
-const SLOTS = 5;
+const SLOTS = 3;
 const SPACING_PERCENT = 0.05;
 const COLOR_BACK = Color8(10,25,25);
 const COLOR_BORDER = Color.darkblue;

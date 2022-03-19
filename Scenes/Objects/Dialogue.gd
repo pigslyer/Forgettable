@@ -85,7 +85,10 @@ func _read_line(line: String, first_word: String, second_word: String, next: int
 				pitch_anon = val;
 			else:
 				push_error(str("Couldn't set pitch at line ",caret,"."));
-			
+		
+		"/update":
+			Save.cur_objective = line.split(" ",false,1)[1];
+		
 		_:
 			return line;
 	

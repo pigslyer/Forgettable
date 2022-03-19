@@ -3,6 +3,8 @@ extends Control
 
 signal interacted;
 
+const GROUP = "interactives";
+
 # out of PICKUP range. i.e., not close enough to pick up, still shaderable
 enum{
 	STATE_UNAVAIL, STATE_OUT_OF_RANGE, STATE_CLICKABLE
@@ -36,6 +38,12 @@ func _ready():
 	
 	connect("mouse_entered",self,"grab_focus",[],CONNECT_DEFERRED);
 	connect("mouse_exited",self,"release_focus");
+	
+	add_to_group(GROUP);
+
+func check_delete():
+	if get_signal_connection_list("interacated").empty() && dial_path in Groups.get_player().get_dial_player().one_timed:
+		queue_free();
 
 func replace():
 	area.queue_free();

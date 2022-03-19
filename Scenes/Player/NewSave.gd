@@ -19,6 +19,7 @@ func _on_Save_pressed():
 	Save.save_game($Panel/LineEdit.text);
 	get_parent()._on_Save_about_to_show();
 	get_parent().emit_signal("saved");
+	Groups.say_line("Game saved.");
 	hide();
 
 

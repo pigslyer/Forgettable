@@ -11,6 +11,7 @@ const LIGHTS_LOCKED := {
 	"handgun_storage" : Color.yellow,
 	"storage1" : Color.teal,
 	"railway": Color.purple,
+	"prison": Color.chartreuse,
 	"/": Color.red,
 };
 
@@ -104,6 +105,9 @@ func set_locked(state: bool):
 		_update_locked();
 
 func _update_locked():
+	if !locked:
+		enemies_can_open = true;
+	
 	if Groups.get_my_room(self) != null:
 		$WhenClosed/InnerKeycard/Interactive.message = "Unlock" if locked else "Lock";
 		$WhenClosed/OuterKeycard/Interactive.message = "Unlock" if locked else "Lock";
@@ -113,7 +117,8 @@ func _update_locked():
 		call_deferred("_update_locked");
 
 func check_death_area():
-	for killable in $DeathZone.get_overlapping_bodies():
-		killable.health = -1;
-		Music.play_sfx(preload("res://Assets/Base/squelch.wav"),rand_range(0.9,1.1));
+	if $AnimationPlayer.playback_speed < 0:
+		for killable in $DeathZone.get_overlapping_bodies():
+			killable.health = -1;
+			Music.play_sfx(preload("res://Assets/Base/squelch.wav"),rand_range(0.9,1.1));
 

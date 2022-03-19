@@ -1,2 +1,16 @@
-hi there uwu
-/action carry
+/talking_to ???
+AGHHH! 
+GET OFF ME! NO STOP PLEASE! 
+HEEEEEEELP! CAN ANYONE HEAR ME? FOR THE LOVE OF GOD SOMEONE PLEASE HELP ME! 
+/talking_to Tormentor 
+You! Yes, you! Help, please! I'll give you anything, I swear! Just... Oh fuck, don't let it take me! 
+{
+	::Go fuck yourself, dude. 
+	:I hope they make you suffer as much as you made me. 
+	W-What are you doing?! You piece of shit! Don't just fucking stand there! AGHHHHHH! 
+	::... 
+	W-What are you doing?! Don't just fucking stand there! AGHHHHHH! 
+	::Try to hold on, I'm coming for you! 
+	Hurry up, please! I can't- It's too strong! Please, please, please, just make it stop! NOOOOOOO! 
+} 
+/action carry 

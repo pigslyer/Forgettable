@@ -51,7 +51,7 @@ func _physics_process(_delta):
 			path = Groups.get_simple_path_player(global_position);
 		
 	
-	elif detecting && !running_away && can_move && !surrendering:
+	elif detecting && !running_away && can_move && !surrendering && $Flinching.is_stopped():
 		
 		# the player sees us
 		$PlayerWall.cast_to = Groups.get_player().global_position-global_position;

@@ -8,6 +8,9 @@ const DROPPED_MODULATE = Color8(179,179,179);
 const DISAPPEAR_TIME = 0.4;
 const STREAM_MAX_SPEED_SQUARED = 1*1;
 
+var starting_scale = STARTING_SCALE;
+var ending_scale = ENDING_SCALE;
+
 var _positional: bool;
 var _stream: AudioStream;
 var _pitch: float = 1.0;
@@ -40,7 +43,7 @@ func throw(texture: Texture, force: Vector2, drop_sound: AudioStream = null, pos
 		_positional = positional;
 		set_physics_process(true);
 	
-	$Tween.interpolate_property($Sprite,"scale",STARTING_SCALE,ENDING_SCALE,DROP_TIME);
+	$Tween.interpolate_property($Sprite,"scale",starting_scale,ending_scale,DROP_TIME);
 	$Tween.interpolate_property(self,"modulate",null,DROPPED_MODULATE,DROP_TIME);
 	$Tween.start();
 

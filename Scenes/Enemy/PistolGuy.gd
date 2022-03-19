@@ -20,7 +20,7 @@ onready var gun_ray: RayCast2D = $Animation/Body/Hand/Handgun/LaserSight/PlayerC
 func _physics_process(delta: float):
 	
 	# if we're reloading we don't do jack diddly
-	if !$Animation/Body/Hand/Handgun.is_reloading():
+	if !$Animation/Body/Hand/Handgun.is_reloading() && $Flinching.is_stopped():
 		
 		# shoot player
 		if gun_ray.get_collider() == Groups.get_player() && $NoShootTime.is_stopped():

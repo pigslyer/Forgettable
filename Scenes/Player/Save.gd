@@ -19,6 +19,7 @@ func _on_Save_about_to_show():
 
 func _on_List_item_activated(index):
 	Save.save_game(list.get_item_metadata(index));
+	Groups.say_line("Game saved.");
 	emit_signal("saved");
 	hide();
 

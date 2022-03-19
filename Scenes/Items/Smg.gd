@@ -1,7 +1,7 @@
 extends Gun
 
-const DAMAGE_MIN = 30;
-const DAMAGE_MAX = 45;
+const DAMAGE_MIN = 10;
+const DAMAGE_MAX = 15;
 
 # in miliseconds
 const FIRERATE = 80;

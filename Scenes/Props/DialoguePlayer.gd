@@ -1,19 +1,21 @@
 extends CanvasLayer
 
 const CHOICE_GROUP = "choice"
-const TIME_PER_CHAR = 0.03;
+const TIME_PER_CHAR = 0.01;
 const STARTUP_TIME = 0.3;
 
-const PITCH_OFF = 0.05;
+const PITCH_OFF = 0.1;
 
 # points at which interpolation stops and starts
 const STOPS = [
-	".",":","?","!",","
+	".",":","?","!",",","-",
 ];
-const DELAY_PER_STOP = 0.16;
+const DELAY_PER_STOP = 0.08;
+const DELAY_PER_SPACE = 0.02;
 
 var reader: Dialogue;
 var one_timed: Array;
+var stopped: bool = true;
 
 var last_choice_caret: int;
 
@@ -21,6 +23,9 @@ var interpolating := false;
 onready var line: Label = $Theme/VSplitContainer/Line;
 
 func start(path: String, one_time: bool = true, actions: Node = null):
+	if !stopped:
+		stop();
+	
 	if !(path in one_timed && one_time):
 		$Theme.popup();
 		reader = Dialogue.new(path);
@@ -31,10 +36,12 @@ func start(path: String, one_time: bool = true, actions: Node = null):
 		if actions != null:
 			reader.connect("perform_action",actions,"dial_action");
 		
+		stopped = false;
 		next(-1,true);
 
 
 func stop():
+	stopped = true;
 	$Theme.hide();
 	var data = reader.get_signal_connection_list("perform_action");
 	interpolating = false;
@@ -75,6 +82,8 @@ func next(next: int = -1, startup: bool = false):
 		var idx := 0;
 		var label: Button;
 		for choice in cur_line:
+			if choice.strip_edges().empty():
+				continue;
 			label = Button.new();
 			label.text = choice;
 			label.add_to_group(CHOICE_GROUP);
@@ -109,9 +118,11 @@ func show_line(text: String, talking_to: int):
 	while interpolating:
 		if text[idx-1] in STOPS:
 			yield(get_tree().create_timer(DELAY_PER_STOP+TIME_PER_CHAR),"timeout");
+		elif text[idx-1] == " ":
+			yield(get_tree().create_timer(DELAY_PER_SPACE+TIME_PER_CHAR),"timeout");
 		else:
 			yield(get_tree().create_timer(TIME_PER_CHAR),"timeout");
-		
+			
 		if idx%speed==0:
 			Music.play_sfx(preload("res://Assets/Sounds/typing2.mp3"),rand_range(pitch_min,pitch_max),-10);
 		

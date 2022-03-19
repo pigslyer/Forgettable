@@ -1,1 +1,18 @@
-hi there uwu uwu uwu of the nyan nyan tribe
+/talking_to ???
+Ah, thank you again. Now for the reward. 
+There's a powerful weapon in the Confiscated Materials room. The code is 2979. I'm sure it will serve you well.
+Write it down if you need help remembering it! 2979! 
+:Thank you.
+Don't sweat it. Could you get me out if this damn chair, friend? 
+{
+	::Free him 
+	/action unbind 
+	Fuck, this feels good. Now, if you'll excuse me. I feel like I need to go... Somewhere. 
+	:So you've heard her too, huh? I suggest you don't do that. She's, well, very dangerous. 
+	Pha! You don't have to worry about me. I admit, they got me good, but hell, I ain't done yet. I was sent here on a rescue mission for fuck's sake! 
+	/talking_to Agent 
+	Now, if I were you, I'd go check out the Confiscated Materials room. Oh, and if you see any of the other agents, do help them, will you? 
+
+	::Do nothing 
+	Hey, come back! Don't you dare to leave you fucking piece of shit! 
+}

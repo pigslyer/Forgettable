@@ -54,7 +54,11 @@ var cam_shake_off := Vector2.ZERO;
 var has_goggles: bool = false;
 var has_pipe: bool = false;
 
+# so player can't do stupid shit while reloading
+var can_inventory: bool = true;
+
 func _ready():
+	set_process(false);
 	
 	if !visible:
 		show();
@@ -67,6 +71,8 @@ func _ready():
 	Music.play_music(Music.MUSIC.AMBIENT,false);
 
 func equip(item: ItemInventory):
+	if item != null || equipped_item != null:
+		$HotbarDelay.start();
 	
 	# just unequip
 	if item == equipped && item != null:
@@ -169,31 +175,57 @@ func _unhandled_key_input(ev: InputEventKey):
 	if ev.is_action_pressed("interact") && closest != null:
 		closest.get_parent().interact();
 	
-	if ev.is_action_pressed("inventory"):
+	if can_inventory && ev.is_action_pressed("inventory"):
 		$HUD/Theme/Inventory.popup();
 	
 	if ev.is_action_pressed("ui_cancel"):
 		$HUD/Theme/Pause.popup();
 	
-	if ev.pressed && !ev.echo && ev.physical_scancode >= KEY_1 && ev.physical_scancode < KEY_1+hotbar.SLOTS:
+	if can_inventory && $HotbarDelay.is_stopped() && ev.pressed && !ev.echo && ev.physical_scancode >= KEY_1 && ev.physical_scancode < KEY_1+hotbar.SLOTS:
 		equip(hotbar.items[ev.physical_scancode-KEY_1]);
 	
 	if OS.is_debug_build():
 		if ev.is_action_pressed("debug_fullbright"):
-			$CanvasModulate.visible = !$CanvasModulate.visible;
+			set_health(-1)
+#			$CanvasModulate.visible = !$CanvasModulate.visible;
 
 
 func say_line(text: String):
 	$HUD/Theme/SayLine.say_line(text);
 
 
+const DEATH_SCREAMS = ["res://Assets/LiamNoises/death0.wav","res://Assets/LiamNoises/death1.wav","res://Assets/LiamNoises/death2.wav","res://Assets/LiamNoises/death3.wav"];
+
 func set_health(new_val: int):
 	if health > 0 && new_val <= 0:
-		$HUD/Theme/YouDied.popup();
+		set_physics_process(false);
+		set_process_unhandled_input(false);
+		set_process_unhandled_key_input(false);
+		set_process_input(false);
+		follow_mouse(false);
+		
+		if equipped_item != null:
+			equipped_item.queue_free();
+		
+		$HUD/Theme/SaveReminder/Timer.stop();
+		$HUD/Theme/SaveReminder.hide();
+		$Animated/PlayerWalk.play("die");
 	
 	health = new_val;
 	$HUD/Theme/Health.value = new_val/float(MAX_HEALTH);
 	
+
+func _play_death():
+	Music.play_sfx(load(DEATH_SCREAMS[randi()%DEATH_SCREAMS.size()]));
+
+const YOU_DIED_INTERP_TIME = 0.8;
+
+func _process(delta):
+	$HUD/Theme/YouDied.modulate.a = min($HUD/Theme/YouDied.modulate.a+300/255.0*delta,1);
+
+func _interpolate_you_died():
+	$DialoguePlayer/Tween.interpolate_property($HUD/Theme/YouDied,"modulate",Color8(255,255,255,0),Color8(255,255,255,255),YOU_DIED_INTERP_TIME,Tween.TRANS_CUBIC)
+	$DialoguePlayer/Tween.start();
 
 func follow_mouse(state: bool):
 	set_process_unhandled_key_input(state);
@@ -238,12 +270,14 @@ func save_reminder(on: bool):
 func save_data():
 	
 	return [
-		health, global_position,
+		health, 
+		global_position,
 		get_waffle().items.find(equipped) if equipped != null else null,
 		equipped_item.ammo if equipped_item is Gun else null,
 		get_waffle().save_data(),
 		$HUD/Theme/Inventory.save_data(),
 		has_goggles,
+		$DialoguePlayer.one_timed,
 	];
 
 func load_data(data):
@@ -251,18 +285,23 @@ func load_data(data):
 	global_position = data[1];
 	get_waffle().load_data(data[4]);
 	$HUD/Theme/Inventory.load_data(data[5]);
-	if data[2] != null:
-		equip(get_waffle().items[data[2]])
 	
 	# if we had a gun equipped
 	if data[3] != null:
-		var item := ItemInventory.new(equipped_item.ammo_type,null,-Vector2.ONE,data[3]);
-		get_waffle().add_item(item);
-		equipped_item._on_ReloadTime_timeout();
-		equipped_item.ammo += item.count;
+		equipped = get_waffle().items[data[2]];
+		equipped_item = load(equipped.path).instance(); 
+		$Animated/Body/ArmRight/Hand.add_child(equipped_item);
+		has_gun = true;
+		equipped_item.ammo = data[3];
+		emit_signal("equipped_new")
+	
+	elif data[2] != null:
+		equip(get_waffle().items[data[2]])
 	
 	if data[6]:
 		equip_special("res://Scenes/Items/TechGoggles.tscn");
+	
+	$DialoguePlayer.one_timed = data[7];
 	
 	# better too many than too few imo
 	get_tree().call_group(Groups.TECH_GOGGLES,"tech_goggles",has_goggles);

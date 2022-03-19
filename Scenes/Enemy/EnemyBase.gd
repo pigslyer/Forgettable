@@ -5,6 +5,7 @@ extends KinematicBody2D
 # when they become alerted
 var my_groups: PoolStringArray;
 
+const FLINCH_CHANCE = 0.3;
 const FRIC = 0.9;
 
 const EYE_BASE_SCALE = 0.03;
@@ -80,7 +81,7 @@ func attacked():
 
 func _physics_process(delta):
 	
-	if can_move && !dead:
+	if can_move && !dead && $Flinching.is_stopped():
 		
 		velocity *= FRIC;
 		
@@ -118,6 +119,7 @@ func set_health(new_val: int, loud: bool = true):
 	
 	if new_val <= 0 && 0 < health:
 		$PostDeathDisableAlert.start();
+		health = new_val;
 		can_move = false;
 		dead = true;
 		$Animation/Body/Head/Flicker.set_enabled(false);
@@ -148,26 +150,36 @@ func set_health(new_val: int, loud: bool = true):
 			
 		
 		queue_free();
-		
+	
+	# this should be painstate chance
 	elif new_val < health && is_inside_tree():
 		if loud:
-			Music.play_sfx(
-				[
-					preload("res://Assets/JakobNoises/PaintGruntHighLong.wav"),
-					preload("res://Assets/JakobNoises/PaintGruntNormal.wav")
-				][randi()%2],
-				rand_range(0.8,0.9),7
-			);
+			if FLINCH_CHANCE > rand_range(0,1):
+				Music.play_sfx(
+					[
+						preload("res://Assets/JakobNoises/PaintGruntHighLong.wav"),
+						preload("res://Assets/JakobNoises/PaintGruntNormal.wav")
+					][randi()%2],
+					rand_range(0.8,0.9),7
+				);
+				$Flinching.start();
 		set_alerted(true);
 	
 	health = new_val;
 
 
 func set_alerted(state: bool, grouped: bool = false):
-	if !(dead && state):
-		if !grouped && state:
+	# can't hear through areas unless they can go through
+	if state && Groups.get_simple_path_player(global_position).empty():
+		pass;
+	
+	elif !(dead && state):
+		if !my_groups.empty() && !grouped && state:
 			for group in my_groups:
 				get_tree().call_group(group,"set_alerted",true,true);
+				remove_from_group(group);
+			
+			my_groups = [];
 		
 		alerted = state;
 		
@@ -180,38 +192,6 @@ func set_detecting(state: bool):
 	if detecting != state:
 		Save.detecting += 1 if state else -1;
 		detecting = state;
-		
-		if state:
-			var tween := Tween.new();
-			add_child(tween);
-			
-			# intensity up
-			tween.interpolate_property(
-					$Animation/Body/Head/Flicker,"texture_scale",
-					null, EYE_INTENSIFY_SCALE, EYE_INTENSIFY,
-					Tween.TRANS_SINE
-			);
-			tween.interpolate_property(
-					$Animation/Body/Head/Flicker2,"texture_scale",
-					null, EYE_INTENSIFY_SCALE, EYE_INTENSIFY,
-					Tween.TRANS_SINE
-			);
-			
-			# intensity down
-			tween.interpolate_property(
-					$Animation/Body/Head/Flicker,"texture_scale",
-					EYE_INTENSIFY_SCALE,EYE_BASE_SCALE, EYE_INTENSIFY,
-					Tween.TRANS_SINE, 2, EYE_INTENSIFY
-			);
-			tween.interpolate_property(
-					$Animation/Body/Head/Flicker2,"texture_scale",
-					EYE_INTENSIFY_SCALE,EYE_BASE_SCALE, EYE_INTENSIFY,
-					Tween.TRANS_SINE, 2, EYE_INTENSIFY
-			);
-			
-			tween.interpolate_callback(tween,EYE_INTENSIFY*2,"queue_free");
-			tween.start();
-
 
 
 func _on_PostDeathDisableAlert_timeout():

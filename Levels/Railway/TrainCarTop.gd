@@ -1,17 +1,11 @@
 extends Area2D
 
-const FADE_IN_TIME = 1.8;
-const FADE_OUT_TIME = 0.7;
+const SPEED = 300/255.0;
 
-func _on_TrainCarTop_body_entered(_body):
-	
-	$Tween.stop_all();
-	$Tween.interpolate_property(self,"modulate",null,Color8(255,255,255,0),FADE_IN_TIME);
-	$Tween.start();
+func _physics_process(delta):
+	# collision bits are useful
+	modulate.a = clamp(modulate.a - (SPEED*delta) * (-1 if get_overlapping_bodies().empty() else 1),0,1);
 
-
-func _on_TrainCarTop_body_exited(_body):
-	
-	$Tween.stop_all();
-	$Tween.interpolate_property(self,"modulate",null,Color8(255,255,255,255),FADE_OUT_TIME);
-	$Tween.start();
+func _on_MineDetector_picked_up():
+	Save.cur_state = Save.STATE.LORELEI;
+	Save.cur_objective = "Escape through medical.";
