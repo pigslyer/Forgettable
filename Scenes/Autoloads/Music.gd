@@ -54,3 +54,5 @@ func play_sfx(stream: AudioStream, pitch: float = 1.0, volume_db: float = 0.0, p
 	add_child(player);
 	player.connect("finished",player,"queue_free");
 	player.play();
+	
+	return player;

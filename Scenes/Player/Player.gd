@@ -58,7 +58,6 @@ var has_pipe: bool = false;
 var can_inventory: bool = true;
 
 func _ready():
-	set_process(false);
 	
 	if !visible:
 		show();
@@ -186,46 +185,48 @@ func _unhandled_key_input(ev: InputEventKey):
 	
 	if OS.is_debug_build():
 		if ev.is_action_pressed("debug_fullbright"):
-			set_health(-1)
-#			$CanvasModulate.visible = !$CanvasModulate.visible;
+			$CanvasModulate.visible = !$CanvasModulate.visible;
 
 
 func say_line(text: String):
 	$HUD/Theme/SayLine.say_line(text);
 
 
-const DEATH_SCREAMS = ["res://Assets/LiamNoises/death0.wav","res://Assets/LiamNoises/death1.wav","res://Assets/LiamNoises/death2.wav","res://Assets/LiamNoises/death3.wav"];
+const DEATH_SCREAMS = ["res://Assets/LiamNoises/death2.wav"];
 
 func set_health(new_val: int):
 	if health > 0 && new_val <= 0:
-		set_physics_process(false);
-		set_process_unhandled_input(false);
-		set_process_unhandled_key_input(false);
-		set_process_input(false);
-		follow_mouse(false);
+		set_control(false);
+		$Animated/PlayerWalk.pause_mode = PAUSE_MODE_PROCESS;
 		
 		if equipped_item != null:
 			equipped_item.queue_free();
 		
+		$HUD/Theme/SaveReminder.displaying(false);
 		$HUD/Theme/SaveReminder/Timer.stop();
-		$HUD/Theme/SaveReminder.hide();
 		$Animated/PlayerWalk.play("die");
 	
 	health = new_val;
 	$HUD/Theme/Health.value = new_val/float(MAX_HEALTH);
 	
 
-func _play_death():
-	Music.play_sfx(load(DEATH_SCREAMS[randi()%DEATH_SCREAMS.size()]));
+func set_control(state: bool):
+	# if we were controlling we want to, if we weren't it wasn't open
+	$HUD/Theme/Inventory.hide();
+	set_physics_process(state);
+	set_process_unhandled_input(state);
+	set_process_unhandled_key_input(state);
+	set_process_input(state);
+	follow_mouse(state);
+	$Animated/PlayerWalk.set_walking(false);
 
-const YOU_DIED_INTERP_TIME = 0.8;
-
-func _process(delta):
-	$HUD/Theme/YouDied.modulate.a = min($HUD/Theme/YouDied.modulate.a+300/255.0*delta,1);
-
-func _interpolate_you_died():
-	$DialoguePlayer/Tween.interpolate_property($HUD/Theme/YouDied,"modulate",Color8(255,255,255,0),Color8(255,255,255,255),YOU_DIED_INTERP_TIME,Tween.TRANS_CUBIC)
+func hide_hud():
+	$DialoguePlayer/Tween.interpolate_property($HUD/Theme/Health,"modulate",null,Color8(255,255,255,0),0.9,Tween.TRANS_CUBIC);
+	$DialoguePlayer/Tween.interpolate_property($HUD/Theme/Hotbar,"modulate",null,Color8(255,255,255,0),0.9,Tween.TRANS_CUBIC);
 	$DialoguePlayer/Tween.start();
+
+func _play_death():
+	Music.play_sfx(load(DEATH_SCREAMS[randi()%DEATH_SCREAMS.size()]),rand_range(0.95,0.99),-4).pause_mode = PAUSE_MODE_PROCESS;
 
 func follow_mouse(state: bool):
 	set_process_unhandled_key_input(state);

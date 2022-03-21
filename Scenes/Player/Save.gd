@@ -15,6 +15,7 @@ func _on_Save_about_to_show():
 	for save in saves:
 		list.add_item(save.get_basename());
 		list.set_item_metadata(list.get_item_count()-1,save.get_basename());
+		list.set_item_tooltip_enabled(list.get_item_count()-1,false);
 
 
 func _on_List_item_activated(index):

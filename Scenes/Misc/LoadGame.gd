@@ -16,6 +16,7 @@ func _on_LoadGame_about_to_show():
 	if saves.empty():
 		items.mouse_filter = MOUSE_FILTER_IGNORE;
 		items.add_item("No saves!");
+		items.set_item_tooltip_enabled(0,false);
 	
 	else:
 		items.mouse_filter = MOUSE_FILTER_STOP;
@@ -23,6 +24,7 @@ func _on_LoadGame_about_to_show():
 		for save in saves:
 			items.add_item(save.get_basename());
 			items.set_item_metadata(items.get_item_count()-1,save.get_basename());
+			items.set_item_tooltip_enabled(items.get_item_count()-1,false);
 
 func _on_Load_pressed():
 	loading = true;

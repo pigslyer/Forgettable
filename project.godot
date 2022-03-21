@@ -319,6 +319,7 @@ rotate={
 2d_physics/layer_7="FlickerAlert"
 2d_physics/layer_8="KneeWorld"
 2d_physics/layer_9="Mine"
+2d_physics/layer_10="Explosives"
 
 [physics]
 

@@ -10,6 +10,7 @@ enum STATE{
 
 # key for dictionary, not key for keycard
 const DROPPED_ITEM_KEY = "Dropped_Items";
+const EXPLOSIVES_KEY = "Explosives";
 
 # DON'T FORGET TO SET THIS ON NEW GAME
 var cur_state: int = STATE.PIPE setget cur_state_changed;
@@ -26,7 +27,7 @@ func cur_state_changed(new_state: int):
 
 # used for both room and normal data
 var save_data := {
-	
+	EXPLOSIVES_KEY : {}
 };
 
 func can_save() -> bool:

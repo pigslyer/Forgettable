@@ -1,15 +1,27 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scenes/Items/ItemBase.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Base/explosives.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/Items/Explosive.gd" type="Script" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 32, 32 )
 
 [node name="Explosive" instance=ExtResource( 1 )]
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 2 )
 script = ExtResource( 3 )
 item_name = "Explosive"
+item_tooltip = "I can return these to the Imp, or I could use them for myself, though I don't know where I should plant them."
 count = 4
 stack_size = 4
 item_size = Vector2( 2, 2 )
 animation_type = 2
+
+[node name="Area2D" type="Area2D" parent="." index="0"]
+collision_layer = 0
+collision_mask = 512
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" index="0"]
+shape = SubResource( 1 )

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Assets/Base/body_main.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Enemies/head1.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Scenes/Enemy/EnemyBase.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/Enemy/Animation.gd" type="Script" id=5]
 [ext_resource path="res://Assets/Player/hand.png" type="Texture" id=6]
+[ext_resource path="res://Scenes/Objects/Flicker2.gd" type="Script" id=7]
 [ext_resource path="res://Assets/Base/light_smol.png" type="Texture" id=8]
 [ext_resource path="res://Scenes/Objects/dissolve.tres" type="Material" id=9]
 [ext_resource path="res://Assets/Base/particle_circle.png" type="Texture" id=10]
@@ -632,12 +633,14 @@ position = Vector2( 12, -2 )
 texture = ExtResource( 8 )
 texture_scale = 0.03
 color = Color( 0.733333, 0.0588235, 0.156863, 1 )
+script = ExtResource( 7 )
 
 [node name="Flicker2" type="Light2D" parent="Animation/Body/Head"]
 position = Vector2( 12, 2 )
 texture = ExtResource( 8 )
 texture_scale = 0.03
 color = Color( 0.733333, 0.0588235, 0.156863, 1 )
+script = ExtResource( 7 )
 __meta__ = {
 "_editor_description_": ""
 }

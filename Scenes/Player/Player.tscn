@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=2]
+[gd_scene load_steps=69 format=2]
 
 [ext_resource path="res://Assets/Player/player_body.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Player/player_head.png" type="Texture" id=2]
@@ -30,6 +30,7 @@
 [ext_resource path="res://Assets/Base/pipe.png" type="Texture" id=28]
 [ext_resource path="res://Assets/Base/particle_circle.png" type="Texture" id=29]
 [ext_resource path="res://Assets/Base/blood.png" type="Texture" id=30]
+[ext_resource path="res://Assets/Base/vignette.png" type="Texture" id=31]
 
 [sub_resource type="CapsuleShape2D" id=24]
 radius = 11.0
@@ -181,7 +182,7 @@ tracks/11/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 tracks/12/type = "value"
-tracks/12/path = NodePath("HUD/Theme/YouDied:modulate")
+tracks/12/path = NodePath("Animated/Body/Blood:emitting")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
@@ -189,8 +190,68 @@ tracks/12/enabled = true
 tracks/12/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("HUD/Theme/Health:modulate")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/14/type = "value"
+tracks/14/path = NodePath("HUD/Theme/Vignette:modulate")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+tracks/15/type = "value"
+tracks/15/path = NodePath("HUD/Theme/YouDied/Panel:modulate")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+tracks/16/type = "value"
+tracks/16/path = NodePath("PassiveLight:smoothing")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 40 ]
+}
+tracks/17/type = "value"
+tracks/17/path = NodePath("HUD/Theme/Hotbar:modulate")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.313726 ) ]
 }
 
 [sub_resource type="Animation" id=15]
@@ -429,7 +490,7 @@ tracks/12/loop_wrap = true
 tracks/12/imported = false
 tracks/12/enabled = true
 tracks/12/keys = {
-"times": PoolRealArray( 1.4 ),
+"times": PoolRealArray( 1.7 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [ Rect2( 0, 0, 0, 0 ) ],
@@ -455,15 +516,105 @@ tracks/14/loop_wrap = true
 tracks/14/imported = false
 tracks/14/enabled = true
 tracks/14/keys = {
-"times": PoolRealArray( 0.3, 1.4 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0.3 ),
+"transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
 "method": "_play_death"
+} ]
+}
+tracks/15/type = "value"
+tracks/15/path = NodePath("HUD/Theme/Vignette:modulate")
+tracks/15/interp = 2
+tracks/15/loop_wrap = true
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/keys = {
+"times": PoolRealArray( 1, 2.5 ),
+"transitions": PoolRealArray( 1.46409, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.984314 ) ]
+}
+tracks/16/type = "value"
+tracks/16/path = NodePath("HUD/Theme/YouDied/Panel:modulate")
+tracks/16/interp = 2
+tracks/16/loop_wrap = true
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/keys = {
+"times": PoolRealArray( 1.7, 2.5 ),
+"transitions": PoolRealArray( 3.13834, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/17/type = "method"
+tracks/17/path = NodePath("PassiveLight")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/keys = {
+"times": PoolRealArray( 0.2, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "pre_proc"
 }, {
 "args": [ false ],
-"method": "set_process"
+"method": "set_enabled"
 } ]
+}
+tracks/18/type = "method"
+tracks/18/path = NodePath("Animated/Body/Head/TechGoggles/Flicker")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/keys = {
+"times": PoolRealArray( 0.6 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ false ],
+"method": "set_enabled"
+} ]
+}
+tracks/19/type = "method"
+tracks/19/path = NodePath("Animated/Body/Head/Pipe/Flicker")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/keys = {
+"times": PoolRealArray( 0.6 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ false ],
+"method": "set_enabled"
+} ]
+}
+tracks/20/type = "value"
+tracks/20/path = NodePath("PassiveLight:smoothing")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/keys = {
+"times": PoolRealArray( -0.5, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 40, 120 ]
+}
+tracks/21/type = "value"
+tracks/21/path = NodePath("HUD/Theme/Hotbar:modulate")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.313726 ), Color( 1, 1, 1, 0 ) ]
 }
 
 [sub_resource type="Animation" id=17]
@@ -1107,17 +1258,8 @@ shortcut = SubResource( 8 )
 
 [sub_resource type="StyleBoxEmpty" id=30]
 
-[sub_resource type="InputEventAction" id=20]
-action = "ui_accept"
-
-[sub_resource type="ShortCut" id=21]
-shortcut = SubResource( 20 )
-
-[sub_resource type="InputEventAction" id=22]
-action = "ui_cancel"
-
-[sub_resource type="ShortCut" id=23]
-shortcut = SubResource( 22 )
+[sub_resource type="StyleBoxEmpty" id=43]
+content_margin_bottom = 8.0
 
 [sub_resource type="DynamicFont" id=33]
 size = 32
@@ -1360,6 +1502,7 @@ z_as_relative = false
 texture = ExtResource( 16 )
 
 [node name="Blood" type="Node2D" parent="Animated/Body/ArmLeft"]
+modulate = Color( 1, 1, 1, 0.160537 )
 position = Vector2( -1.18335, 1.53589 )
 __meta__ = {
 "_editor_description_": ""
@@ -1396,6 +1539,7 @@ script = ExtResource( 20 )
 position = Vector2( 9, 0 )
 z_index = 1021
 z_as_relative = false
+emitting = false
 amount = 32
 lifetime = 3.0
 one_shot = true
@@ -1443,7 +1587,6 @@ __meta__ = {
 }
 
 [node name="Health" type="ProgressBar" parent="HUD/Theme"]
-modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.05
 anchor_top = 0.1
 anchor_right = 0.3
@@ -1470,6 +1613,7 @@ margin_right = 110.0
 margin_bottom = 163.5
 popup_exclusive = true
 script = ExtResource( 11 )
+loadgame = NodePath("../LoadGame")
 
 [node name="Panel" type="Panel" parent="HUD/Theme/Pause"]
 anchor_right = 1.0
@@ -1705,57 +1849,67 @@ margin_right = 350.0
 margin_bottom = 33.0
 text = "Cancel"
 
-[node name="LoadGame" parent="HUD/Theme/Pause" instance=ExtResource( 24 )]
-
-[node name="YouDied" type="PopupPanel" parent="HUD/Theme"]
+[node name="YouDied" type="Popup" parent="HUD/Theme"]
 pause_mode = 2
+visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -110.0
-margin_top = -70.5
-margin_right = 110.0
-margin_bottom = 70.5
+margin_left = -120.0
+margin_top = -80.0
+margin_right = 120.0
+margin_bottom = 80.0
 popup_exclusive = true
 script = ExtResource( 17 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+loadgame = NodePath("../LoadGame")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HUD/Theme/YouDied"]
-anchor_left = 0.1
-anchor_top = 0.1
-anchor_right = 0.9
-anchor_bottom = 0.9
-margin_left = -6.0
-margin_top = 1.9
-margin_right = 6.0
-margin_bottom = -1.89999
-custom_constants/separation = 5
+[node name="Panel" type="Panel" parent="HUD/Theme/YouDied"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="HUD/Theme/YouDied/VBoxContainer"]
-margin_right = 188.0
-margin_bottom = 49.0
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/Theme/YouDied/Panel"]
+anchor_left = 0.05
+anchor_top = 0.1
+anchor_right = 0.95
+anchor_bottom = 1.0
+custom_constants/separation = 8
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="HUD/Theme/YouDied/Panel/VBoxContainer"]
+margin_right = 216.0
+margin_bottom = 25.0
+custom_styles/normal = SubResource( 43 )
 text = "You died"
 align = 1
+uppercase = true
 
-[node name="Button2" type="Button" parent="HUD/Theme/YouDied/VBoxContainer"]
-margin_top = 54.0
-margin_right = 188.0
-margin_bottom = 79.0
-shortcut = SubResource( 21 )
-text = "Restart (space)"
+[node name="Reload" type="Button" parent="HUD/Theme/YouDied/Panel/VBoxContainer"]
+margin_top = 33.0
+margin_right = 216.0
+margin_bottom = 58.0
+text = "Reload last save"
 
-[node name="Button" type="Button" parent="HUD/Theme/YouDied/VBoxContainer"]
-margin_top = 84.0
-margin_right = 188.0
-margin_bottom = 109.0
-shortcut = SubResource( 23 )
-text = "I don't care (esc)"
+[node name="Load" type="Button" parent="HUD/Theme/YouDied/Panel/VBoxContainer"]
+margin_top = 66.0
+margin_right = 216.0
+margin_bottom = 91.0
+text = "Load game"
+
+[node name="MainMenu" type="Button" parent="HUD/Theme/YouDied/Panel/VBoxContainer"]
+margin_top = 99.0
+margin_right = 216.0
+margin_bottom = 124.0
+text = "Main menu"
 
 [node name="Inventory" type="PopupPanel" parent="HUD/Theme"]
 anchor_left = 0.09
@@ -1941,7 +2095,7 @@ __meta__ = {
 }
 
 [node name="Hotbar" type="ReferenceRect" parent="HUD/Theme"]
-self_modulate = Color( 1, 1, 1, 0.313726 )
+modulate = Color( 1, 1, 1, 0.313726 )
 anchor_left = 0.2
 anchor_top = 0.87
 anchor_right = 0.8
@@ -1973,6 +2127,18 @@ wait_time = 60.0
 autostart = true
 
 [node name="Tween" type="Tween" parent="HUD/Theme/SaveReminder"]
+
+[node name="Vignette" type="TextureRect" parent="HUD/Theme"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 31 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LoadGame" parent="HUD/Theme" instance=ExtResource( 24 )]
 
 [node name="Camera" type="Camera2D" parent="."]
 current = true
@@ -2034,13 +2200,13 @@ __meta__ = {
 [connection signal="pressed" from="HUD/Theme/Pause/Save/NewSave/Panel/HBoxContainer/Save" to="HUD/Theme/Pause/Save/NewSave" method="_on_Save_pressed"]
 [connection signal="pressed" from="HUD/Theme/Pause/Save/NewSave/Panel/HBoxContainer/Cancel" to="HUD/Theme/Pause/Save/NewSave" method="_on_Cancel_pressed"]
 [connection signal="about_to_show" from="HUD/Theme/YouDied" to="HUD/Theme/YouDied" method="_on_YouDied_about_to_show"]
-[connection signal="popup_hide" from="HUD/Theme/YouDied" to="HUD/Theme/YouDied" method="_on_YouDied_popup_hide"]
-[connection signal="pressed" from="HUD/Theme/YouDied/VBoxContainer/Button2" to="HUD/Theme/YouDied" method="_on_Button2_pressed"]
-[connection signal="pressed" from="HUD/Theme/YouDied/VBoxContainer/Button" to="HUD/Theme/YouDied" method="hide"]
+[connection signal="pressed" from="HUD/Theme/YouDied/Panel/VBoxContainer/Reload" to="HUD/Theme/YouDied" method="_on_Reload_pressed"]
+[connection signal="pressed" from="HUD/Theme/YouDied/Panel/VBoxContainer/Load" to="HUD/Theme/YouDied" method="_on_Load_pressed"]
+[connection signal="pressed" from="HUD/Theme/YouDied/Panel/VBoxContainer/MainMenu" to="HUD/Theme/YouDied" method="_on_MainMenu_pressed"]
 [connection signal="about_to_show" from="HUD/Theme/Inventory" to="." method="follow_mouse" binds= [ false ]]
 [connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="update_equipped"]
-[connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="override_selected"]
 [connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="update_objective"]
+[connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="override_selected"]
 [connection signal="popup_hide" from="HUD/Theme/Inventory" to="." method="follow_mouse" binds= [ true ]]
 [connection signal="gui_input" from="HUD/Theme/Inventory/VSplitContainer/HSplitContainer/VSplitContainer/ItemWaffle" to="HUD/Theme/Inventory" method="_on_ItemWaffle_gui_input"]
 [connection signal="items_changed" from="HUD/Theme/Inventory/VSplitContainer/HSplitContainer/VSplitContainer/ItemWaffle" to="HUD/Theme/Inventory" method="select"]

@@ -1,5 +1,7 @@
 extends Popup
 
+export (NodePath) var loadgame;
+
 func _on_Pause_about_to_show():
 	get_tree().paused = true;
 	# button 2 is save button
@@ -29,4 +31,4 @@ func _on_save_pressed():
 
 
 func _on_load_pressed():
-	$LoadGame.popup();
+	get_node(loadgame).popup();

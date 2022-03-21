@@ -108,13 +108,10 @@ func _update_locked():
 	if !locked:
 		enemies_can_open = true;
 	
-	if Groups.get_my_room(self) != null:
-		$WhenClosed/InnerKeycard/Interactive.message = "Unlock" if locked else "Lock";
-		$WhenClosed/OuterKeycard/Interactive.message = "Unlock" if locked else "Lock";
-		$WhenClosed/InnerOpen/Flicker.color = LIGHTS_LOCKED.get(keycard,LIGHTS_LOCKED["/"]) if locked else LIGHT_UNLOCKED;
-		$WhenClosed/OuterOpen/Flicker.color = $WhenClosed/InnerOpen/Flicker.color;
-	else:
-		call_deferred("_update_locked");
+	$WhenClosed/InnerKeycard/Interactive.message = "Unlock" if locked else "Lock";
+	$WhenClosed/OuterKeycard/Interactive.message = "Unlock" if locked else "Lock";
+	$WhenClosed/InnerOpen/Flicker.color = LIGHTS_LOCKED.get(keycard,LIGHTS_LOCKED["/"]) if locked else LIGHT_UNLOCKED;
+	$WhenClosed/OuterOpen/Flicker.color = $WhenClosed/InnerOpen/Flicker.color;
 
 func check_death_area():
 	if $AnimationPlayer.playback_speed < 0:

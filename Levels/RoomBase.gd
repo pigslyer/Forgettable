@@ -81,6 +81,22 @@ func _ready():
 		
 		override.remove_from_group(Groups.FOOTSTEP_OVERRIDE);
 	
+	if filename in Save.save_data[Save.EXPLOSIVES_KEY]:
+		var expl = load("res://Scenes/Misc/PlantedExplosive.tscn").instance();
+		add_child(expl);
+		expl.position = Save.save_data[Save.EXPLOSIVES_KEY][filename];
+
+# returns true if planted
+func plant_explosive(where: Vector2) -> bool:
+	if filename in Save.save_data.get(Save.EXPLOSIVES_KEY,{}):
+		return false;
+	
+	var expl = load("res://Scenes/Misc/PlantedExplosive.tscn").instance();
+	add_child(expl);
+	expl.global_position = where;
+	Save.save_data[Save.EXPLOSIVES_KEY][filename] = to_local(where);
+	
+	return true;
 
 func spawn_room(room: PackedScene, from: DoorTransition):
 	var spawned = room.instance();

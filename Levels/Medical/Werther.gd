@@ -20,7 +20,7 @@ func data_load(data):
 
 func _physics_process(delta):
 	
-	if is_shooting && $ShootTime.is_stopped():
+	if is_shooting && $ShootTime.is_stopped() && $StopTime.is_stopped():
 		
 		var target = (Groups.get_player_pos()+Groups.get_player().velocity*VEL_MULTI-werther.global_position).angle()+PI/2;
 		werther.global_rotation = lerp_angle(werther.global_rotation,target,0.91*delta);
@@ -45,6 +45,12 @@ func start_shooting():
 
 
 func shoot():
+	laser.set_enabled(false);
 	handgun.set_laser_energy(ENERGY_NORMAL);
 	laser.clear();
 	handgun.shoot();
+	$StopTime.start();
+
+
+func _on_StopTime_timeout():
+	laser.set_enabled(true);
