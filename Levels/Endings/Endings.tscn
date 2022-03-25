@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/Props/DialoguePlayer.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Levels/Endings/Endings.gd" type="Script" id=2]
+
+[node name="Endings" type="Node"]
+script = ExtResource( 2 )
+
+[node name="DialoguePlayer" parent="." instance=ExtResource( 1 )]

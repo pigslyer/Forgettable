@@ -35,5 +35,10 @@ func _on_Elevator_body_entered(body: Player):
 	get_tree().call_group(FlickerBlinks.GROUP_BLINKS,"set_blink",false);
 	
 	yield(get_tree().create_timer(3),"timeout");
-	$Tween.interpolate_property($CanvasLayer/ColorRect,"color",null,Color8(0,0,0),3,Tween.TRANS_CUBIC);
-	$Tween.start();
+	$CanvasLayer/Fade.blocking = true;
+	
+	yield($CanvasLayer/Fade,"finished_fade");
+	yield(get_tree().create_timer(0.5),"timeout");
+	
+	get_tree().change_scene("res://Levels/Endings/Endings.tscn");
+	

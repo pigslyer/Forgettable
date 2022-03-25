@@ -1,7 +1,7 @@
 extends Enemy
 
-const DAMAGE_MIN = 10
-const DAMAGE_MAX = 20
+const DAMAGE_MIN = 10;
+const DAMAGE_MAX = 20;
 
 # if he's within this distance he rushes the player no matter what
 const MIN_DIST_TO_PLAYER = 64*1.5;
@@ -36,83 +36,84 @@ func attacked():
 
 func _physics_process(_delta):
 	
-	if attacking:
-		if !$Animation/Body/DamageArea.get_overlapping_bodies().empty():
-			_on_DamageArea_body_entered(null);
-	
+	if !Groups.get_player().dead:
+		if attacking:
+			if !$Animation/Body/DamageArea.get_overlapping_bodies().empty():
+				_on_DamageArea_body_entered(null);
+		
+			elif (
+					pointing_gun_at && !knows_gun_empty && 
+					!global_position.distance_squared_to(Groups.get_player().global_position) < 
+					MIN_DIST_TO_PLAYER*MIN_DIST_TO_PLAYER && $DontSurrender.is_stopped()
+				):
+				attacking = false;
+				path = [];
+			else:
+				path = Groups.get_simple_path_player(global_position);
+			
+		
+		elif detecting && !running_away && can_move && !surrendering && $Flinching.is_stopped():
+			
+			# the player sees us
+			$PlayerWall.cast_to = Groups.get_player().global_position-global_position;
+			$PlayerWall.global_rotation = 0;
+			$PlayerWall.force_raycast_update();
+			
+			# the player doesn't see us, so we go towards him.
+			if $PlayerWall.is_colliding():
+				path = Groups.get_simple_path_player(global_position);
+			
+			# we go insta. player got too close
+			elif (
+					global_position.distance_squared_to(Groups.get_player().global_position) < 
+					MIN_DIST_TO_PLAYER*MIN_DIST_TO_PLAYER
+				):
+				$Prerun.stop();
+				_on_Prerun_timeout(true);
+			
+			
+			# surrender, we're being held at gunpoint
+			elif pointing_gun_at && !knows_gun_empty && $DontSurrender.is_stopped():
+				$Animation/AnimationPlayer.play("shy_surrender");
+				$Animation/AnimationPlayer.playback_speed = 1.0;
+				path = [];
+				can_move = false;
+				surrendering = true;
+				Music.play_sfx(
+					[
+						preload("res://Assets/JakobNoises/SurrenderGaspHighShort.wav"),
+						preload("res://Assets/JakobNoises/SurrenderGaspLowShort.wav"),
+						preload("res://Assets/JakobNoises/SurrenderGaspNormalLong2.wav"),
+						preload("res://Assets/JakobNoises/SurrenderGaspNormalLong.wav"),
+					][randi()%4],
+					rand_range(0.9,1.1), 5, global_position
+				);
+			
+			
+			# we go after a while. player isn't looking at us/doesn't have a gun
+			else:
+				if $Prerun.is_stopped():
+					$Prerun.start();
+		
+		# we go insta. player got too close or isn't holding us up
 		elif (
-				pointing_gun_at && !knows_gun_empty && 
-				!global_position.distance_squared_to(Groups.get_player().global_position) < 
-				MIN_DIST_TO_PLAYER*MIN_DIST_TO_PLAYER && $DontSurrender.is_stopped()
-			):
-			attacking = false;
-			path = [];
-		else:
-			path = Groups.get_simple_path_player(global_position);
-		
-	
-	elif detecting && !running_away && can_move && !surrendering && $Flinching.is_stopped():
-		
-		# the player sees us
-		$PlayerWall.cast_to = Groups.get_player().global_position-global_position;
-		$PlayerWall.global_rotation = 0;
-		$PlayerWall.force_raycast_update();
-		
-		# the player doesn't see us, so we go towards him.
-		if $PlayerWall.is_colliding():
-			path = Groups.get_simple_path_player(global_position);
-		
-		# we go insta. player got too close
-		elif (
+				surrendering && (
 				global_position.distance_squared_to(Groups.get_player().global_position) < 
-				MIN_DIST_TO_PLAYER*MIN_DIST_TO_PLAYER
+				MIN_DIST_TO_PLAYER*MIN_DIST_TO_PLAYER ||
+				!(pointing_gun_at && !knows_gun_empty))
 			):
-			$Prerun.stop();
-			_on_Prerun_timeout(true);
+			unsurrender()
+			
+		
+		elif path.empty() && running_away:
+			running_away = false;
 		
 		
-		# surrender, we're being held at gunpoint
-		elif pointing_gun_at && !knows_gun_empty && $DontSurrender.is_stopped():
-			$Animation/AnimationPlayer.play("shy_surrender");
-			$Animation/AnimationPlayer.playback_speed = 1.0;
-			path = [];
-			can_move = false;
-			surrendering = true;
-			Music.play_sfx(
-				[
-					preload("res://Assets/JakobNoises/SurrenderGaspHighShort.wav"),
-					preload("res://Assets/JakobNoises/SurrenderGaspLowShort.wav"),
-					preload("res://Assets/JakobNoises/SurrenderGaspNormalLong2.wav"),
-					preload("res://Assets/JakobNoises/SurrenderGaspNormalLong.wav"),
-				][randi()%4],
-				rand_range(0.9,1.1), 5, global_position
-			);
+		if surrendering:
+			look_at(Groups.get_player().global_position);
 		
-		
-		# we go after a while. player isn't looking at us/doesn't have a gun
-		else:
-			if $Prerun.is_stopped():
-				$Prerun.start();
-	
-	# we go insta. player got too close or isn't holding us up
-	elif (
-			surrendering && (
-			global_position.distance_squared_to(Groups.get_player().global_position) < 
-			MIN_DIST_TO_PLAYER*MIN_DIST_TO_PLAYER ||
-			!(pointing_gun_at && !knows_gun_empty))
-		):
-		unsurrender()
-		
-	
-	elif path.empty() && running_away:
-		running_away = false;
-	
-	
-	if surrendering:
-		look_at(Groups.get_player().global_position);
-	
-	if alerted && !running_away:
-		$Animation/Body/Head.look_at(Groups.get_player().global_position);
+		if alerted && !running_away:
+			$Animation/Body/Head.look_at(Groups.get_player().global_position);
 
 
 # also autoattacks

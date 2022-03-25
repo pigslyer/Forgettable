@@ -29,8 +29,8 @@ func _physics_process(delta):
 		# we collided with an enemy
 		if w_enemy:
 			var enemy = data.collider;
-			enemy.health -= rand_range(damage_max,damage_max);
-		
+			if enemy is Enemy:
+				enemy.health -= rand_range(damage_max,damage_max);
 		
 		set_physics_process(false);
 		
@@ -50,6 +50,9 @@ func _physics_process(delta):
 	
 	elif $RayCast2D.is_colliding():
 		
+		if $RayCast2D.get_collider() is Area2D:
+			$RayCast2D.get_collider().emit_signal("body_entered",self);
+		
 		var use = $Sparks;
 		set_physics_process(false);
 		$Sprite.hide();
@@ -66,4 +69,3 @@ func _physics_process(delta):
 		
 		yield(get_tree().create_timer(1),"timeout");
 		queue_free();
-		

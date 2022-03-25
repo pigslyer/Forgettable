@@ -9,7 +9,7 @@ radius = 6.0
 
 [node name="Bullet" type="KinematicBody2D"]
 z_index = 200
-collision_layer = 0
+collision_layer = 1024
 collision_mask = 20
 script = ExtResource( 2 )
 
@@ -38,7 +38,8 @@ color = Color( 0.921569, 0.784314, 0.152941, 1 )
 [node name="RayCast2D" type="RayCast2D" parent="."]
 enabled = true
 cast_to = Vector2( 50, 0 )
-collision_mask = 16
+collision_mask = 20
+collide_with_areas = true
 __meta__ = {
 "_editor_description_": "for some reason interactive blocker on door doesn't interactively block"
 }

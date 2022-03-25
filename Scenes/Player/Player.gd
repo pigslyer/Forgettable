@@ -57,6 +57,8 @@ var has_pipe: bool = false;
 # so player can't do stupid shit while reloading
 var can_inventory: bool = true;
 
+var tut_hides := [];
+
 func _ready():
 	
 	if !visible:
@@ -138,9 +140,12 @@ func _physics_process(delta):
 	# interactive display
 	
 	if $DialoguePlayer/Theme.get_focus_owner() is Interactive:
-		inter_label.visible = true;
-		closest = $DialoguePlayer/Theme.get_focus_owner().area;
-		inter_label.text = closest.get_parent().message;
+		if $DialoguePlayer/Theme.get_focus_owner().get_global_rect().has_point(get_global_mouse_position()):
+			inter_label.visible = true;
+			closest = $DialoguePlayer/Theme.get_focus_owner().area;
+			inter_label.text = closest.get_parent().message;
+		else:
+			$DialoguePlayer/Theme.get_focus_owner().release_focus();
 	else:
 		closest = null;
 		inter_label.visible = !interactive.get_overlapping_areas().empty();
@@ -193,11 +198,15 @@ func say_line(text: String):
 
 
 const DEATH_SCREAMS = ["res://Assets/LiamNoises/death2.wav"];
+const PAIN_DIFF = 15;
+const PAIN_OOF = ["res://Assets/LiamNoises/pain1.wav","res://Assets/LiamNoises/pain2.wav"];
+const PAIN_DELAY = 0.3;
 
-func set_health(new_val: int):
+func set_health(new_val: int, loud: bool = true):
 	if health > 0 && new_val <= 0:
 		set_control(false);
 		$Animated/PlayerWalk.pause_mode = PAUSE_MODE_PROCESS;
+		dead = true;
 		
 		if equipped_item != null:
 			equipped_item.queue_free();
@@ -205,6 +214,13 @@ func set_health(new_val: int):
 		$HUD/Theme/SaveReminder.displaying(false);
 		$HUD/Theme/SaveReminder/Timer.stop();
 		$Animated/PlayerWalk.play("die");
+	elif health-new_val > PAIN_DIFF && loud:
+		Music.play_sfx(load(PAIN_OOF[randi()%PAIN_OOF.size()]));
+		set_control(false);
+		yield(get_tree().create_timer(PAIN_DELAY),"timeout");
+		if dead:
+			return;
+		set_control(true);
 	
 	health = new_val;
 	$HUD/Theme/Health.value = new_val/float(MAX_HEALTH);
@@ -265,6 +281,9 @@ func get_camera() -> Camera2D:
 func turn_towards(point: Vector2):
 	$Animated.angle = (point-global_position).angle();
 
+func save_reminder_start():
+	$HUD/Theme/SaveReminder/Timer.start();
+
 func save_reminder(on: bool):
 	$HUD/Theme/SaveReminder.displaying(on);
 
@@ -279,10 +298,13 @@ func save_data():
 		$HUD/Theme/Inventory.save_data(),
 		has_goggles,
 		$DialoguePlayer.one_timed,
+		$HUD/Theme/Tutorial.text,
+		$HUD/Theme/Tutorial.vis,
+		tut_hides,
 	];
 
 func load_data(data):
-	health = data[0];
+	set_health(data[0],false);
 	global_position = data[1];
 	get_waffle().load_data(data[4]);
 	$HUD/Theme/Inventory.load_data(data[5]);
@@ -303,6 +325,9 @@ func load_data(data):
 		equip_special("res://Scenes/Items/TechGoggles.tscn");
 	
 	$DialoguePlayer.one_timed = data[7];
+	$HUD/Theme/Tutorial.text = data[8];
+	$HUD/Theme/Tutorial.vis = data[9];
+	tut_hides = data[10];
 	
 	# better too many than too few imo
 	get_tree().call_group(Groups.TECH_GOGGLES,"tech_goggles",has_goggles);
@@ -330,3 +355,17 @@ func special_equipped(path: String) -> bool:
 
 func get_dial_player():
 	return $DialoguePlayer;
+
+func tutorial_show(msg: String, hide: Array):
+	tut_hides = hide;
+	$HUD/Theme/Tutorial.text = msg;
+	$HUD/Theme/Tutorial.show();
+
+func tutorial_hide():
+	tut_hides.clear();
+	$HUD/Theme/Tutorial.hide();
+
+func _input(ev: InputEvent):
+	for tut in tut_hides:
+		if ev.is_action_pressed(tut):
+			$HUD/Theme/Tutorial.hide();

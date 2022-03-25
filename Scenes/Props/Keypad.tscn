@@ -354,6 +354,7 @@ text = "ENTER"
 
 [node name="Correct" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
+volume_db = -25.0
 bus = "SFX"
 
 [node name="Incorrect" type="AudioStreamPlayer" parent="."]
@@ -362,6 +363,7 @@ bus = "SFX"
 
 [node name="Click" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 8 )
+volume_db = -16.0
 bus = "SFX"
 
 [connection signal="interacted" from="Interactive" to="CanvasLayer/PopupPanel" method="popup"]

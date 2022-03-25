@@ -1,5 +1,37 @@
-/talking_to Eugene
+/action update_name
+
+:Hey...
 {
-	:::Hi, fuck you.
-	::That's all.
+    :::Do you think Earl is trustworthy?
+    What I think doesn't much matter. Or it shouldn't, anyway. But my two cents are this. 
+    Earl is gonna take care of you for as long as he likes you and deems you interesting.
+    I think you're pretty interesting to him, what with who you were and everything. As such, I think he likes you.
+    Anyway, what do you think?
+    {
+        ::He seems trustworthy to me.
+        :He doesn't seem the type to push you off a cliff, y'know?
+        Well, he has done that on multiple ocassions, but that's just splitting hairs.
+        Anyway, I hope all goes well for you.
+
+        ::There's something off about him.
+        :I still don't understand why he needs my help. He seems perfectly capable of talking to you monsters on his own.
+        Monsters?
+        :I'm talking to an overweight imp sitting atop a throne of bones in an emptied meat locker. I think the word is apt.
+        Yes... anyway, Earl probably wants to make sure you're ready to work for him.
+        :Work for him?
+        You'll find out once you escape.
+
+        :::Who I was? Who was I?!
+        I know you don't remember.
+        How's this? Later on, I'll need your help. If you'll help me, I'll lead you to the answer.
+        Back on topic though. What do you think?
+    }
+    :::Where is the Prison Cell Control Key?
+    Why do you need it?
+    {
+        ::I'd like to check if anyone else is still locked up.
+        ::None of your business.
+    }
+    I don't know. Try to find one of the scientists who worked in that area. They might have the key.
+    ::Nothing else.
 }

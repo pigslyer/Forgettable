@@ -1,6 +1,9 @@
 class_name Door, "res://Assets/Base/door_hand_scanner.png"
 extends Node2D;
 
+signal toggled_open;
+signal toggled_lock;
+
 const UNLOCK_LINE = "It's now unlocked.";
 const LOCK_LINE = "It's now locked.";
 const NO_KEYCARD_LINE = "I haven't got the right keycard to ";
@@ -29,11 +32,9 @@ onready var prev_open: bool = open;
 func data_save(): return [open,locked];
 func data_load(data): 
 	open = data[0]; locked = data[1];
+	_ready();
 
 func _ready():
-	
-	# so we can receive data and properly open/close
-	yield(get_tree(),"idle_frame");
 	
 	if outer_text.empty():
 		$WhenClosed/Text.hide();
@@ -63,6 +64,7 @@ func _on_open(force: bool = false):
 		$WhenClosed/Skkrt.play();
 		open = !open;
 		prev_open = open;
+		emit_signal("toggled_open");
 
 func _on_keycard():
 	if !keycard.empty() && Groups.get_player().has_keycard(keycard):
@@ -75,6 +77,7 @@ func toggle_locked():
 	$LockedSound.play();
 	Groups.say_line(LOCK_LINE if locked else UNLOCK_LINE);
 	_update_locked();
+	emit_signal("toggled_lock");
 
 func _on_EnemyAutoOpen_body_entered(_body):
 	if !open && enemies_can_open:
@@ -103,6 +106,7 @@ func set_locked(state: bool):
 	if state != locked:
 		locked = state;
 		_update_locked();
+		emit_signal("toggled_lock");
 
 func _update_locked():
 	if !locked:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scenes/Player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Levels/Abandoned/Abandoned.tscn" type="PackedScene" id=2]
@@ -6,6 +6,9 @@
 [ext_resource path="res://Assets/Sounds/marble_floor.wav" type="AudioStream" id=4]
 [ext_resource path="res://Assets/Sounds/wooden_floor.wav" type="AudioStream" id=5]
 [ext_resource path="res://Scenes/Main/Main.gd" type="Script" id=6]
+[ext_resource path="res://Scenes/Objects/fader.gd" type="Script" id=7]
+[ext_resource path="res://Assets/UI/Font.tres" type="DynamicFont" id=8]
+[ext_resource path="res://Scenes/Objects/TextFade.gd" type="Script" id=9]
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 6 )
@@ -17,3 +20,26 @@ rotation = 0.454498
 
 [node name="Abandoned" parent="." instance=ExtResource( 2 )]
 footstep_sounds = [ null, null, ExtResource( 5 ), ExtResource( 4 ), ExtResource( 3 ), null, null, ExtResource( 5 ), null, null, null, null ]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 105
+
+[node name="Fade" type="ColorRect" parent="CanvasLayer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 7 )
+start_blocking = true
+trans_time = 1.6
+
+[node name="TextFade" type="Label" parent="CanvasLayer/Fade"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -300.0
+margin_top = -24.5
+margin_right = 300.0
+margin_bottom = 24.5
+custom_fonts/font = ExtResource( 8 )
+script = ExtResource( 9 )

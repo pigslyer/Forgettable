@@ -1,3 +1,46 @@
 /talking_to Earl
 
-imma yoink that.
+:Here's your pipe, skull.
+Thanks, pal. Now, onto the next step.
+The only way out of the facility is via the elevator past the Entrance Hall in Medical.
+However, there's one more monster down here you've yet to meet. Werther.
+Here's the deal. If you think that I'm looney, Fatty's a meanie and Lorelei's a bit of a drag, you're in for a tough time.
+Werther... he listened to you people a little too much, got into all that nihilism crap and now he can't shut up about it.
+He's come to the -genius- conclusion that the only way to assert his existence is to blow shit up.
+Don't ask me about the causality behind that.
+
+:So he's planning to blow up this facility?
+That's the long term plan, yeah, but y'see, it's like a country switching to electric cars.
+It'll probably take him a decade or two.
+{
+    ::So what's the problem?
+    Simple.
+    ::But he's not sitting on his laurels?
+    Exactly.
+}
+
+He's set up mines in the entrance hall and I hear he's got a servant of his own somewhere.
+:How do we bypass those?
+/update Return to Imp.
+I propose you go back to Fatty and ask him for help with that.
+In the mean time, I have some leads of my own to investigate.
+{
+    ::Alright, where do we meet again?
+    Hereabouts. This prison area seems safe to me.
+    
+    ::Wait, you actually do things when I'm not looking at you?
+    Of course. I have some other people under my command elsewhere.
+    I also scout ahead and am the brains behind your operations.
+    :Wait, other people?
+    NatSol is a big place. Got a Gary down on floor -15 who's on the brink of having an existential crisis.
+    :Uh huh...
+
+    ::Is there a way I could help him?
+    You've gotta be fucking me...
+    Actually... not a bad idea. Werther's main problem is a lack of high grade explosives.
+    :Mines don't count?
+    They're a defensive measure so the bozos don't come after him. They're not strong enough to cause any major structural damage.
+    :Alright, where would I find explosives then?
+    That I don't know. Fatty probably does though. Ask him.
+}
+/action start_info

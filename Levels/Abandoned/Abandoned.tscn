@@ -1,4 +1,4 @@
-[gd_scene load_steps=148 format=2]
+[gd_scene load_steps=151 format=2]
 
 [ext_resource path="res://Levels/RoomBase.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Objects/Interactive.gd" type="Script" id=2]
@@ -22,7 +22,7 @@
 [ext_resource path="res://Assets/Base/transition.png" type="Texture" id=20]
 [ext_resource path="res://Assets/Sounds/metal_floor.wav" type="AudioStream" id=21]
 [ext_resource path="res://Assets/Base/table2.png" type="Texture" id=22]
-[ext_resource path="res://Assets/Base/tormentor_head.png" type="Texture" id=23]
+[ext_resource path="res://Assets/Enemies/head2.png" type="Texture" id=23]
 [ext_resource path="res://Assets/Player/player_body.png" type="Texture" id=24]
 [ext_resource path="res://Assets/Base/agent_head.png" type="Texture" id=25]
 [ext_resource path="res://Assets/Player/hand.png" type="Texture" id=26]
@@ -79,6 +79,8 @@
 [ext_resource path="res://Scenes/Objects/SayLine.gd" type="Script" id=77]
 [ext_resource path="res://Assets/Enemies/head3.png" type="Texture" id=78]
 [ext_resource path="res://Levels/Abandoned/Bomber.gd" type="Script" id=79]
+[ext_resource path="res://Scenes/Objects/Tutorial.gd" type="Script" id=80]
+[ext_resource path="res://Levels/Abandoned/LoreleiCall.gd" type="Script" id=81]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -1523,6 +1525,9 @@ extents = Vector2( 21, 20 )
 [sub_resource type="RectangleShape2D" id=29]
 extents = Vector2( 61.64, 30 )
 
+[sub_resource type="RectangleShape2D" id=79]
+extents = Vector2( 40, 50 )
+
 [sub_resource type="RectangleShape2D" id=51]
 extents = Vector2( 789.5, 164 )
 
@@ -1848,6 +1853,7 @@ bus = "SFX"
 
 [node name="ToggleLock" type="AudioStreamPlayer" parent="Prison/CellDoors" index="1"]
 stream = ExtResource( 5 )
+volume_db = -25.0
 bus = "SFX"
 
 [node name="CellControl" type="StaticBody2D" parent="Prison/CellDoors" index="2"]
@@ -1919,9 +1925,6 @@ mouse_filter = 2
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Prison/CellDoors/Cell1/Door" index="0"]
 visible = false
@@ -1935,7 +1938,7 @@ shape = SubResource( 3 )
 [node name="OpeningSound" type="AudioStreamPlayer2D" parent="Prison/CellDoors/Cell1/Door" index="1"]
 position = Vector2( 16.0004, 50 )
 stream = ExtResource( 8 )
-volume_db = 12.0
+volume_db = 4.0
 pitch_scale = 0.9
 max_distance = 4000.0
 attenuation = 1.23114
@@ -1987,7 +1990,7 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-message = "Call out"
+message = "Bars"
 dial_path = "res://Levels/Abandoned/Prison/agent_callout.txt"
 
 [node name="Door" type="TextureRect" parent="Prison/CellDoors/Cell2" index="1"]
@@ -1999,9 +2002,6 @@ mouse_filter = 2
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Prison/CellDoors/Cell2/Door" index="0"]
 visible = false
@@ -2016,7 +2016,7 @@ shape = SubResource( 3 )
 position = Vector2( 15, 60 )
 rotation = 1.57079
 stream = ExtResource( 8 )
-volume_db = 12.0
+volume_db = 4.0
 pitch_scale = 0.9
 max_distance = 4000.0
 attenuation = 1.23114
@@ -2086,7 +2086,7 @@ shape = SubResource( 3 )
 position = Vector2( 16.0003, 41 )
 rotation = 1.57079
 stream = ExtResource( 8 )
-volume_db = 12.0
+volume_db = 4.0
 pitch_scale = 0.9
 max_distance = 4000.0
 attenuation = 1.23114
@@ -2157,7 +2157,7 @@ shape = SubResource( 3 )
 position = Vector2( 13, 38 )
 rotation = 1.57079
 stream = ExtResource( 8 )
-volume_db = 12.0
+volume_db = 4.0
 pitch_scale = 0.9
 max_distance = 4000.0
 attenuation = 1.23114
@@ -2207,7 +2207,7 @@ margin_top = 25.0
 margin_right = 32.0
 margin_bottom = 234.0
 script = ExtResource( 2 )
-message = "Contemplate"
+message = "Bars"
 dial_path = "res://Levels/Abandoned/Prison/skully_intro.txt"
 dial_actions = NodePath("../../../../SkullyConvo")
 ignore_blocker = true
@@ -2238,7 +2238,7 @@ shape = SubResource( 3 )
 position = Vector2( 15.0004, 43 )
 rotation = 1.57079
 stream = ExtResource( 8 )
-volume_db = 12.0
+volume_db = 4.0
 pitch_scale = 0.9
 max_distance = 4000.0
 attenuation = 1.23114
@@ -2257,9 +2257,6 @@ margin_bottom = 386.0
 rect_rotation = -270.0
 rect_clip_content = true
 mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Bars" type="TextureRect" parent="Prison/CellDoors/Cell6" index="0"]
 margin_left = -7.62939e-06
@@ -2309,7 +2306,7 @@ shape = SubResource( 3 )
 position = Vector2( 13, 47 )
 rotation = 1.57079
 stream = ExtResource( 8 )
-volume_db = 12.0
+volume_db = 4.0
 pitch_scale = 0.9
 max_distance = 4000.0
 attenuation = 1.23114
@@ -2628,6 +2625,15 @@ script = ExtResource( 76 )
 [node name="Skully" parent="Prison/SkullyPipe" index="0" instance=ExtResource( 28 )]
 rotation = -1.09967
 
+[node name="Interactive" type="Control" parent="Prison/SkullyPipe/Skully" index="7"]
+margin_left = 21.2516
+margin_top = -28.7814
+margin_right = 82.2516
+margin_bottom = 26.2186
+script = ExtResource( 2 )
+message = "Earl"
+disabled = true
+
 [node name="Area2D" type="Area2D" parent="Prison/SkullyPipe" index="1"]
 collision_layer = 0
 collision_mask = 2
@@ -2640,6 +2646,37 @@ shape = SubResource( 73 )
 [node name="WallLight" parent="Prison" index="5" instance=ExtResource( 36 )]
 position = Vector2( 362, -99 )
 rotation = 1.57079
+
+[node name="Tutorial" type="Control" parent="Prison" index="6"]
+margin_left = 162.0
+margin_top = -181.0
+margin_right = 354.0
+margin_bottom = -132.0
+script = ExtResource( 80 )
+message = "Press E to interact with whatever you're looking at
+(displayed in the top right)."
+actions = [ "interact" ]
+
+[node name="Tutorial2" type="Control" parent="Prison" index="7"]
+margin_left = 530.0
+margin_top = -75.0
+margin_right = 606.0
+margin_bottom = 55.0
+script = ExtResource( 80 )
+message = "Interact with the hand scanner on a door to open it."
+
+[node name="Bandage" parent="Prison" index="8" instance=ExtResource( 39 )]
+position = Vector2( -6, 235 )
+rotation = -0.551687
+texture = ExtResource( 38 )
+drops = ExtResource( 40 )
+
+[node name="Bandage2" parent="Prison" index="9" instance=ExtResource( 39 )]
+position = Vector2( 25, 237 )
+rotation = 0.334401
+texture = ExtResource( 38 )
+drops = ExtResource( 40 )
+count = 2
 
 [node name="Kitchen" type="Node2D" parent="." index="6"]
 
@@ -2933,6 +2970,17 @@ position = Vector2( 1216, 352 )
 outer_text = "Kitchen"
 locked = true
 enemies_can_open = false
+
+[node name="LoreleiCall" type="Area2D" parent="Kitchen" index="6" groups=["SAVES"]]
+position = Vector2( 1165, 142 )
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource( 81 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Kitchen/LoreleiCall" index="0"]
+position = Vector2( -1, -14 )
+shape = SubResource( 79 )
 
 [node name="Lab" type="Node2D" parent="." index="7"]
 position = Vector2( 206, -1116 )
@@ -4067,8 +4115,11 @@ shape = SubResource( 78 )
 [connection signal="gui_input" from="Prison/CellDoors/CanvasLayer/CellControls/Panel/Panel/Keyhole" to="Prison/CellDoors" method="_on_Keyhole_gui_input"]
 [connection signal="interacted" from="Prison/Cells/Prisoner/TalkTo" to="Prison/Cells/Prisoner" method="_on_TalkTo_interacted"]
 [connection signal="body_entered" from="Prison/Mines/AlertPlace" to="Prison/Mines" method="_on_AlertPlace_player_entered"]
+[connection signal="interacted" from="Prison/SkullyPipe/Skully/Interactive" to="Prison/SkullyPipe" method="_on_Interactive_interacted"]
 [connection signal="body_entered" from="Prison/SkullyPipe/Area2D" to="Prison/SkullyPipe" method="_on_Area2D_body_entered"]
 [connection signal="finished" from="Kitchen/KitchenTormentor/Tormentor/Screaming" to="Kitchen/KitchenTormentor" method="_reset_scream"]
 [connection signal="timeout" from="Kitchen/KitchenTormentor/ScreamReset" to="Kitchen/KitchenTormentor" method="start_screaming"]
+[connection signal="toggled_open" from="Kitchen/DoorCellKitchen" to="Prison/SkullyConvo" method="_on_DoorCellKitchen_toggled_open"]
+[connection signal="body_entered" from="Kitchen/LoreleiCall" to="Kitchen/LoreleiCall" method="_on_LoreleiCall_body_entered"]
 [connection signal="timeout" from="Shower/Lorelei/Tentacles/Timer" to="Shower/Lorelei/Tentacles" method="update_tentacles"]
 [connection signal="interacted" from="Shower/Lorelei/Interactive" to="Shower/Lorelei" method="_on_Interactive_interacted"]

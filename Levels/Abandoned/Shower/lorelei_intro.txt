@@ -1,5 +1,79 @@
+/talking_to ???
+
+Oh, my - a visitor! And one with a fresh face at that! How kind of you to come to visit lonely old me. 
+:Uhh, hi. You must be Lorelei, right? 
+
 /talking_to Lorelei
-Hmm, yes, pipe.
-/action reveal
+
+Correct. My, my, he even knows my name! You truly are a charming one. Caring for a broken, sad soul such as mine. But I digress. Who might you be? 
+{
+	::It doesn't matter.
+	Don't trust me? Why, that really breaks my heart! And just when I thought it couldn't get any worse as well...
+
+	::I don't know.
+	:In all honesty, I don't remember.
+	You don't remember? Oh but that is a tragic fate! A tabula rasa, that's what you are!
+	But, as they say, ignorance is bliss!
+
+}
+Oh, if only I didn't find myself in such turmoil! 
+
+{
+	::Don't care, didn't ask.
+	I should have known you'd be no different than the rest of them! A monster, completely heartless! Have you no compassion for a poor, suffering soul? 
+	:You seem just fine to me. 
+	Ugh, men. You really are all the same! 
+	
+	::Uhh, sure. 
+	Well then, say something! It isn't right to just ignore someone when they are clearly in distress! 
+	:Uhh... What the hell do you want me to say? 
+	... 
+	You really are a lost cause. 	
+
+	::Are you feeling... alright? 
+	Why, how kind of you to ask. Unfortunately, I must confess that I've been feeling rather down lately. 
+	You see, ever since I've found myself here, I haven't had any proper company. 
+	{
+		::Yeah, I'm gonna be honest lady, I'm just here for the pipe. 
+
+		::What do you mean? Don't you have... followers?
+ 		Oh, they didn't count. They were all too far gone to hold a conversation. But they made me feel even worse, you know? 
+		They made me realize that someone's physical presence wasn't enough, and it slowly started driving me crazy. It's almost like my own personal curse, you see? Never alone and yet always lonely. 
+		{
+			::I think I've heard enough. 	
+			You are no fun, you know that? 
+
+			::Go on. 
+			Every now and then, I'd get visitors, like yourself. Oh, these always make me feel excited! 
+			...
+			Maybe a bit too excited. 
+			:Huh? 
+			Have you ever felt completely robbed of something? So deprived, that when you finally came into contact with it, you simply couldn't contain yourself? I suppose not. 
+			It's quite an intense feeling. One that I've experienced many times. 
+			{
+				::I think this might be the right time to change the topic. 
+				But... alright, I understand.
+
+				::Mhm... 
+				Sometimes I'd catch a glimpse of those who came in and this... Madness would completely engulfed me. I had to have them, no matter what. I had to have absolute control over them. 
+				So, various unfortunate accidents happened, and I was once again left alone with my sorrow and my tears. This world really is beyond cruel. 
+				:Accidents? 
+				I killed them, darling. 
+				:Ah. I should have known. 
+				It's not fair! Earl, Werther, even that fat bastard, they all have followers, they all have someone to talk to! Why am I the only one who's being denied that? Can't you see? It's not fair, not at all! 
+				:I- I'm sorry but I really don't know how to help with that. 
+
+			}
+		}
+	}
+}
+Never mind. You hadn't said why you were here in the first place. Or is that something you're not ready to reveal? 
+:Ah, right. I'm looking for an old pipe? Earl lost it. Said you might know where it is. 
+/action reveal 
 ;...
+Do you mean this pipe? 
+:Maybe, yeah. Can I... have it? 
+Sure. Here you go. 
+:Huh. Didn't think it would be this easy. 
+
 /action lore

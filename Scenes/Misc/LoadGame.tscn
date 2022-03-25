@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Assets/UI/HUDTheme.tres" type="Theme" id=1]
 [ext_resource path="res://Scenes/Misc/LoadGame.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/Misc/UIConfirmShortcut.tres" type="ShortCut" id=3]
+[ext_resource path="res://Scenes/Misc/UICancelShortcut.tres" type="ShortCut" id=4]
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
@@ -18,9 +20,6 @@ margin_right = 253.0
 margin_bottom = 147.5
 theme = ExtResource( 1 )
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Panel" type="Panel" parent="."]
 anchor_right = 1.0
@@ -43,42 +42,52 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="Panel/VBoxContainer"]
-margin_right = 405.0
-margin_bottom = 17.0
+margin_right = 415.0
+margin_bottom = 19.0
 custom_styles/normal = SubResource( 1 )
 text = "Select save file."
 align = 1
 
 [node name="Saves" type="ItemList" parent="Panel/VBoxContainer"]
-margin_top = 21.0
-margin_right = 405.0
-margin_bottom = 207.0
+margin_top = 23.0
+margin_right = 415.0
+margin_bottom = 205.0
 size_flags_vertical = 3
 allow_reselect = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Panel/VBoxContainer"]
-margin_top = 211.0
-margin_right = 405.0
+margin_top = 209.0
+margin_right = 415.0
 margin_bottom = 236.0
 custom_constants/separation = 80
 alignment = 1
 
 [node name="Load" type="Button" parent="Panel/VBoxContainer/HBoxContainer"]
-margin_left = 5.0
-margin_right = 103.0
-margin_bottom = 25.0
+margin_right = 107.0
+margin_bottom = 27.0
+focus_neighbour_left = NodePath("../Cancel")
+focus_neighbour_top = NodePath("../../Saves")
+focus_neighbour_right = NodePath("../Delete")
+shortcut = ExtResource( 3 )
 text = "Load game"
 
 [node name="Delete" type="Button" parent="Panel/VBoxContainer/HBoxContainer"]
-margin_left = 183.0
-margin_right = 251.0
-margin_bottom = 25.0
+margin_left = 187.0
+margin_right = 261.0
+margin_bottom = 27.0
+focus_neighbour_left = NodePath("../Load")
+focus_neighbour_top = NodePath("../../Saves")
+focus_neighbour_right = NodePath("../Cancel")
 text = "Delete"
 
 [node name="Cancel" type="Button" parent="Panel/VBoxContainer/HBoxContainer"]
-margin_left = 331.0
-margin_right = 399.0
-margin_bottom = 25.0
+margin_left = 341.0
+margin_right = 415.0
+margin_bottom = 27.0
+focus_neighbour_left = NodePath("../Delete")
+focus_neighbour_top = NodePath("../../Saves")
+focus_neighbour_right = NodePath("../Load")
+shortcut = ExtResource( 4 )
 text = "Cancel"
 
 [node name="Popup" type="Popup" parent="."]
@@ -128,6 +137,7 @@ anchor_right = 0.9
 anchor_bottom = 0.85
 margin_left = -148.0
 margin_top = -25.0
+shortcut = ExtResource( 4 )
 text = "No, thank you."
 align = 2
 

@@ -21,7 +21,6 @@ func dial_action(id):
 	
 	if id == "reveal":
 		$AnimationPlayer.play("PukeItOut");
-		Save.cur_state = Save.STATE.DETECTOR;
 	
 	if id == "lore":
 		state = QUESTIONS;

@@ -15,4 +15,5 @@ func _on_Load_pressed():
 
 
 func _on_MainMenu_pressed():
-	push_warning("You haven't added the main menu yet m8.");
+	get_tree().paused = false;
+	get_tree().change_scene("res://Scenes/Main/MainMenu.tscn");

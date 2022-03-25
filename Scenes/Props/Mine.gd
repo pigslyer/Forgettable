@@ -7,13 +7,13 @@ export (bool) var disabled = false setget set_disabled;
 func data_save(): return [disabled,false];
 
 func data_load(data):
-	disabled = data[0];
+	set_disabled(data[0]);
 	
 	if data[1]:
 		queue_free();
 
 func set_disabled(state: bool):
-	monitoring = !state;
+	set_deferred("monitoring",!state);
 	
 	if state:
 		$Beep.stop();
@@ -21,14 +21,13 @@ func set_disabled(state: bool):
 		$Beep.start();
 
 func _on_Mine_body_entered(_body):
-	$BlowUp.set_enabled(true);
-	set_block_signals(true);
+	$BlowUp.pre_proc();
+	$Boom.play();
 	
-	for i in $BlowUp.smoothing:
-		yield(get_tree(),"physics_frame");
+	set_block_signals(true);
 	
 	for body in $DamageArea.get_overlapping_bodies():
 		body.health -= DAMAGE;
 	
-	Save.save_my_data(self,[null,true]);
-	queue_free();
+	Save.save_my_data(self,[true,true]);
+	set_disabled(true);

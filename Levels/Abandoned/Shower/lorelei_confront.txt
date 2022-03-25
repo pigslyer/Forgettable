@@ -1,0 +1,20 @@
+/talking_to Lorelei
+  
+:Hey! 
+Oh my, you're back! Welcome, why don't you come closer?
+:I'm not here to play your games again. 
+:I released an agent guy from a prison cell earlier. He said he could hear you calling.
+{
+	::Where the fuck is he now, huh?! Why don't you tell me that? 
+	Now then, it's not right to yell at others like that! I genuinely tried, I promise. He was just too inviting. 
+	:You really are fucked up in the head, aren't you? 
+
+	::I'm sure he ran into you at some point. Any idea where he might be?
+	I do, unfortunately. You see, he came here, and we had a lovely conversation, but then... 
+	Oh, I couldn't possibly resist it, the urge was simply too strong. 
+	:You disgust me. 
+	
+	::I suppose it's too late for him now, though. A shame. 
+}
+Hey now, don't just walk away from me like that! I really am sorry, I promise! I wish I could have stopped myself. 
+Wait, no! Please don't go! I'm so lonely, you can't just leave me here! You're the only thing I've got. Please come back... 

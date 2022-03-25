@@ -1,4 +1,4 @@
-[gd_scene load_steps=90 format=2]
+[gd_scene load_steps=103 format=2]
 
 [ext_resource path="res://Levels/RoomBase.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Props/DoorTransition.tscn" type="PackedScene" id=2]
@@ -49,10 +49,16 @@
 [ext_resource path="res://Assets/Player/empty_gun_click.wav" type="AudioStream" id=47]
 [ext_resource path="res://Scenes/Items/LaserSightCheck.gd" type="Script" id=48]
 [ext_resource path="res://Scenes/Enemy/Gun.gd" type="Script" id=49]
-[ext_resource path="res://Scenes/Player/Player.tscn" type="PackedScene" id=50]
+[ext_resource path="res://Scenes/Objects/fader.gd" type="Script" id=50]
 [ext_resource path="res://Levels/Medical/Elevator.gd" type="Script" id=51]
 [ext_resource path="res://Scenes/Objects/FadeInFadeOut.gd" type="Script" id=52]
 [ext_resource path="res://Assets/Sounds/elevator.mp3" type="AudioStream" id=53]
+[ext_resource path="res://Assets/Base/body_main.png" type="Texture" id=54]
+[ext_resource path="res://Assets/Enemies/head4.png" type="Texture" id=55]
+[ext_resource path="res://Assets/Player/hand.png" type="Texture" id=56]
+[ext_resource path="res://Assets/Base/body_foot.png" type="Texture" id=57]
+[ext_resource path="res://Levels/Medical/NearDead.gd" type="Script" id=58]
+[ext_resource path="res://Scenes/Props/WallLight.tscn" type="PackedScene" id=59]
 
 [sub_resource type="Shader" id=62]
 code = "shader_type canvas_item;
@@ -218,6 +224,391 @@ resource_local_to_scene = true
 shader = SubResource( 24 )
 shader_param/max_off = 0.1
 shader_param/percent = 0.0
+
+[sub_resource type="Animation" id=76]
+resource_name = "Die"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 0.466517, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=78]
+resource_name = "Plead"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Hand:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 21.4473, -13.4402 ), Vector2( 21.4473, -13.4402 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Hand:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -17.8483, -17.8483 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Hand:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 0.626514, 0.626514 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Hand2:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 32.3696, 9.22065 ), Vector2( 32.3696, 9.22065 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Hand2:rotation_degrees")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -18.4328, -18.4328 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Hand2:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.750301, 0.750301 ), Vector2( 1.09776, 1.09776 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Foot2:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 10.8359, -5.84335 ) ]
+}
+
+[sub_resource type="Animation" id=79]
+resource_name = "PleadLoop"
+length = 4.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Hand2:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.4, 2.5 ),
+"transitions": PoolRealArray( 2.73208, 1.18921 ),
+"update": 0,
+"values": [ Vector2( 1.09776, 1.09776 ), Vector2( 0.9, 0.9 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Head:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.4, 1.2, 2.3, 3.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1.25, -1.25003 ), Vector2( -4.4959, -0.315246 ), Vector2( 1.25, -1.25003 ), Vector2( -4.4959, -0.315246 ) ]
+}
+
+[sub_resource type="Animation" id=74]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Hand:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 18.75, -22.5 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Hand:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ -27.808 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Hand2:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 20, 11.25 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Hand2:rotation_degrees")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 10.8052 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Hand:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Hand2:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Head:rotation_degrees")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Head:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1.25, -1.25003 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath(".:rotation_degrees")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath(".:modulate")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Foot2:position")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 10.8359, -5.84335 ) ]
+}
+
+[sub_resource type="Animation" id=73]
+resource_name = "Searching"
+length = 5.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Hand:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.6, 1.3, 1.9, 2.9, 4 ),
+"transitions": PoolRealArray( 1.68179, 1.68179, 1.68179, 1.68179, 1.68179, 1.68179 ),
+"update": 0,
+"values": [ Vector2( 18.75, -22.5 ), Vector2( 25, -12.5 ), Vector2( 21.25, -25 ), Vector2( 21.25, -6.25 ), Vector2( 26.25, -12.5 ), Vector2( 22.5, 5.72205e-06 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Hand:rotation_degrees")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.6, 1.3, 1.9, 2.9, 4 ),
+"transitions": PoolRealArray( 1.68179, 1.68179, 1.68179, 1.68179, 1.68179, 1.68179 ),
+"update": 0,
+"values": [ -27.808, 5.26993, -36.6158, 22.7851, 5.21193, 33.4563 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Hand2:position")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.3, 0.9, 1.6, 2.4, 3.5, 4.5 ),
+"transitions": PoolRealArray( 1.68179, 1.68179, 1.68179, 1.68179, 1.68179, 1.68179 ),
+"update": 0,
+"values": [ Vector2( 23.75, 5 ), Vector2( 22.5, 15 ), Vector2( 25, 7.50002 ), Vector2( 20, 2.50002 ), Vector2( 21.25, 12.5 ), Vector2( 22.5, 3.75001 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Hand2:rotation_degrees")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.3, 0.9, 1.6, 2.4, 3.5, 4.5 ),
+"transitions": PoolRealArray( 1.68179, 1.68179, 1.68179, 1.68179, 1.68179, 1.68179 ),
+"update": 0,
+"values": [ -16.3508, 17.6744, 0.983435, -28.6035, 12.5716, -13.4908 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Hand:scale")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.6, 1.3, 1.9, 2.9, 4 ),
+"transitions": PoolRealArray( 1.68179, 1.68179, 1.68179, 1.68179, 1.68179, 1.68179 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 0.481591, 0.481591 ), Vector2( 0.52667, 0.52667 ), Vector2( 0.352538, 0.352538 ), Vector2( 0.841089, 0.841089 ), Vector2( 0.678654, 0.678654 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Hand2:scale")
+tracks/5/interp = 2
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.3, 0.9, 1.6, 2.4, 3.5, 4.5 ),
+"transitions": PoolRealArray( 1.68179, 1.68179, 1.68179, 1.68179, 1.68179, 1.68179 ),
+"update": 0,
+"values": [ Vector2( 0.758909, 0.758909 ), Vector2( 0.789687, 0.789687 ), Vector2( 0.525631, 0.525631 ), Vector2( 0.637247, 0.637247 ), Vector2( 0.790719, 0.790719 ), Vector2( 0.751358, 0.751358 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Head:rotation_degrees")
+tracks/6/interp = 2
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.3, 0.6, 0.9, 1.3, 1.6, 1.9, 2.4, 2.9, 3.5, 4, 4.5 ),
+"transitions": PoolRealArray( 1.36604, 1.36604, 1.36604, 1.36604, 1.36604, 1.36604, 1.36604, 1.36604, 1.36604, 1.36604, 1.36604, 1.36604 ),
+"update": 0,
+"values": [ 0.0, 13.8988, -12.6348, 27.3834, -34.862, 10.4681, -9.0021, 7.40352, -16.9476, 25.2942, 6.30045, 8.79462 ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Head:position")
+tracks/7/interp = 2
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 1.6, 3.6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1.25, -1.25003 ), Vector2( -1.2, -1.25 ), Vector2( 2.49998, -1.25003 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath(".:rotation_degrees")
+tracks/8/interp = 2
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 0.7, 1.6, 2.7, 3.5 ),
+"transitions": PoolRealArray( 0.482968, 0.482968, 0.482968, 0.482968, 0.482968 ),
+"update": 0,
+"values": [ 0.0, -10.1797, 19.8253, -17.6004, 9.24927 ]
+}
+
+[sub_resource type="CapsuleShape2D" id=75]
+
+[sub_resource type="CircleShape2D" id=77]
+radius = 220.0
 
 [sub_resource type="OccluderPolygon2D" id=65]
 polygon = PoolVector2Array( 0, 8, 0, -8, 8, -8, 8, 8 )
@@ -725,6 +1116,7 @@ polygon = PoolVector2Array( 5, 2, 1, 6, 0, 6, 0, 59, 4, 62, 4, 63, 86, 63, 124, 
 [node name="cabinet" type="StaticBody2D" parent="HospitalRoom" index="2"]
 position = Vector2( 69, 88 )
 scale = Vector2( 1, 1.64 )
+z_index = 10
 collision_layer = 128
 collision_mask = 0
 script = ExtResource( 16 )
@@ -738,6 +1130,11 @@ texture = ExtResource( 24 )
 visible = false
 position = Vector2( -32, -32 )
 polygon = PoolVector2Array( 2, 64, 64, 64, 64, 0, 2, 0 )
+
+[node name="WallLight" parent="HospitalRoom" index="3" instance=ExtResource( 59 )]
+visible = false
+position = Vector2( 25, 136 )
+rotation = -1.57079
 
 [node name="HospitalRoomEmpty" type="Node2D" parent="." index="7"]
 position = Vector2( -344, -440 )
@@ -1074,7 +1471,19 @@ position = Vector2( 312, 287 )
 
 [node name="VentLight" parent="Vent" index="0" instance=ExtResource( 7 )]
 
-[node name="Reverb" type="Area2D" parent="Vent" index="1"]
+[node name="VentLight2" parent="Vent" index="1" instance=ExtResource( 7 )]
+position = Vector2( 264, 0 )
+
+[node name="VentLight3" parent="Vent" index="2" instance=ExtResource( 7 )]
+position = Vector2( 464, 0 )
+
+[node name="VentLight4" parent="Vent" index="3" instance=ExtResource( 7 )]
+position = Vector2( 95, 0 )
+
+[node name="VentLight5" parent="Vent" index="4" instance=ExtResource( 7 )]
+position = Vector2( 639, 0 )
+
+[node name="Reverb" type="Area2D" parent="Vent" index="5"]
 monitorable = false
 audio_bus_override = true
 audio_bus_name = "Vent"
@@ -1084,42 +1493,42 @@ visible = false
 position = Vector2( 406, 20 )
 shape = SubResource( 15 )
 
-[node name="Door" parent="Vent" index="2" instance=ExtResource( 3 )]
+[node name="Door" parent="Vent" index="6" instance=ExtResource( 3 )]
 position = Vector2( 200, -319 )
 rotation = -1.57079
 locked = true
 enemies_can_open = false
 locked_line = "Error: Door is broken."
 
-[node name="Door2" parent="Vent" index="3" instance=ExtResource( 3 )]
+[node name="Door2" parent="Vent" index="7" instance=ExtResource( 3 )]
 position = Vector2( 616, -319 )
 rotation = -1.57079
 
-[node name="Door3" parent="Vent" index="4" instance=ExtResource( 3 )]
+[node name="Door3" parent="Vent" index="8" instance=ExtResource( 3 )]
 position = Vector2( 616, -639 )
 rotation = -1.57079
 locked = true
 enemies_can_open = false
 
-[node name="Door4" parent="Vent" index="5" instance=ExtResource( 3 )]
+[node name="Door4" parent="Vent" index="9" instance=ExtResource( 3 )]
 position = Vector2( 200, -639 )
 rotation = -4.71238
 locked = true
 enemies_can_open = false
 locked_line = "Error: Door is broken."
 
-[node name="Grate" parent="Vent" index="6" instance=ExtResource( 4 )]
+[node name="Grate" parent="Vent" index="10" instance=ExtResource( 4 )]
 position = Vector2( -88, -95 )
 
-[node name="Grate2" parent="Vent" index="7" instance=ExtResource( 4 )]
+[node name="Grate2" parent="Vent" index="11" instance=ExtResource( 4 )]
 position = Vector2( 264, -95 )
 open = true
 
-[node name="Grate3" parent="Vent" index="8" instance=ExtResource( 4 )]
+[node name="Grate3" parent="Vent" index="12" instance=ExtResource( 4 )]
 position = Vector2( 680, -95 )
 open = true
 
-[node name="Rocks" type="StaticBody2D" parent="Vent" index="9"]
+[node name="Rocks" type="StaticBody2D" parent="Vent" index="13"]
 modulate = Color( 0.745098, 0.745098, 0.745098, 1 )
 position = Vector2( 783, 3 )
 
@@ -1216,7 +1625,7 @@ texture = ExtResource( 22 )
 [node name="LightOccluder2D" type="LightOccluder2D" parent="Vent/Rocks" index="16"]
 occluder = SubResource( 17 )
 
-[node name="box_container" type="StaticBody2D" parent="Vent" index="10"]
+[node name="box_container" type="StaticBody2D" parent="Vent" index="14"]
 position = Vector2( 138, -129 )
 rotation = 3.14159
 collision_layer = 128
@@ -1233,17 +1642,17 @@ visible = false
 position = Vector2( -66, -34 )
 polygon = PoolVector2Array( 0, 68, 132, 68, 132, 0, 0, 0 )
 
-[node name="Bandage" parent="Vent" index="11" instance=ExtResource( 11 )]
+[node name="Bandage" parent="Vent" index="15" instance=ExtResource( 11 )]
 position = Vector2( 171, -141 )
 texture = ExtResource( 26 )
 drops = ExtResource( 25 )
 
-[node name="Bandage3" parent="Vent" index="12" instance=ExtResource( 11 )]
+[node name="Bandage3" parent="Vent" index="16" instance=ExtResource( 11 )]
 position = Vector2( 143, -122 )
 texture = ExtResource( 26 )
 drops = ExtResource( 25 )
 
-[node name="box_container_small" type="StaticBody2D" parent="Vent" index="13"]
+[node name="box_container_small" type="StaticBody2D" parent="Vent" index="17"]
 position = Vector2( 511, -206 )
 rotation = -1.57079
 collision_layer = 128
@@ -1260,7 +1669,7 @@ visible = false
 position = Vector2( -32, -32 )
 polygon = PoolVector2Array( 6, 14, 0, 14, 0, 46, 34, 46, 64, 46, 64, 14, 6, 13 )
 
-[node name="box_container_small2" type="StaticBody2D" parent="Vent" index="14"]
+[node name="box_container_small2" type="StaticBody2D" parent="Vent" index="18"]
 position = Vector2( 511, -138 )
 rotation = -1.57079
 collision_layer = 128
@@ -1322,7 +1731,6 @@ rotation = 1.57079
 [node name="WorldState" type="Node2D" parent="." index="13"]
 position = Vector2( -135, -200 )
 script = ExtResource( 31 )
-exists_in = 6
 
 [node name="ShyOne" parent="WorldState" index="0" groups=["Group:En"] instance=ExtResource( 6 )]
 material = SubResource( 20 )
@@ -1349,6 +1757,114 @@ rotation = -1.70226
 material = SubResource( 25 )
 position = Vector2( 132, 74 )
 rotation = 2.72093
+
+[node name="Blood" type="Sprite" parent="WorldState" index="5"]
+position = Vector2( -202, 385 )
+rotation = -0.181983
+scale = Vector2( 0.48, 0.48 )
+z_index = -2
+texture = ExtResource( 13 )
+
+[node name="NearDead" type="Sprite" parent="WorldState" index="6" groups=["SAVES"]]
+position = Vector2( -198, 377 )
+scale = Vector2( 0.8, 0.8 )
+z_index = 10
+texture = ExtResource( 54 )
+script = ExtResource( 58 )
+MIN_MODULATE = Color( 0.615686, 0.615686, 0.615686, 1 )
+
+[node name="Foot" type="Sprite" parent="WorldState/NearDead" index="0"]
+position = Vector2( -12.5, 8.74997 )
+z_index = -1
+texture = ExtResource( 57 )
+
+[node name="Foot2" type="Sprite" parent="WorldState/NearDead" index="1"]
+position = Vector2( 10.8359, -5.84335 )
+z_index = -1
+texture = ExtResource( 57 )
+
+[node name="Hand" type="Sprite" parent="WorldState/NearDead" index="2"]
+position = Vector2( 18.75, -22.5 )
+rotation = -0.485341
+z_index = 20
+texture = ExtResource( 56 )
+
+[node name="Blood" type="Sprite" parent="WorldState/NearDead/Hand" index="0"]
+position = Vector2( 2.125, -2.42676 )
+scale = Vector2( 0.02, 0.02 )
+texture = ExtResource( 13 )
+
+[node name="Blood2" type="Sprite" parent="WorldState/NearDead/Hand" index="1"]
+position = Vector2( -0.564453, -0.0948486 )
+scale = Vector2( 0.02, 0.02 )
+texture = ExtResource( 13 )
+
+[node name="Blood3" type="Sprite" parent="WorldState/NearDead/Hand" index="2"]
+position = Vector2( 0.296875, 1.98474 )
+scale = Vector2( 0.02, 0.02 )
+texture = ExtResource( 13 )
+
+[node name="Hand2" type="Sprite" parent="WorldState/NearDead" index="3"]
+position = Vector2( 20, 11.25 )
+rotation = 0.188586
+z_index = 20
+texture = ExtResource( 56 )
+
+[node name="Blood" type="Sprite" parent="WorldState/NearDead/Hand2" index="0"]
+position = Vector2( 1.84375, -1.854 )
+scale = Vector2( 0.02, 0.02 )
+texture = ExtResource( 13 )
+
+[node name="Blood2" type="Sprite" parent="WorldState/NearDead/Hand2" index="1"]
+position = Vector2( -0.845703, 0.477905 )
+scale = Vector2( 0.02, 0.02 )
+texture = ExtResource( 13 )
+
+[node name="Blood3" type="Sprite" parent="WorldState/NearDead/Hand2" index="2"]
+position = Vector2( 0.015625, 2.5575 )
+scale = Vector2( 0.02, 0.02 )
+texture = ExtResource( 13 )
+
+[node name="Head" type="Sprite" parent="WorldState/NearDead" index="4"]
+position = Vector2( 1.25, -1.25003 )
+texture = ExtResource( 55 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="WorldState/NearDead" index="5"]
+autoplay = "Searching"
+anims/Die = SubResource( 76 )
+anims/Plead = SubResource( 78 )
+anims/PleadLoop = SubResource( 79 )
+anims/RESET = SubResource( 74 )
+anims/Searching = SubResource( 73 )
+next/Plead = "PleadLoop"
+
+[node name="Interactive" type="Control" parent="WorldState/NearDead" index="6"]
+margin_left = -15.0
+margin_top = -25.0
+margin_right = 14.0
+margin_bottom = 21.0
+script = ExtResource( 35 )
+message = "Helpless"
+
+[node name="Hit" type="Area2D" parent="WorldState/NearDead" index="7"]
+visible = false
+collision_layer = 4
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldState/NearDead/Hit" index="0"]
+shape = SubResource( 75 )
+
+[node name="FollowRange" type="Area2D" parent="WorldState/NearDead" index="8"]
+visible = false
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorldState/NearDead/FollowRange" index="0"]
+shape = SubResource( 77 )
+
+[node name="Tween" type="Tween" parent="WorldState/NearDead" index="9"]
 
 [node name="Final" type="Node2D" parent="." index="14" groups=["SAVES"]]
 position = Vector2( 1536, -208 )
@@ -1589,13 +2105,11 @@ position = Vector2( 7, 0 )
 [node name="CanvasLayer" type="CanvasLayer" parent="Final/Elevator" index="4"]
 layer = 101
 
-[node name="ColorRect" type="ColorRect" parent="Final/Elevator/CanvasLayer" index="0"]
+[node name="Fade" type="ColorRect" parent="Final/Elevator/CanvasLayer" index="0"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0, 0, 0, 0 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource( 50 )
 
 [node name="Elevator" type="AudioStreamPlayer" parent="Final/Elevator" index="5"]
 stream = ExtResource( 53 )
@@ -1604,9 +2118,6 @@ pitch_scale = 0.8
 bus = "SFX"
 script = ExtResource( 52 )
 fade_in = 0.6
-
-[node name="Player" parent="Final" index="7" instance=ExtResource( 50 )]
-position = Vector2( 326, 26 )
 
 [node name="Bomb" type="Area2D" parent="." index="15"]
 position = Vector2( 470, -190 )
@@ -1618,6 +2129,9 @@ monitoring = false
 shape = SubResource( 71 )
 
 [connection signal="entered" from="VentRoom/Keypad" to="Vent/Grate" method="open_vent"]
+[connection signal="interacted" from="WorldState/NearDead/Interactive" to="WorldState/NearDead" method="_on_Interactive_interacted"]
+[connection signal="body_entered" from="WorldState/NearDead/Hit" to="WorldState/NearDead" method="_on_Hit_body_entered"]
+[connection signal="area_exited" from="WorldState/NearDead/FollowRange" to="WorldState/NearDead" method="_on_FollowRange_area_exited"]
 [connection signal="body_entered" from="Final/PlayerEntered" to="Final" method="_on_PlayerEntered_body_entered"]
 [connection signal="timeout" from="Final/ShootTime" to="Final" method="shoot"]
 [connection signal="timeout" from="Final/StopTime" to="Final" method="_on_StopTime_timeout"]

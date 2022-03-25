@@ -1,0 +1,96 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Assets/Stoke-Regular.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Scenes/Main/Credits.gd" type="Script" id=3]
+
+[sub_resource type="DynamicFont" id=3]
+size = 32
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="Animation" id=1]
+resource_name = "Credits"
+length = 17.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Label:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 11.2, 12.9, 15 ),
+"transitions": PoolRealArray( 0.757858, 3.03143, 3.03143, 1 ),
+"update": 0,
+"values": [ Vector2( 157, 851 ), Vector2( 157, -696 ), Vector2( 157, -696 ), Vector2( 157, -971 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 17 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "to_main_menu"
+} ]
+}
+
+[sub_resource type="Animation" id=2]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Label:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 157, 851 ) ]
+}
+
+[node name="Credits" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+
+[node name="Label" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -483.0
+margin_top = 491.0
+margin_right = 483.0
+margin_bottom = 1362.0
+custom_fonts/font = SubResource( 3 )
+text = "Credits:
+
+Tibor \"Gary\" Pevec Novak - Production, Direction, Writing, Design, Programming, Additional Art
+
+Nely - Writing
+Mr. Mogochi - Music, Voice Acting
+Liam Koprol - Voice Acting
+
+Luka Valjavec - Art
+Boštjan Čampelj - Art
+
+freesound.org - 90% of the sound effects
+Godot contributors - the engine
+Nely, Maks Suša, Prof. Lea Koler - Moral support
+
+You, for playing. 
+Hopefully caring.
+Maybe not forgetting."
+autowrap = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Credits"
+playback_speed = 0.6
+anims/Credits = SubResource( 1 )
+anims/RESET = SubResource( 2 )

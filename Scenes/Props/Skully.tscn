@@ -279,7 +279,7 @@ texture = ExtResource( 3 )
 
 [node name="DiggingSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
-volume_db = -10.0
+volume_db = -22.0
 pitch_scale = 1.12
 bus = "SFX"
 script = ExtResource( 4 )
@@ -287,7 +287,7 @@ fade_out = 0.55
 
 [node name="DugSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 8 )
-volume_db = 10.0
+volume_db = -10.0
 pitch_scale = 0.8
 bus = "SFX"
 

@@ -38,11 +38,7 @@ max_speed = 450.0
 run_speed = 2.4
 
 [node name="Footstep" parent="Animation/Body/FootLeft" index="0"]
-volume_db = 20.0
-attenuation = 0.784584
-
-[node name="Footstep" parent="Animation/Body/FootRight" index="0"]
-volume_db = 20.0
+volume_db = 4.0
 attenuation = 0.784584
 
 [node name="DamageArea" type="Area2D" parent="Animation/Body" index="3"]
@@ -54,6 +50,10 @@ monitorable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Animation/Body/DamageArea" index="0"]
 position = Vector2( 20.5, -1.5 )
 shape = SubResource( 3 )
+
+[node name="Footstep" parent="Animation/Body/FootRight" index="0"]
+volume_db = 4.0
+attenuation = 0.784584
 
 [node name="AttackDelay" type="Timer" parent="." index="2"]
 wait_time = 0.1

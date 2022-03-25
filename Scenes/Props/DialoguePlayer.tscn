@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Assets/Stoke-Light.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Assets/UI/Terminal___.TTF" type="DynamicFontData" id=1]
 [ext_resource path="res://Scenes/Props/DialoguePlayer.gd" type="Script" id=2]
 [ext_resource path="res://Assets/UI/UITheme.tres" type="Theme" id=3]
 
@@ -73,15 +73,15 @@ __meta__ = {
 }
 
 [node name="Name" type="Label" parent="Theme/VSplitContainer"]
-margin_right = 284.0
-margin_bottom = 63.0
+margin_right = 252.0
+margin_bottom = 57.0
 size_flags_horizontal = 0
 custom_styles/normal = SubResource( 3 )
 text = "The SPEAKER"
 uppercase = true
 
 [node name="Line" type="Label" parent="Theme/VSplitContainer"]
-margin_top = 75.0
+margin_top = 69.0
 margin_right = 680.0
 margin_bottom = 216.0
 size_flags_horizontal = 3

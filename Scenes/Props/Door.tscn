@@ -195,6 +195,7 @@ occluder = SubResource( 5 )
 occluder = SubResource( 8 )
 
 [node name="SideTop" type="LightOccluder2D" parent="WhenClosed"]
+visible = false
 occluder = SubResource( 5 )
 
 [node name="OuterOpen" type="Sprite" parent="WhenClosed"]
@@ -289,14 +290,11 @@ rotation = -1.57079
 texture = ExtResource( 4 )
 
 [node name="Interactive" type="Control" parent="WhenClosed/Text"]
-margin_left = -30.0
+margin_left = -15.0
 margin_top = -5.0
-margin_right = 30.0
+margin_right = 15.0
 margin_bottom = 5.0
 script = ExtResource( 6 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 message = "Read"
 
 [node name="Skkrt" type="AudioStreamPlayer2D" parent="WhenClosed"]

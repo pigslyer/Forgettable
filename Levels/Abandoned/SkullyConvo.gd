@@ -27,3 +27,11 @@ func dial_action(id):
 		Groups.get_player().turn_towards($CameraTargetDoor.global_position);
 		yield(get_tree().create_timer(1.4),"timeout");
 		Groups.get_player().turn_towards($CameraTargetSkully.global_position);
+		
+	elif id == "save_reminder":
+		Groups.get_player().save_reminder_start();
+
+
+# kinda doesn't belong here but it's a one time scripting thing so mnyeh
+func _on_DoorCellKitchen_toggled_open():
+	Groups.get_player().tutorial_hide();

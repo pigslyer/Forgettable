@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=2]
+[gd_scene load_steps=67 format=2]
 
 [ext_resource path="res://Levels/RoomBase.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Props/DoorTransition.tscn" type="PackedScene" id=2]
@@ -47,8 +47,10 @@
 [ext_resource path="res://Assets/Sounds/banging_on_door.wav" type="AudioStream" id=45]
 [ext_resource path="res://Levels/Storage/RailwayEnjoyers.gd" type="Script" id=46]
 [ext_resource path="res://Scenes/Enemy/Shotgunner.tscn" type="PackedScene" id=47]
+[ext_resource path="res://Assets/Base/squelch.wav" type="AudioStream" id=48]
 [ext_resource path="res://Scenes/Items/TechGoggles.tscn" type="PackedScene" id=49]
 [ext_resource path="res://Assets/Base/tech_goggles_item.png" type="Texture" id=50]
+[ext_resource path="res://Scenes/Objects/SayLine.gd" type="Script" id=51]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -91,7 +93,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.9 ),
+"times": PoolRealArray( 0.2, 0.9 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( -1, -1 ), Vector2( -1.1, -1.2 ) ]
@@ -103,7 +105,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0.00482142, 1 ),
+"times": PoolRealArray( 0.2, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 15.4532, 1.44128 ), Vector2( 14.8585, -4.12207 ) ]
@@ -319,6 +321,20 @@ tracks/5/keys = {
 "update": 0,
 "values": [ Vector2( 0, 0 ), Vector2( 0.05, 0.05 ), Vector2( 0.1, 0.1 ), Vector2( 0.2, 0.2 ), Vector2( 0.3, 0.3 ) ]
 }
+tracks/6/type = "method"
+tracks/6/path = NodePath("Squelch")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+} ]
+}
 
 [sub_resource type="Animation" id=68]
 resource_name = "ThrowCard2"
@@ -394,6 +410,20 @@ tracks/5/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0, 0 ), Vector2( 0.05, 0.05 ), Vector2( 0.1, 0.1 ), Vector2( 0.2, 0.2 ), Vector2( 0.3, 0.3 ) ]
+}
+tracks/6/type = "method"
+tracks/6/path = NodePath("Squelch")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+} ]
 }
 
 [sub_resource type="RectangleShape2D" id=4]
@@ -523,6 +553,15 @@ position = Vector2( -38, 107 )
 texture = ExtResource( 35 )
 drops = ExtResource( 36 )
 
+[node name="CallingToTheNight" type="Control" parent="AbandonedStorage" index="5"]
+margin_left = 32.0
+margin_top = -58.0
+margin_right = 146.0
+margin_bottom = 66.0
+script = ExtResource( 51 )
+message = "\"Why... why do you leave me?\"
+Where the hell did that come from?"
+
 [node name="SupplyRoom" type="Node2D" parent="." index="3"]
 position = Vector2( 176, 384 )
 
@@ -577,28 +616,21 @@ rotation = 3.14159
 keycard = "storage1"
 open = true
 
-[node name="Ammo" parent="AmmoRoom" index="1" instance=ExtResource( 3 )]
-position = Vector2( 85.9327, -32 )
-rotation = 0.911185
-texture = ExtResource( 6 )
-drops = ExtResource( 5 )
-count = 3
-
-[node name="Ammo2" parent="AmmoRoom" index="2" instance=ExtResource( 3 )]
+[node name="Ammo2" parent="AmmoRoom" index="1" instance=ExtResource( 3 )]
 position = Vector2( 88, 0 )
 rotation = 1.20914
 texture = ExtResource( 6 )
 drops = ExtResource( 5 )
-count = 5
+count = 3
 
-[node name="Ammo3" parent="AmmoRoom" index="3" instance=ExtResource( 3 )]
+[node name="Ammo3" parent="AmmoRoom" index="2" instance=ExtResource( 3 )]
 position = Vector2( 88, 48 )
 rotation = 1.20914
 texture = ExtResource( 6 )
 drops = ExtResource( 5 )
-count = 3
+count = 2
 
-[node name="box_container" type="StaticBody2D" parent="AmmoRoom" index="4"]
+[node name="box_container" type="StaticBody2D" parent="AmmoRoom" index="3"]
 position = Vector2( 77.9327, 0 )
 rotation = 1.57079
 collision_layer = 128
@@ -613,7 +645,7 @@ texture = ExtResource( 11 )
 position = Vector2( -64, -32 )
 polygon = PoolVector2Array( 0, 64, 128, 64, 128, 0, 0, 0 )
 
-[node name="BowlLight" type="Sprite" parent="AmmoRoom" index="5"]
+[node name="BowlLight" type="Sprite" parent="AmmoRoom" index="4"]
 self_modulate = Color( 1, 1, 1, 0.580392 )
 position = Vector2( 15, -2 )
 z_index = 1023
@@ -759,6 +791,7 @@ rotation = 1.57079
 outer_text = "Confiscated materials"
 locked = true
 enemies_can_open = false
+locked_line = "This door is keypad locked. I need the key."
 
 [node name="table2" type="StaticBody2D" parent="SmgRoom" index="1"]
 position = Vector2( 104, -32 )
@@ -834,17 +867,21 @@ texture = ExtResource( 21 )
 
 [node name="EmergencyLight" parent="HallwayLights" index="1" instance=ExtResource( 19 )]
 position = Vector2( 0, 152 )
+color = Color( 0.905882, 0.419608, 0.419608, 1 )
 
 [node name="EmergencyLight3" parent="HallwayLights" index="2" instance=ExtResource( 19 )]
 position = Vector2( -512, -200 )
 rotation = 1.57079
+color = Color( 0.905882, 0.419608, 0.419608, 1 )
 
 [node name="EmergencyLight2" parent="HallwayLights" index="3" instance=ExtResource( 19 )]
 position = Vector2( 0, 456 )
+color = Color( 0.905882, 0.419608, 0.419608, 1 )
 
 [node name="EmergencyLight4" parent="HallwayLights" index="4" instance=ExtResource( 19 )]
 position = Vector2( 579, -185 )
 rotation = 1.57079
+color = Color( 0.905882, 0.419608, 0.419608, 1 )
 
 [node name="BowlLight" type="Sprite" parent="HallwayLights" index="5"]
 position = Vector2( -299, 361 )
@@ -961,6 +998,12 @@ detec_lore = "res://Levels/Storage/imp_questions2.txt"
 lorel_intro = "res://Levels/Storage/imp_ask_lorelei.txt"
 lorel_lore = "res://Levels/Storage/imp_questions3.txt"
 
+[node name="Squelch" type="AudioStreamPlayer" parent="Imp/Imp" index="6"]
+stream = ExtResource( 48 )
+volume_db = -5.0
+pitch_scale = 0.55
+bus = "SFX"
+
 [node name="Keycard" parent="Imp" index="6" instance=ExtResource( 24 )]
 position = Vector2( -41, 180 )
 display_name = "Stash (yellow)"
@@ -969,6 +1012,7 @@ key = "handgun_storage"
 [node name="Keycard2" parent="Imp" index="7" instance=ExtResource( 24 )]
 position = Vector2( -6, 220 )
 rotation = 5.07891
+scale = Vector2( 0.05, 0.05 )
 display_name = "Nasif's office"
 key = "nasif"
 
@@ -1102,6 +1146,7 @@ drops = ExtResource( 18 )
 [node name="Door" parent="Handgun" index="2" instance=ExtResource( 4 )]
 position = Vector2( 0, 64 )
 rotation = 1.57079
+outer_text = "Vlad's stash"
 keycard = "handgun_storage"
 locked = true
 
@@ -1127,14 +1172,14 @@ position = Vector2( -40, -104 )
 rotation = 0.523598
 texture = ExtResource( 6 )
 drops = ExtResource( 5 )
-count = 7
+count = 4
 
 [node name="Ammo2" parent="Handgun" index="5" instance=ExtResource( 3 )]
 position = Vector2( -72, -104 )
 rotation = 0.19574
 texture = ExtResource( 6 )
 drops = ExtResource( 5 )
-count = 6
+count = 3
 
 [node name="WallLight" parent="Handgun" index="6" instance=ExtResource( 13 )]
 position = Vector2( -84, -67 )
@@ -1243,6 +1288,8 @@ shape = SubResource( 69 )
 
 [connection signal="entered" from="SmgRoom/Keypad" to="SmgRoom/Door" method="toggle_locked"]
 [connection signal="interacted" from="Imp/Imp/Interactive" to="Imp/Imp/ActedConvo" method="start_dial"]
+[connection signal="picked_up" from="Imp/Keycard" to="GunPickupEvent" method="_on_Keycard_picked_up"]
 [connection signal="interacted" from="Imp/Coat/Interactive" to="Imp/Coat" method="_on_Interactive_interacted"]
 [connection signal="picked_up" from="Handgun/Handgun" to="GunPickupEvent" method="_on_Handgun_picked_up"]
+[connection signal="toggled_lock" from="Handgun/Door" to="GunPickupEvent" method="_on_Door_toggled_lock"]
 [connection signal="finished" from="GunPickupEvent/Banging" to="GunPickupEvent" method="_on_Banging_finished"]

@@ -28,7 +28,7 @@ onready var dials = [pipe_intro,pipe_lore,detec_intro,detec_lore,lorel_intro,lor
 func start_dial(to_info: bool = false):
 	state = clamp(state+(1 if to_info else 0),get_state()-2,get_state());
 	if !dials[state].empty():
-		Groups.get_player().start_dial(dials[state],state%2==1,get_node(actions) if actions != null else null);
+		Groups.get_player().start_dial(dials[state],state%2==0,get_node(actions) if actions != null else null);
 
 func get_state() -> int:
 	match Save.cur_state:

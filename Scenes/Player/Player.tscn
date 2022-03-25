@@ -1,4 +1,4 @@
-[gd_scene load_steps=69 format=2]
+[gd_scene load_steps=70 format=2]
 
 [ext_resource path="res://Assets/Player/player_body.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Player/player_head.png" type="Texture" id=2]
@@ -31,6 +31,10 @@
 [ext_resource path="res://Assets/Base/particle_circle.png" type="Texture" id=29]
 [ext_resource path="res://Assets/Base/blood.png" type="Texture" id=30]
 [ext_resource path="res://Assets/Base/vignette.png" type="Texture" id=31]
+[ext_resource path="res://Scenes/Player/Tutorial.gd" type="Script" id=32]
+[ext_resource path="res://Scenes/Misc/Options.tscn" type="PackedScene" id=33]
+[ext_resource path="res://Scenes/Misc/UIConfirmShortcut.tres" type="ShortCut" id=34]
+[ext_resource path="res://Scenes/Misc/UICancelShortcut.tres" type="ShortCut" id=35]
 
 [sub_resource type="CapsuleShape2D" id=24]
 radius = 11.0
@@ -158,7 +162,7 @@ tracks/9/keys = {
 "values": [ 0.0 ]
 }
 tracks/10/type = "value"
-tracks/10/path = NodePath("Animated/Body/ArmRight/Blood:self_modulate")
+tracks/10/path = NodePath(".:modulate")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
@@ -167,10 +171,10 @@ tracks/10/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ) ]
+"values": [ Color( 1, 1, 1, 1 ) ]
 }
 tracks/11/type = "value"
-tracks/11/path = NodePath(".:modulate")
+tracks/11/path = NodePath("Animated/Body/Blood:emitting")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/imported = false
@@ -178,11 +182,11 @@ tracks/11/enabled = true
 tracks/11/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ) ]
+"update": 1,
+"values": [ false ]
 }
 tracks/12/type = "value"
-tracks/12/path = NodePath("Animated/Body/Blood:emitting")
+tracks/12/path = NodePath("HUD/Theme/Health:modulate")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
@@ -190,11 +194,11 @@ tracks/12/enabled = true
 tracks/12/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
 }
 tracks/13/type = "value"
-tracks/13/path = NodePath("HUD/Theme/Health:modulate")
+tracks/13/path = NodePath("HUD/Theme/Vignette:modulate")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/imported = false
@@ -203,10 +207,10 @@ tracks/13/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ) ]
+"values": [ Color( 1, 1, 1, 0 ) ]
 }
 tracks/14/type = "value"
-tracks/14/path = NodePath("HUD/Theme/Vignette:modulate")
+tracks/14/path = NodePath("HUD/Theme/YouDied/Panel:modulate")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/imported = false
@@ -218,7 +222,7 @@ tracks/14/keys = {
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
 tracks/15/type = "value"
-tracks/15/path = NodePath("HUD/Theme/YouDied/Panel:modulate")
+tracks/15/path = NodePath("PassiveLight:smoothing")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/imported = false
@@ -226,11 +230,11 @@ tracks/15/enabled = true
 tracks/15/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ) ]
+"update": 1,
+"values": [ 40 ]
 }
 tracks/16/type = "value"
-tracks/16/path = NodePath("PassiveLight:smoothing")
+tracks/16/path = NodePath("HUD/Theme/Hotbar:modulate")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/imported = false
@@ -238,11 +242,11 @@ tracks/16/enabled = true
 tracks/16/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 40 ]
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.313726 ) ]
 }
 tracks/17/type = "value"
-tracks/17/path = NodePath("HUD/Theme/Hotbar:modulate")
+tracks/17/path = NodePath("Animated/Body/ArmRight/Blood:modulate")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/imported = false
@@ -251,7 +255,7 @@ tracks/17/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0.313726 ) ]
+"values": [ Color( 1, 1, 1, 0 ) ]
 }
 
 [sub_resource type="Animation" id=15]
@@ -1237,6 +1241,8 @@ color = Color( 0.878431, 0.227451, 0.227451, 1 )
 color_ramp = SubResource( 39 )
 hue_variation = 0.2
 
+[sub_resource type="StyleBoxEmpty" id=44]
+
 [sub_resource type="StyleBoxFlat" id=19]
 bg_color = Color( 1, 0, 0, 1 )
 border_width_left = 8
@@ -1245,18 +1251,11 @@ border_width_right = 8
 border_width_bottom = 4
 border_blend = true
 
-[sub_resource type="InputEventAction" id=8]
-action = "ui_cancel"
-pressed = true
-
-[sub_resource type="ShortCut" id=9]
-shortcut = SubResource( 8 )
-
-[sub_resource type="StyleBoxEmpty" id=32]
-
 [sub_resource type="StyleBoxEmpty" id=31]
 
 [sub_resource type="StyleBoxEmpty" id=30]
+
+[sub_resource type="StyleBoxEmpty" id=45]
 
 [sub_resource type="StyleBoxEmpty" id=43]
 content_margin_bottom = 8.0
@@ -1297,13 +1296,6 @@ border_color = Color( 0, 0, 0, 1 )
 border_blend = true
 corner_radius_top_left = 4
 corner_radius_bottom_right = 4
-
-[sub_resource type="InputEventKey" id=11]
-pressed = true
-physical_scancode = 69
-
-[sub_resource type="ShortCut" id=12]
-shortcut = SubResource( 11 )
 
 [sub_resource type="CircleShape2D" id=7]
 radius = 168.0
@@ -1471,7 +1463,7 @@ position = Vector2( 1.90735e-06, 1.90735e-06 )
 rotation = -1.5708
 
 [node name="Blood" type="Node2D" parent="Animated/Body/ArmRight"]
-modulate = Color( 1, 1, 1, 0.819608 )
+modulate = Color( 1, 1, 1, 0 )
 self_modulate = Color( 1, 1, 1, 0 )
 position = Vector2( -1.18335, 1.53589 )
 __meta__ = {
@@ -1580,11 +1572,22 @@ anchor_bottom = 0.1
 margin_left = -32.0
 margin_bottom = 49.0
 grow_horizontal = 0
-mouse_filter = 1
 align = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
+
+[node name="Tutorial" type="Label" parent="HUD/Theme"]
+modulate = Color( 1, 1, 1, 0 )
+self_modulate = Color( 1, 1, 1, 0.627451 )
+anchor_left = 0.9
+anchor_top = 0.1
+anchor_right = 0.9
+anchor_bottom = 0.1
+margin_left = -32.0
+margin_top = 65.0
+margin_bottom = 114.0
+grow_horizontal = 0
+custom_styles/normal = SubResource( 44 )
+align = 2
+script = ExtResource( 32 )
 
 [node name="Health" type="ProgressBar" parent="HUD/Theme"]
 anchor_left = 0.05
@@ -1603,6 +1606,7 @@ __meta__ = {
 }
 
 [node name="Pause" type="Popup" parent="HUD/Theme"]
+visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1638,64 +1642,39 @@ __meta__ = {
 
 [node name="Button" type="Button" parent="HUD/Theme/Pause/Panel/VBoxContainer"]
 margin_right = 188.0
-margin_bottom = 35.0
+margin_bottom = 52.0
+focus_neighbour_top = NodePath("../Button3")
 size_flags_vertical = 3
 shortcut_in_tooltip = false
-shortcut = SubResource( 9 )
+shortcut = ExtResource( 35 )
 text = "Resume"
 
 [node name="Button2" type="Button" parent="HUD/Theme/Pause/Panel/VBoxContainer"]
-margin_top = 43.0
+margin_top = 60.0
 margin_right = 188.0
-margin_bottom = 78.0
+margin_bottom = 113.0
 size_flags_vertical = 3
 text = "Save"
 
 [node name="Button4" type="Button" parent="HUD/Theme/Pause/Panel/VBoxContainer"]
-margin_top = 86.0
+margin_top = 121.0
 margin_right = 188.0
-margin_bottom = 121.0
+margin_bottom = 173.0
 size_flags_vertical = 3
 text = "Load"
 
 [node name="Button5" type="Button" parent="HUD/Theme/Pause/Panel/VBoxContainer"]
-margin_top = 129.0
+margin_top = 181.0
 margin_right = 188.0
-margin_bottom = 154.0
-text = "Restart"
-
-[node name="Label" type="Label" parent="HUD/Theme/Pause/Panel/VBoxContainer"]
-margin_top = 162.0
-margin_right = 188.0
-margin_bottom = 179.0
-custom_styles/normal = SubResource( 32 )
-text = "Sfx volume:"
-
-[node name="SliderSFX" type="HSlider" parent="HUD/Theme/Pause/Panel/VBoxContainer"]
-margin_top = 187.0
-margin_right = 188.0
-margin_bottom = 203.0
-min_value = -60.0
-max_value = 10.0
-
-[node name="Label2" type="Label" parent="HUD/Theme/Pause/Panel/VBoxContainer"]
-margin_top = 211.0
-margin_right = 188.0
-margin_bottom = 228.0
-custom_styles/normal = SubResource( 32 )
-text = "Music volume:"
-
-[node name="SliderMusic" type="HSlider" parent="HUD/Theme/Pause/Panel/VBoxContainer"]
-margin_top = 236.0
-margin_right = 188.0
-margin_bottom = 252.0
-min_value = -60.0
-max_value = 10.0
+margin_bottom = 234.0
+size_flags_vertical = 3
+text = "Options"
 
 [node name="Button3" type="Button" parent="HUD/Theme/Pause/Panel/VBoxContainer"]
-margin_top = 260.0
+margin_top = 242.0
 margin_right = 188.0
 margin_bottom = 295.0
+focus_neighbour_bottom = NodePath("../Button")
 size_flags_vertical = 3
 text = "Quit"
 
@@ -1734,17 +1713,17 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="HUD/Theme/Pause/Save/Panel/VBoxContainer"]
-margin_right = 404.0
-margin_bottom = 17.0
+margin_right = 417.0
+margin_bottom = 19.0
 custom_styles/normal = SubResource( 31 )
 text = "Save your data here."
 align = 1
 autowrap = true
 
 [node name="List" type="ItemList" parent="HUD/Theme/Pause/Save/Panel/VBoxContainer"]
-margin_top = 21.0
-margin_right = 404.0
-margin_bottom = 207.0
+margin_top = 23.0
+margin_right = 417.0
+margin_bottom = 205.0
 size_flags_vertical = 3
 items = [ "A save", null, false, "Another save", null, false ]
 allow_reselect = true
@@ -1753,32 +1732,32 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HUD/Theme/Pause/Save/Panel/VBoxContainer"]
-margin_top = 211.0
-margin_right = 404.0
+margin_top = 209.0
+margin_right = 417.0
 margin_bottom = 236.0
 custom_constants/separation = 70
 alignment = 1
 
 [node name="Button" type="Button" parent="HUD/Theme/Pause/Save/Panel/VBoxContainer/HBoxContainer"]
-margin_left = 5.0
-margin_right = 103.0
-margin_bottom = 25.0
+margin_right = 107.0
+margin_bottom = 27.0
+shortcut = ExtResource( 34 )
 text = "Overwrite"
 
 [node name="Button3" type="Button" parent="HUD/Theme/Pause/Save/Panel/VBoxContainer/HBoxContainer"]
-margin_left = 173.0
-margin_right = 261.0
-margin_bottom = 25.0
+margin_left = 177.0
+margin_right = 273.0
+margin_bottom = 27.0
 text = "New save"
 
 [node name="Button2" type="Button" parent="HUD/Theme/Pause/Save/Panel/VBoxContainer/HBoxContainer"]
-margin_left = 331.0
-margin_right = 399.0
-margin_bottom = 25.0
+margin_left = 343.0
+margin_right = 417.0
+margin_bottom = 27.0
+shortcut = ExtResource( 35 )
 text = "Cancel"
 
 [node name="NewSave" type="Popup" parent="HUD/Theme/Pause/Save"]
-visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1822,9 +1801,6 @@ margin_top = 115.0
 margin_right = 432.0
 margin_bottom = 142.0
 placeholder_text = "Save name"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HUD/Theme/Pause/Save/NewSave/Panel"]
 margin_left = 48.0
@@ -1838,20 +1814,76 @@ __meta__ = {
 }
 
 [node name="Save" type="Button" parent="HUD/Theme/Pause/Save/NewSave/Panel/HBoxContainer"]
-margin_left = 34.0
-margin_right = 82.0
+margin_left = 29.0
+margin_right = 81.0
 margin_bottom = 33.0
+shortcut = ExtResource( 34 )
 text = "Save"
 
 [node name="Cancel" type="Button" parent="HUD/Theme/Pause/Save/NewSave/Panel/HBoxContainer"]
-margin_left = 282.0
-margin_right = 350.0
+margin_left = 281.0
+margin_right = 355.0
 margin_bottom = 33.0
+shortcut = ExtResource( 35 )
+text = "Cancel"
+
+[node name="Options" parent="HUD/Theme/Pause" instance=ExtResource( 33 )]
+
+[node name="ConfirmQuit" type="Popup" parent="HUD/Theme/Pause"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -200.0
+margin_top = -74.5
+margin_right = 149.0
+margin_bottom = 74.5
+
+[node name="Panel" type="Panel" parent="HUD/Theme/Pause/ConfirmQuit"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Label" type="Label" parent="HUD/Theme/Pause/ConfirmQuit/Panel"]
+anchor_left = 0.05
+anchor_top = 0.1
+anchor_right = 0.95
+anchor_bottom = 0.5
+margin_left = -0.0880013
+margin_top = -0.0720005
+margin_right = 0.0539856
+margin_bottom = -0.0300064
+custom_styles/normal = SubResource( 45 )
+text = "You will lose all unsaved progress."
+autowrap = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/Theme/Pause/ConfirmQuit/Panel"]
+anchor_left = 0.04
+anchor_top = 0.6
+anchor_right = 0.96
+anchor_bottom = 0.8
+margin_left = -0.0740004
+margin_top = 0.0409927
+margin_right = -0.00401306
+margin_bottom = 0.0259857
+custom_constants/separation = 64
+
+[node name="Button" type="Button" parent="HUD/Theme/Pause/ConfirmQuit/Panel/HBoxContainer"]
+margin_right = 128.0
+margin_bottom = 29.0
+size_flags_horizontal = 3
+shortcut = ExtResource( 34 )
+text = "Ok"
+
+[node name="Button2" type="Button" parent="HUD/Theme/Pause/ConfirmQuit/Panel/HBoxContainer"]
+margin_left = 192.0
+margin_right = 321.0
+margin_bottom = 29.0
+size_flags_horizontal = 3
+shortcut = ExtResource( 35 )
 text = "Cancel"
 
 [node name="YouDied" type="Popup" parent="HUD/Theme"]
 pause_mode = 2
-visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1887,28 +1919,28 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="HUD/Theme/YouDied/Panel/VBoxContainer"]
 margin_right = 216.0
-margin_bottom = 25.0
+margin_bottom = 27.0
 custom_styles/normal = SubResource( 43 )
 text = "You died"
 align = 1
 uppercase = true
 
 [node name="Reload" type="Button" parent="HUD/Theme/YouDied/Panel/VBoxContainer"]
-margin_top = 33.0
+margin_top = 35.0
 margin_right = 216.0
-margin_bottom = 58.0
+margin_bottom = 62.0
 text = "Reload last save"
 
 [node name="Load" type="Button" parent="HUD/Theme/YouDied/Panel/VBoxContainer"]
-margin_top = 66.0
+margin_top = 70.0
 margin_right = 216.0
-margin_bottom = 91.0
+margin_bottom = 97.0
 text = "Load game"
 
 [node name="MainMenu" type="Button" parent="HUD/Theme/YouDied/Panel/VBoxContainer"]
-margin_top = 99.0
+margin_top = 105.0
 margin_right = 216.0
-margin_bottom = 124.0
+margin_bottom = 132.0
 text = "Main menu"
 
 [node name="Inventory" type="PopupPanel" parent="HUD/Theme"]
@@ -1921,9 +1953,6 @@ margin_top = 0.179996
 margin_right = 0.0999756
 margin_bottom = 0.179993
 script = ExtResource( 12 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VSplitContainer" type="VBoxContainer" parent="HUD/Theme/Inventory"]
 anchor_left = 0.05
@@ -1941,15 +1970,15 @@ __meta__ = {
 
 [node name="Objective" type="LineEdit" parent="HUD/Theme/Inventory/VSplitContainer"]
 margin_right = 1017.0
-margin_bottom = 27.0
+margin_bottom = 29.0
 text = "No objective."
 editable = false
 selecting_enabled = false
 
 [node name="HSplitContainer" type="HSplitContainer" parent="HUD/Theme/Inventory/VSplitContainer"]
-margin_top = 35.0
+margin_top = 37.0
 margin_right = 1017.0
-margin_bottom = 484.0
+margin_bottom = 482.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 8.0
@@ -1957,13 +1986,13 @@ dragger_visibility = 1
 
 [node name="VSplitContainer" type="VSplitContainer" parent="HUD/Theme/Inventory/VSplitContainer/HSplitContainer"]
 margin_right = 502.0
-margin_bottom = 449.0
+margin_bottom = 445.0
 size_flags_horizontal = 3
 dragger_visibility = 1
 
 [node name="ItemWaffle" type="ReferenceRect" parent="HUD/Theme/Inventory/VSplitContainer/HSplitContainer/VSplitContainer"]
 margin_right = 502.0
-margin_bottom = 368.0
+margin_bottom = 364.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 15.0
@@ -1975,9 +2004,9 @@ size = Vector2( 5, 5 )
 height = 2
 
 [node name="Hotbar" type="ReferenceRect" parent="HUD/Theme/Inventory/VSplitContainer/HSplitContainer/VSplitContainer"]
-margin_top = 380.0
+margin_top = 376.0
 margin_right = 502.0
-margin_bottom = 449.0
+margin_bottom = 445.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 3.0
@@ -1986,7 +2015,7 @@ script = ExtResource( 15 )
 [node name="ItemDesc" type="TextEdit" parent="HUD/Theme/Inventory/VSplitContainer/HSplitContainer"]
 margin_left = 514.0
 margin_right = 1017.0
-margin_bottom = 449.0
+margin_bottom = 445.0
 size_flags_horizontal = 3
 custom_fonts/font = SubResource( 33 )
 custom_styles/read_only = SubResource( 14 )
@@ -2001,7 +2030,7 @@ __meta__ = {
 }
 
 [node name="Buttons" type="HBoxContainer" parent="HUD/Theme/Inventory/VSplitContainer"]
-margin_top = 492.0
+margin_top = 490.0
 margin_right = 1017.0
 margin_bottom = 517.0
 custom_constants/separation = 32
@@ -2011,22 +2040,22 @@ __meta__ = {
 
 [node name="Equip" type="Button" parent="HUD/Theme/Inventory/VSplitContainer/Buttons"]
 margin_right = 80.0
-margin_bottom = 25.0
+margin_bottom = 27.0
 rect_min_size = Vector2( 80, 0 )
-shortcut = SubResource( 12 )
+shortcut = ExtResource( 34 )
 text = "Equip"
 
 [node name="Drop" type="Button" parent="HUD/Theme/Inventory/VSplitContainer/Buttons"]
 margin_left = 112.0
 margin_right = 192.0
-margin_bottom = 25.0
+margin_bottom = 27.0
 rect_min_size = Vector2( 80, 0 )
 text = "Drop"
 
 [node name="Keycards" type="Button" parent="HUD/Theme/Inventory/VSplitContainer/Buttons"]
 margin_left = 224.0
-margin_right = 312.0
-margin_bottom = 25.0
+margin_right = 320.0
+margin_bottom = 27.0
 rect_min_size = Vector2( 80, 0 )
 text = "Keycards"
 
@@ -2124,7 +2153,6 @@ script = ExtResource( 21 )
 [node name="Timer" type="Timer" parent="HUD/Theme/SaveReminder"]
 pause_mode = 1
 wait_time = 60.0
-autostart = true
 
 [node name="Tween" type="Tween" parent="HUD/Theme/SaveReminder"]
 
@@ -2132,6 +2160,7 @@ autostart = true
 modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 texture = ExtResource( 31 )
 expand = true
 __meta__ = {
@@ -2184,9 +2213,10 @@ __meta__ = {
 [connection signal="pressed" from="HUD/Theme/Pause/Panel/VBoxContainer/Button" to="HUD/Theme/Pause" method="hide"]
 [connection signal="pressed" from="HUD/Theme/Pause/Panel/VBoxContainer/Button2" to="HUD/Theme/Pause" method="_on_save_pressed"]
 [connection signal="pressed" from="HUD/Theme/Pause/Panel/VBoxContainer/Button4" to="HUD/Theme/Pause" method="_on_load_pressed"]
-[connection signal="pressed" from="HUD/Theme/Pause/Panel/VBoxContainer/Button5" to="HUD/Theme/Pause" method="_on_restart_pressed"]
+[connection signal="pressed" from="HUD/Theme/Pause/Panel/VBoxContainer/Button5" to="HUD/Theme/Pause" method="_on_Button5_pressed"]
 [connection signal="pressed" from="HUD/Theme/Pause/Panel/VBoxContainer/Button3" to="HUD/Theme/Pause" method="_on_quit_pressed"]
 [connection signal="about_to_show" from="HUD/Theme/Pause/Save" to="HUD/Theme/Pause/Save" method="_on_Save_about_to_show"]
+[connection signal="saved" from="HUD/Theme/Pause/Save" to="." method="save_reminder_start"]
 [connection signal="saved" from="HUD/Theme/Pause/Save" to="." method="save_reminder" binds= [ false ]]
 [connection signal="item_activated" from="HUD/Theme/Pause/Save/Panel/VBoxContainer/List" to="HUD/Theme/Pause/Save" method="_on_List_item_activated"]
 [connection signal="item_selected" from="HUD/Theme/Pause/Save/Panel/VBoxContainer/List" to="HUD/Theme/Pause/Save" method="_on_List_item_selected"]
@@ -2199,14 +2229,17 @@ __meta__ = {
 [connection signal="text_entered" from="HUD/Theme/Pause/Save/NewSave/Panel/LineEdit" to="HUD/Theme/Pause/Save/NewSave" method="_on_LineEdit_text_entered"]
 [connection signal="pressed" from="HUD/Theme/Pause/Save/NewSave/Panel/HBoxContainer/Save" to="HUD/Theme/Pause/Save/NewSave" method="_on_Save_pressed"]
 [connection signal="pressed" from="HUD/Theme/Pause/Save/NewSave/Panel/HBoxContainer/Cancel" to="HUD/Theme/Pause/Save/NewSave" method="_on_Cancel_pressed"]
+[connection signal="pressed" from="HUD/Theme/Pause/ConfirmQuit/Panel/HBoxContainer/Button" to="HUD/Theme/Pause" method="_on_Quit_confirmed"]
+[connection signal="pressed" from="HUD/Theme/Pause/ConfirmQuit/Panel/HBoxContainer/Button2" to="HUD/Theme/Pause/ConfirmQuit" method="hide"]
 [connection signal="about_to_show" from="HUD/Theme/YouDied" to="HUD/Theme/YouDied" method="_on_YouDied_about_to_show"]
 [connection signal="pressed" from="HUD/Theme/YouDied/Panel/VBoxContainer/Reload" to="HUD/Theme/YouDied" method="_on_Reload_pressed"]
 [connection signal="pressed" from="HUD/Theme/YouDied/Panel/VBoxContainer/Load" to="HUD/Theme/YouDied" method="_on_Load_pressed"]
 [connection signal="pressed" from="HUD/Theme/YouDied/Panel/VBoxContainer/MainMenu" to="HUD/Theme/YouDied" method="_on_MainMenu_pressed"]
 [connection signal="about_to_show" from="HUD/Theme/Inventory" to="." method="follow_mouse" binds= [ false ]]
+[connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="override_selected"]
 [connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="update_equipped"]
 [connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="update_objective"]
-[connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="override_selected"]
+[connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="reset_text"]
 [connection signal="popup_hide" from="HUD/Theme/Inventory" to="." method="follow_mouse" binds= [ true ]]
 [connection signal="gui_input" from="HUD/Theme/Inventory/VSplitContainer/HSplitContainer/VSplitContainer/ItemWaffle" to="HUD/Theme/Inventory" method="_on_ItemWaffle_gui_input"]
 [connection signal="items_changed" from="HUD/Theme/Inventory/VSplitContainer/HSplitContainer/VSplitContainer/ItemWaffle" to="HUD/Theme/Inventory" method="select"]

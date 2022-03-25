@@ -287,14 +287,11 @@ rotation = 1.57079
 texture = ExtResource( 8 )
 
 [node name="Interactive" type="Control" parent="WhenClosed/NamePlate"]
-margin_left = -32.0
+margin_left = -15.0
 margin_top = -8.0
-margin_right = 32.0
+margin_right = 15.0
 margin_bottom = 8.0
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 message = "Read"
 
 [node name="DoorCloseArea" type="Area2D" parent="."]

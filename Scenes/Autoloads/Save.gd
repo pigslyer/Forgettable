@@ -110,3 +110,44 @@ func delete_save(path: String):
 	var dir := Directory.new();
 	dir.remove(SAVE_DIR+path+".sav");
 	
+
+const GLOBAL_SAVE = "user://settings.ini";
+
+# hue hue hue, someone might think that they can hack the saves but they'd
+# be wrong
+enum ENDS{
+	NONE = 0,
+	FINISHED = 1014118,
+	NASIF = 8535155,
+};
+
+var ending = ENDS.NONE;
+
+func global_save():
+	var conf := ConfigFile.new();
+	
+	conf.set_value("DATA","ending",ending);
+	
+	conf.set_value("DATA","vol_master",AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Master")));
+	conf.set_value("DATA","vol_music",AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Music")));
+	conf.set_value("DATA","vol_sfx",AudioServer.get_bus_volume_db(AudioServer.get_bus_index("SFX")));
+	
+	conf.save(GLOBAL_SAVE);
+
+func global_load():
+	var conf := ConfigFile.new();
+	conf.load(GLOBAL_SAVE);
+	
+	ending = conf.get_value("DATA","ending",ENDS.NONE);
+	if !(ending in ENDS.values()):
+		ending = ENDS.NONE;
+		# i don't know if anyone will ever hear this, but it's funny
+		Music.play_sfx(load("res://Assets/LiamNoises/death1.wav"));
+	
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"),conf.get_value("DATA","vol_master",-10));
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"),conf.get_value("DATA","vol_music",-10));
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"),conf.get_value("DATA","vol_sfx",-10));
+
+func global_save_exists() -> bool:
+	var dir := Directory.new();
+	return dir.file_exists(GLOBAL_SAVE);

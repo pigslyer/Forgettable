@@ -6,7 +6,7 @@
 [node name="AmmoSmg" instance=ExtResource( 1 )]
 texture = ExtResource( 2 )
 item_name = "Smg ammo"
-item_tooltip = "Ammo for the smg."
+item_tooltip = "A hefty clip of SMG ammo."
 stack_size = 30
-item_size = Vector2( 1, 2 )
+item_size = Vector2( 2, 2 )
 animation_type = 1

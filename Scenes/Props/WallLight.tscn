@@ -5,6 +5,8 @@
 [ext_resource path="res://Assets/Base/light_smol.png" type="Texture" id=3]
 
 [node name="WallLight" type="Light2D"]
+z_index = 1023
+z_as_relative = false
 texture = ExtResource( 3 )
 color = Color( 0.929412, 0.792157, 0.505882, 1 )
 shadow_enabled = true

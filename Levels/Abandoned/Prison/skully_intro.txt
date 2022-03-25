@@ -75,3 +75,4 @@ Oh, and did I mention how I'll help you escape the facility if you do this for m
 }
 Now get going, this pipe ain't gonna magically appear back in my mouth, son.
 /update Meet Fatty in Storage.
+/action save_reminder

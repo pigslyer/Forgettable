@@ -142,13 +142,14 @@ static func compile(text: String) -> PoolStringArray:
 			if return_from[-1]:
 				split.insert(idx,"::/");
 				poses.append(idx);
+				return_from.append(false);
 				idx += 1;
 			
 			split[begin] = "/choice "
 			gotos = "/choices "
 			var jdx: int = 0;
 			for pos in poses:
-				gotos += str(pos+2,"||")
+				gotos += str(pos+2+(1 if return_from[jdx-1] else 0),"||")
 				# you may hate me, future me, but it works
 				
 				if split[pos] != "::/":

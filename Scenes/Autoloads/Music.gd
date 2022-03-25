@@ -1,8 +1,9 @@
 extends Node
 
-const FADE_OUT = 0.3;
-const FADE_IN = 0.3;
+const FADE_OUT = 0.7;
+const FADE_IN = 0.4;
 
+const INGAME_MUSIC = -10;
 const SILENT_VOLUME = -60;
 
 const MUSIC := {
@@ -14,12 +15,18 @@ var _player := AudioStreamPlayer.new();
 
 var tween := Tween.new();
 
+func music_in_game(state: bool):
+	tween.interpolate_property(_player,"volume_db",null,INGAME_MUSIC if state else -5,2.4,Tween.TRANS_EXPO);
+	tween.start();
+
 func _init():
 	VisualServer.set_default_clear_color(Color.black);
 	add_child(_player);
 	_player.bus = "Music";
 	add_child(tween);
 	_player.connect("finished",_player,"play");
+	_player.volume_db = -5;
+	_player.pause_mode = PAUSE_MODE_PROCESS;
 
 func play_music(stream: AudioStream, fade: bool = true):
 	if tween.is_active() || _player.stream == stream:

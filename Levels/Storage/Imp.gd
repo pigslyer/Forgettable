@@ -16,4 +16,15 @@ func dial_action(id):
 			Groups.get_player().get_waffle().get_item("",c)
 		else:
 			Groups.get_player().get_dial_player().stop();
-
+	
+	elif id == "called_vlad":
+		Save.save_data["fatty"] = false;
+		dial_action("update_name");
+	
+	elif id == "called_fatty":
+		Save.save_data["fatty"] = true;
+		dial_action("update_name");
+	
+	elif id == "update_name":
+		Groups.get_player().get_dial_player().reader.talking_to = "Fatty" if Save.save_data["fatty"] else "Vlad";
+	

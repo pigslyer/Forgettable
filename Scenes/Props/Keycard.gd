@@ -1,5 +1,7 @@
 extends Sprite
 
+signal picked_up;
+
 const DISSOLVE_TIME = 0.3;
 
 export (String) var display_name;
@@ -27,6 +29,7 @@ func _on_Interactive_interacted():
 	Groups.get_player().add_keycard(display_name,key);
 	Save.save_my_data(self);
 	Groups.say_line(str("Picked up ", display_name, " keycard."));
+	emit_signal("picked_up");
 	
 
 func set_disable(state: bool):

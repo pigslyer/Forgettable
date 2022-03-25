@@ -24,6 +24,9 @@ func _ready():
 
 func _on_Handgun_picked_up():
 	
+	Groups.get_player().tutorial_show("Access your character screen by pressing TAB.",["inventory"]);
+	
+	yield(get_tree().create_timer(1.2),"timeout");
 	$Keycard.disabled = false;
 	
 	var exit: Door = get_node(door);
@@ -57,3 +60,11 @@ func _on_Banging_finished():
 	yield(get_tree().create_timer(rand_range(0.8,2.5)),"timeout");
 	if !is_done:
 		$Banging.play();
+
+
+func _on_Keycard_picked_up():
+	Groups.get_player().tutorial_show("Interact with the other panel on doors to unlock them.",[])
+
+
+func _on_Door_toggled_lock():
+	Groups.get_player().tutorial_hide();

@@ -44,13 +44,12 @@ var detecting: bool = false setget set_detecting;
 onready var detection: Area2D = $Animation/Body/Head/PlayerDetection;
 
 func data_save():
-	if dead: return [global_position];
-	return null;
+	return null if dead else [global_position,global_rotation];
 
 func data_load(data):
 	if data is Array:
-		set_health(-1,false);
 		global_position = data[0];
+		global_rotation = data[1];
 
 func _ready():
 	
@@ -104,7 +103,7 @@ func _physics_process(delta):
 		
 		velocity = move_and_slide(velocity);
 	
-	if !(detecting || detection.get_overlapping_bodies().empty()):
+	if !Groups.get_player().dead && !(detecting || detection.get_overlapping_bodies().empty()):
 		$PlayerWall.global_rotation = 0;
 		$PlayerWall.cast_to = Groups.get_player_pos()-global_position;
 		$PlayerWall.force_raycast_update();
@@ -151,7 +150,6 @@ func set_health(new_val: int, loud: bool = true):
 		
 		queue_free();
 	
-	# this should be painstate chance
 	elif new_val < health && is_inside_tree():
 		if loud:
 			if FLINCH_CHANCE > rand_range(0,1):

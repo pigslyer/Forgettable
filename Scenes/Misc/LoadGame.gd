@@ -12,6 +12,7 @@ func _on_LoadGame_about_to_show():
 	items.clear();
 	$Panel/VBoxContainer/HBoxContainer/Load.disabled = true;
 	$Panel/VBoxContainer/HBoxContainer/Delete.disabled = true;
+	$Popup/Panel/Cancel.grab_focus();
 	
 	if saves.empty():
 		items.mouse_filter = MOUSE_FILTER_IGNORE;
@@ -35,6 +36,7 @@ func _on_Delete_pressed():
 	loading = false;
 	prompt.text = str("Are you sure you'd like to delete ",items.get_item_metadata(items.get_selected_items()[0]),"?");
 	$Popup.popup();
+	$Popup/Panel/Cancel.grab_focus();
 
 func _on_Cancel_pressed():
 	hide();

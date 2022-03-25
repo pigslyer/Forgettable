@@ -1,7 +1,7 @@
 extends Enemy
 
-const DAMAGE_MIN = 6;
-const DAMAGE_MAX = 12;
+const DAMAGE_MIN = 4;
+const DAMAGE_MAX = 8;
 const AMMO = 8;
 
 var ammo = AMMO;
@@ -28,7 +28,7 @@ func attacked():
 		Groups.get_player().health -= rand_range(MELEE_DAMAGE_MIN,MELEE_DAMAGE_MAX);
 
 func _physics_process(_delta):
-	if !dead && alerted && can_move && $Flinching.is_stopped():
+	if !dead && alerted && can_move && $Flinching.is_stopped() && !Groups.get_player().dead:
 		
 		$PlayerWall.global_rotation = 0;
 		$PlayerWall.cast_to = Groups.get_player_pos()-global_position;

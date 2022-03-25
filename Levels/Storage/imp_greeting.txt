@@ -1,6 +1,63 @@
-/talking_to Eugene
-here u go
+/talking_to Fatty
+
+So you're Earl's new plaything, eh?
+I wonder how long until he discards you...
+:Alright, Fatty, Earl sent me-
+Hey, hey, hey, who you callin' Fatty?
+Don't you know it's very rude to make fun o' someone like that?
+{
+	::Oh, my apologies. What shall I call you?
+	Vlad'll suffice.
+	/action called_vlad
+	:Alright Vlad, as I was saying.
+
+	::Why should I care, fat ass?
+	/action called_fatty
+	Oh, come on? Why do you have to be so childish?
+
+	{
+		::I don't. That's why it's funny.
+		No, it isn't!
+		:Yes it is.
+		Your fatphobia's nothing more 'n a defense mechanism with which you seek to disguise the fact that you lack all control.
+		You're like a child using a magnifyin' glass on an insect in order to distract 'imself from his family's abuse.
+		You are nothing, if not less.
+		{
+			::Alright, you've made your point.
+			In that case, what were you saying?
+			::Yeah, and you're much, much more, fatty.
+			Fuck.
+			You.
+		}
+
+		::You're so fat, your farts fall under a 6.9 on the Richter scale.
+		/end
+	}
+}
+
+:Earl wants me to go talk to Lorelei, but I'm pretty sure that there's some psychos in the way to Medical.
+:I want to know if there's a way past them or if you can provide me with a way through them.
+What's Earl want with Lorelei?
+{
+	::She stole his pipe.
+	She stole Earl's PIPE?! Now that's funny.
+	He will never live that down. I won't let him.
+
+	::None of your business.
+	Now that's no way to treat someone who you're asking for help.
+	But if you wanna be cagey...
+}
+Anywho, there's no other path to Medical than through them. Luckily for you though, I can arm you.
 /action throw_key
 ;...
-:I can use this keycard on the not-glowing keypad side of doors to unlock them.
+/update Get gun from Vlad's Stash!
+Here. That'll unlock my Stash - the door opposite this room. Inside you'll find a gun and some ammo.
+Good luck.
+{
+	::Thank you.
+	::You're giving me this for free?
+	I'm in a good mood.
+	For a more tangible reason, I assume your ultimate goal is escape - I don't know what else it'd be.
+	As such, you'll have to come back to help me anyway, so your survival is a good investment.
+}
 /action start_info

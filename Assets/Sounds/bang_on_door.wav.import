@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/bang_on_door.wav-c296c0c89ea66c9c62e973d477572157.sample"
+
+[deps]
+
+source_file="res://Assets/Sounds/bang_on_door.wav"
+dest_files=[ "res://.import/bang_on_door.wav-c296c0c89ea66c9c62e973d477572157.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

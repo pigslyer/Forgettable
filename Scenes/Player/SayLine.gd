@@ -17,7 +17,8 @@ func _init():
 
 func say_line(what: String):
 	
-	if what in used:
+	# bit of hardcoding, some messages are better displayed multiple times
+	if what != "The door's locked." && what in used:
 		return;
 	
 	var label := Label.new();

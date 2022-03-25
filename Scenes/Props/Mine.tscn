@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scenes/Props/Mine.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Objects/Flicker2.gd" type="Script" id=2]
 [ext_resource path="res://Assets/Base/light_smol.png" type="Texture" id=3]
 [ext_resource path="res://Assets/Sounds/detector_ping.wav" type="AudioStream" id=4]
+[ext_resource path="res://Assets/Sounds/mine.wav" type="AudioStream" id=5]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 32.0
@@ -22,11 +23,13 @@ shape = SubResource( 1 )
 [node name="BlowUp" type="Light2D" parent="."]
 enabled = false
 texture = ExtResource( 3 )
-color = Color( 0.921569, 0.643137, 0.109804, 1 )
+texture_scale = 2.0
+color = Color( 0.921569, 0.509804, 0.109804, 1 )
+shadow_enabled = true
 script = ExtResource( 2 )
 energy_min = 1.2
 energy_max = 1.6
-smoothing = 12
+smoothing = 120
 
 [node name="DamageArea" type="Area2D" parent="."]
 collision_layer = 0
@@ -40,6 +43,12 @@ shape = SubResource( 2 )
 stream = ExtResource( 4 )
 volume_db = 3.0
 pitch_scale = 0.5
+bus = "SFX"
+
+[node name="Boom" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+volume_db = 2.0
+pitch_scale = 0.9
 bus = "SFX"
 
 [connection signal="body_entered" from="." to="." method="_on_Mine_body_entered"]

@@ -114,7 +114,7 @@ func _on_Drop_pressed():
 func _on_Keycards_pressed():
 	override_tooltip();
 	override_selected();
-	tooltip.text = keycards;
+	tooltip.text = "You haven't got any keycards!" if keycards.empty() else keycards;
 
 func _on_Notes_pressed():
 	override_selected();
@@ -162,3 +162,7 @@ func save_data():
 
 func load_data(data):
 	keycard_ids = data[1]; keycards = data[0];
+
+
+func reset_text():
+	$VSplitContainer/HSplitContainer/ItemDesc.text = "Select items - left mouse button\nDrop items - right mouse button\nDrag items into the hotbar and equip them in gameplay with 1-3.";

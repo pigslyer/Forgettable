@@ -23,8 +23,11 @@ var interpolating := false;
 onready var line: Label = $Theme/VSplitContainer/Line;
 
 func start(path: String, one_time: bool = true, actions: Node = null):
+	$Theme.release_focus();
+	
 	if !stopped:
 		stop();
+		yield(get_tree(),"idle_frame");
 	
 	if !(path in one_timed && one_time):
 		$Theme.popup();
@@ -49,7 +52,6 @@ func stop():
 		reader.disconnect("perform_action",data[0]["target"],data[0]["method"]);
 
 func next(next: int = -1, startup: bool = false):
-	
 	var cur_line = reader.get_line(next);
 	
 	if !(cur_line is PoolStringArray && reader.caret == last_choice_caret):
@@ -124,7 +126,7 @@ func show_line(text: String, talking_to: int):
 			yield(get_tree().create_timer(TIME_PER_CHAR),"timeout");
 			
 		if idx%speed==0:
-			Music.play_sfx(preload("res://Assets/Sounds/typing2.mp3"),rand_range(pitch_min,pitch_max),-10);
+			Music.play_sfx(preload("res://Assets/Sounds/typing2.mp3"),rand_range(pitch_min,pitch_max),-19);
 		
 		$Theme/VSplitContainer/Line.text += text[idx];
 		idx += 1;
