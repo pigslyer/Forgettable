@@ -3,7 +3,10 @@ extends Node2D
 var is_done: bool = false
 
 func data_save(): return is_done;
-func data_load(data): is_done = data;
+func data_load(data): 
+	is_done = data;
+	if is_done:
+		get_node(door).locked_line = "The door's broken.";
 
 export (NodePath) var starting1;
 export (NodePath) var starting2;
@@ -24,9 +27,9 @@ func _ready():
 
 func _on_Handgun_picked_up():
 	
-	Groups.get_player().tutorial_show("Access your character screen by pressing TAB.",["inventory"]);
-	
 	yield(get_tree().create_timer(1.2),"timeout");
+	
+	Groups.get_player().save_reminder(true);
 	$Keycard.disabled = false;
 	
 	var exit: Door = get_node(door);
@@ -49,10 +52,10 @@ func _on_Handgun_picked_up():
 	enemy3.deaf = false;
 	enemy3.path = Groups.get_simple_path(enemy3.global_position,$Enemy3TargetPos.global_position);
 	
-	Save.save_my_data(self);
 	
-	yield(get_tree().create_timer(3),"timeout");
-	enemy2.rotation_degrees = -90;
+	yield(get_tree().create_timer(5),"timeout");
+	enemy2.look_at(enemy2.global_position+Vector2.UP);
+	enemy3.look_at(enemy3.global_position+Vector2.RIGHT);
 	
 
 func _on_Banging_finished():

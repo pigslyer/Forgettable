@@ -101,6 +101,7 @@ margin_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource( 3 )
+custom_constants/separation = 16
 alignment = 1
 __meta__ = {
 "_edit_lock_": true,

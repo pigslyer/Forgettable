@@ -4,6 +4,8 @@ signal popped;
 
 const TURN_TIME = 0.3;
 
+export (bool) var has_pipe = true;
+
 var popped_out: bool = false;
 
 func _ready():
@@ -19,6 +21,7 @@ func pop_out():
 		emit_signal("popped");
 
 func start_following():
+	$Skully/Pipe.visible = has_pipe;
 	$Tween.interpolate_property($Skully,"rotation",null,($Skully.global_position-Groups.get_player().global_position).angle(),TURN_TIME);
 	$Tween.interpolate_callback(self,TURN_TIME,"set_physics_process",true);
 	$Tween.start();

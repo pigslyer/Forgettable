@@ -1,3 +1,39 @@
 /talking_to Earl
-Y'know that mine detector you got? You should probably pull it out.
-Some madman went and planted a bunch of mines down here.
+
+:I have the mine detector.
+Good job, puppy. Now, to stage two.
+While you were in those tunnels I was able to figure out who Werther's helper is.
+He was some sorta' agent who was sent in here to rescue someone, but Werther got into his head.
+{
+    ::Who the hell was he sent in here to rescue?
+    Ehm, I don't know.
+    {
+        ::You sure you don't know Earl? 
+        :I mean, you know an awful lot about everyone's dirty little secrets.
+        Mhm.
+        :So?
+        I'm not budging.
+        :Fantastic. And you expect me to trust you.
+
+        ::Alright then.
+    }
+
+    ::And I assume he's gonna get in our way?
+    Sorta. He's heard of your capabilities and wants to meet.
+    He seems to think that you're crazy enough to want to blow this place up.
+    {
+        ::How would I do that?
+        He knows you went to Fatty's rebels and that they had a stash of C4.
+
+        ::Crazy, yeah...
+        :I mean, who'd want to blow up this wonderful place filled with sunshine and happiness.
+    }
+}
+
+Anyway, he's in the Test Chamber Viewing room.
+Don't let him get a word in edgewise, just shoot 'im dead.
+:Why?
+He's got the keycode to a vent through which you can get to the Entrance zone.
+:And how am I supposed to get it if he's dead?
+Ehm, trust me, he probably has it written somewhere.
+/update Get keycode from Bomber.

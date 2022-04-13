@@ -4,30 +4,40 @@ Got any questions?
 {
     :::I think Lorelei's hurting.
     Really? None of us'd noticed. Tell me, what is it that tipped you off?
-    :I was being serious.
-    And I'm serious when I tell you this. Some people are destined to be sad.
-    Some people know no better path through life than to sit on the sidelines and think:
-    "Damn, I wish I could achieve what I want to. I wish I'd chosen differently."
+    :I'm being serious.
+    And I'm being serious when I tell you this. Some people are destined to be sad.
+    They know no better path through life than to sit on the sidelines and think: "Damn, I wish I could achieve what I want to. I wish I'd chosen differently."
     Lorelei's one of those. She's enslaved by the freedom that allows her to sit back and cry about bygones.
     She has to confront the fact that she's chosen her life.
     Now she can either spend an eternity regretting it, or enjoy it, for the joy and freedom it contains.
     Unlike you humans, we aren't shackled by time and space. Maybe if she realised this she could be happier.
-    :Damn, did I strike a nerve?
-    Yeah... yeah, you did kiddo. Sorry about that, back to your regularly schueduled whatever-the-hell-it-is-we're-doing.
     {
-        ::Yeah, back to that.
-        ::What do you mean, she's chosen this life?
-        Not the time to go into our rich backstories, kid. Got murder to do.
+        ::Damn, did I strike a nerve?
+        Yeah... yeah, you did kiddo. Sorry about that, back to your regularly schueduled whatever-the-hell-it-is-we're-doing.
+        {
+            ::Yeah, back to that.
+            ::What do you mean, she's chosen this life?
+            Not the time to go into our rich backstories, kid. Got murder to do.
+        }
+
+        ::You aren't what?
+        Details about our origins and whatnot.
+        :You don't wanna explain?
+        No.
     }
     :::Did Werther cause the cave-in in Medical?
     Honestly, I don't know. I was somewhere else when it happened. That's what I'm investigating right now though.
     There may be a second hot, crazy bomber in your area and I'd at least like to give you a heads up.
 
     :::Is Lorelei a giant spider?
-    Phahaha, she gets that a lot. She's actually a squid under all those legs.
-    It's probably just a bit hard to tell with the bad lighting.
+    Phahaha, she gets that a lot. She's actually a squid under all those legs, it's probably just a bit hard to tell with the bad lighting.
     :Why does she keep it so dark in there?
     To brood 18.7% more efficently, I would think.
+    {
+        ::Uh huh...
+        ::Elucidating.
+        You're a funny guy.
+    }
 
     ::No, I'm fine.
 }

@@ -1,4 +1,37 @@
-/talking_to Eugene
-Fucking go get the thing, shit for brains.
+/talking_to Follower
+I'm telling you sir, he's got someone else.
+
+/action update_name
+Hm... Interesting. But Earl's servant's come to us.
+What is it?
+
+/action turn_to_player
+
+{
+    ::I need a way past the mines in the entrance hall.
+    Ah, those things.
+
+    ::What're you two meeting about?
+    None o' your concern. Now, what's it you want?
+    :The mines in  the entrance hall are giving Earl and I trouble.
+    I'd imagine you moreso than Earl.
+
+}
+
+I'll tell you how to get past 'em, but you'll have to return the favor.
+{
+    ::Of course.
+    ::Haven't got a choice.
+    :It's either helping you or going back to my cell.
+}
+
+/update Find the Mine Detector in the Railway!
+Alright, what you're looking for is down in the Railway.
+Head out of my throne room and take two lefts, it's the door at the end of the hall.
+You'll have to fight your way through my rebels to get there. Their base of operations is a broken down train.
+They've installed a keypad lock inside, the code to which I've been led to believe is 8730.
+Write that down somewhere, 8730.
+Now, for my favor. Along with the MD they've also got some plastic explosives somewhere.
+Find 'em and bring them back to me and I'll reward you.
 
 /action start_info

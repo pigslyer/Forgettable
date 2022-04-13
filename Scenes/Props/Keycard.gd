@@ -15,7 +15,7 @@ func data_load(data):
 		queue_free();
 
 func _on_Interactive_interacted():
-	$Interactive.disable(true);
+	$Interactive.queue_free();
 	
 	yield(get_tree(),"physics_frame");
 	material = preload("res://Scenes/Objects/dissolve.tres").duplicate();
@@ -37,4 +37,6 @@ func set_disable(state: bool):
 	visible = !state;
 
 func _interpolate_shader(val: float):
+	if material == null: material = preload("res://Scenes/Objects/dissolve.tres").duplicate();
+	
 	material.set_shader_param("percent",val);

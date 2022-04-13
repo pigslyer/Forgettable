@@ -29,9 +29,12 @@ export (String,MULTILINE) var locked_line = "The door's locked.";
 
 onready var prev_open: bool = open;
 
-func data_save(): return [open,locked];
+func data_save():
+	return [open,locked];
+
 func data_load(data): 
 	open = data[0]; locked = data[1];
+	
 	_ready();
 
 func _ready():
@@ -53,7 +56,10 @@ func _ready():
 
 func _on_open(force: bool = false):
 	if locked && !force:
-		Groups.say_line(locked_line);
+		Groups.say_line(locked_line,self);
+	elif enemies_can_open && open && !$EnemyAutoOpen.get_overlapping_bodies().empty():
+		Groups.say_line("He's in the way!",self);
+	
 	else:
 		if open:
 			$AnimationPlayer.play_backwards("open");
@@ -70,12 +76,12 @@ func _on_keycard():
 	if !keycard.empty() && Groups.get_player().has_keycard(keycard):
 		toggle_locked();
 	else:
-		Groups.say_line(str(NO_KEYCARD_LINE,"unlock it." if locked else "lock it."));
+		Groups.say_line(str(NO_KEYCARD_LINE,"unlock it." if locked else "lock it."),self);
 
 func toggle_locked():
 	locked = !locked;
 	$LockedSound.play();
-	Groups.say_line(LOCK_LINE if locked else UNLOCK_LINE);
+	Groups.say_line(LOCK_LINE if locked else UNLOCK_LINE, self);
 	_update_locked();
 	emit_signal("toggled_lock");
 
@@ -117,9 +123,25 @@ func _update_locked():
 	$WhenClosed/InnerOpen/Flicker.color = LIGHTS_LOCKED.get(keycard,LIGHTS_LOCKED["/"]) if locked else LIGHT_UNLOCKED;
 	$WhenClosed/OuterOpen/Flicker.color = $WhenClosed/InnerOpen/Flicker.color;
 
-func check_death_area():
-	if $AnimationPlayer.playback_speed < 0:
+func _physics_process(_delta):
+	if $DeathZone.monitoring:
 		for killable in $DeathZone.get_overlapping_bodies():
 			killable.health = -1;
 			Music.play_sfx(preload("res://Assets/Base/squelch.wav"),rand_range(0.9,1.1));
+			killable.set_deferred("collision_layer",0);
 
+const TOGGLE_TIME = 0.1;
+
+onready var l1 = $WhenClosed/InnerKeycard/Flicker2;
+onready var l2 = $WhenClosed/OuterKeycard/Flicker;
+
+func _on_Door_toggled_lock():
+	if is_inside_tree():
+		
+		l1.enabled = true;
+		l2.enabled = true;
+		
+		yield(get_tree().create_timer(TOGGLE_TIME),"timeout");
+		
+		l1.enabled = false;
+		l2.enabled = false;

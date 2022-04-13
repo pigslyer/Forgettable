@@ -29,4 +29,6 @@ func _on_Interactive_interacted():
 	queue_free();
 
 func _dissolve(val: float):
+	if material == null: 
+		material = preload("res://Scenes/Objects/dissolve.tres").duplicate();
 	material.set_shader_param("percent",val);

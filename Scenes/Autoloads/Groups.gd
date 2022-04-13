@@ -42,9 +42,9 @@ func get_player() -> Player:
 func get_player_pos() -> Vector2:
 	return get_tree().get_nodes_in_group("Player")[0].global_position;
 
-func say_line(what: String):
+func say_line(what: String, obj: Object = null):
 	if !get_tree().get_nodes_in_group("Player").empty():
-		get_player().say_line(what);
+		get_player().say_line(what, obj);
 
 func get_simple_path(from: Vector2, to: Vector2) -> PoolVector2Array:
 	var navis = get_tree().get_nodes_in_group("Navigator");

@@ -10,16 +10,18 @@ func _on_Area2D_body_entered(_body):
 		if Groups.get_player().has_pipe:
 			Groups.get_player().equip_special("res://Scenes/Items/Pipe.tscn",true);
 		
-		yield($Skully,"popped");
-		
-		Groups.get_player().turn_towards($Skully.global_position);
 		Save.cur_state = Save.STATE.DETECTOR;
 	
 
 func dial_action(id):
 	if id == "start_info":
 		Groups.get_player().start_dial("res://Levels/Abandoned/Prison/skully_pipe_lore",false,self);
-
+	elif id == "turn":
+		Groups.get_player().turn_towards($Skully.global_position);
+		
+		$Tween.interpolate_property(Groups.get_player().get_camera(),"global_position",null,$Skully.global_position,1.2);
+		$Tween.start();
+		
 
 func _on_Interactive_interacted():
 	dial_action("start_info");

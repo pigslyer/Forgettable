@@ -36,6 +36,7 @@ func set_drop(scene: PackedScene):
 		var temp = scene.instance();
 		texture = temp.texture if temp.override_icon == null else temp.override_icon;
 		name = temp.name;
+		scale = temp.override_scale;
 		if !Engine.editor_hint:
 			my_data = ItemInventory.new(drops.resource_path,temp);
 			$Interactive.message = temp.get_item_name();
@@ -56,6 +57,11 @@ func _on_Interactive_interacted():
 	
 	if cur_count != my_data.count:
 		emit_signal("picked_up");
+		
+		# i am clever :)
+		if Save.save_data.get("pickup_tutorial",true):
+			Save.save_data["pickup_tutorial"] = false;
+			Groups.get_player().tutorial_show("Press TAB to open the inventory.",["inventory"])
 	
 	if my_data.count <= 0:
 		if is_in_group(Groups.SAVING):
@@ -72,9 +78,10 @@ func _on_Interactive_interacted():
 		
 		queue_free();
 	else:
-		Groups.say_line(str("I haven't got enough space to\npick up ",my_data.count," ",my_data.name,"(s)."));
+		Groups.say_line(str("I haven't got enough space to\npick up ",my_data.count," ",my_data.name,"(s)."),self);
 
 func _dissolve(val: float):
+	if material == null: material = preload("res://Scenes/Objects/dissolve.tres").duplicate();
 	material.set_shader_param("percent",val);
 
 func data_save(): return my_data.count;

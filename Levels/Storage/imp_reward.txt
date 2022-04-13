@@ -1,0 +1,13 @@
+/action update_name
+
+You got my explosives?
+/action has_explosives
+
+:Yep.
+Thanks.
+
+/action throw_key2
+;...
+
+It's the key to the head Reasercher's office.
+Seeing as you're a volunteer, you'll probably be interested in what she's got inside.

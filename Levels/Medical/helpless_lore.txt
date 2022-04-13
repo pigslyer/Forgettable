@@ -1,0 +1,55 @@
+/talking_to Helpless
+
+:Gimme a sec.
+{
+    :::Do you know who I was?
+    Huh? What do you mean?
+    :I don't remember.
+    Oh... ow.
+    Alright, I don't know either. One day we just found you in one of the cells.
+    Nasif said that you'd volunteered.
+    {
+        ::That can't be right.
+        :I don't think I'd ever want to be locked up.
+
+        ::Why would I have volunteered?
+        :I mean, why would I want to be put in a cell?
+    }
+    Uh... huh...
+    /action asked
+    
+    :::Whose followers are you?
+    What?
+    :Yeah, which monster do you follow?
+    :Werther? Lorelei? Maybe Imp?
+    We didn't follow any of them.
+
+    /action asked
+    
+    :::What happened to you?
+    We tried to escape using the elevator.
+    But we had to get past the blockade in the corridor.
+    We tried some explosives but I hurt myself.
+
+    /action asked
+
+    :::How do I get to the last office?
+    Nasif's? I don't know.
+    We don't have the key. Maybe one of the monsters took it?
+    /action asked
+
+    :::Were you scientists aware of the monsters?
+    What monsters?
+    :For example the big squid monster that's in the shower room.
+    We didn't see any back then.
+    Nasif always told us to dismiss your cries as acts of desperation.
+    
+    /action asked
+
+    ::I'll kill you.
+    Thank you...
+
+    ::I won't kill you.
+    Please...
+
+}

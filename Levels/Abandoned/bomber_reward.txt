@@ -1,0 +1,49 @@
+/talking_to Bomber
+
+:Alright, I've planted all the bombs.
+Thank you.
+:Now for my reward.
+Yes. The code to the vent leading from Medical to the Entrance Zone is 3321.
+You should write that down if you can't remember it! 3321!
+
+{
+    ::Now what are you going to do?
+    I'd never considered it... I guess my next step is discovering my past.
+    I don't remember anything but the last couple of days working with Werther.
+    {
+        :::Won't you die here?!
+        I will. But I still have some time before the bombs trigger.
+
+        ::Good luck.
+        Thanks.
+
+        ::You shouldn't.
+        Huh?
+        {
+            ::Your past doesn't matter.
+            :You should just enjoy your final moments.
+
+            ::Your past will always disappoint you.
+            :You should look to the future. We could escape together.
+
+            No, you don't understand, I NEED to know.
+            {
+                ::If you say so.
+                ::I understand all too well.
+            }
+            :Farewell.
+        }
+
+    }
+
+    ::So long.
+}
+
+Before you go, what are you going to do? Once you escape, I mean.
+{
+    ::Serve Earl.
+    ::Help Earl.
+    ::Work for Earl.
+}
+Hm, glad you've got your future figured out.
+Good luck and goodbye.

@@ -1,10 +1,10 @@
 :Hello? Is anyone here? 
 /talking_to ???
-HEY! 
-CAN YOU HEAR ME?! PLEASE LET ME OUT!
-Please... Just help me... 
+HEY! CAN YOU HEAR ME?! PLEASE LET ME OUT!
+Please...
+Just help me... 
 :Uh, sir? Are you okay? 
-Do I fucking look okay?! Let me out! 
+Do I fucking sound okay?! Let me out! 
 {
 	::Hold up now. How do I know I can trust you?  
 	Are you fucking kidding me? 
@@ -12,10 +12,10 @@ Do I fucking look okay?! Let me out!
 	Wait, no, please don't leave! I can offer you something you'll surely be interested in! 
 	:And what might that be? 
 	Open the cell and I'll tell you. 
-	:*sigh* Fine. Just don't go trying anything funny, okay? I promise, it won't end well for you. 
+	:...
+	:Fine. Just don't go trying anything funny, okay? I promise, it won't end well for you. 
 
 	::I'll get on that. 
-	Thank you. I thought I'd die in this godforsaken shithole.
-	I'll reward you for your efforts, I promise. 
+	Thank you. I thought I'd die in this godforsaken shithole. I'll reward you for your efforts, I promise. 
 }
 You'll probably find the key further ahead. Hell, that fat fuck might know where it is.

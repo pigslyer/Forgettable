@@ -29,7 +29,11 @@ const PITCH = {
 
 func _init(path: String):
 	var file := File.new();
-	file.open(path,File.READ);
+	var err = file.open(path,File.READ);
+	if err != OK: 
+		push_error(str(err,"	reading file: ",path));
+		print_stack();
+	
 	lines = compile(file.get_as_text());
 	file.close();
 
@@ -87,6 +91,7 @@ func _read_line(line: String, first_word: String, second_word: String, next: int
 				push_error(str("Couldn't set pitch at line ",caret,"."));
 		
 		"/update":
+			Groups.say_line("Objective updated");
 			Save.cur_objective = line.split(" ",false,1)[1];
 		
 		_:
@@ -110,6 +115,7 @@ static func compile(text: String) -> PoolStringArray:
 	var num_of: int
 	var gotos: String
 	var return_from: Array = [];
+	var last_return: bool;
 	
 	while idx < split.size():
 		split[idx] = split[idx].strip_edges();
@@ -127,6 +133,7 @@ static func compile(text: String) -> PoolStringArray:
 			num_of = 0
 			idx += 1
 			return_from.clear();
+			last_return = false;
 			while (idx < split.size() && !(split[idx] == "}" && num_of == 0)):
 				if (split[idx].begins_with("::") && num_of == 0):
 					poses.append(idx)
@@ -144,12 +151,13 @@ static func compile(text: String) -> PoolStringArray:
 				poses.append(idx);
 				return_from.append(false);
 				idx += 1;
+				last_return = true;
 			
-			split[begin] = "/choice "
-			gotos = "/choices "
+			split[begin] = "/choice ";
+			gotos = "/choices ";
 			var jdx: int = 0;
 			for pos in poses:
-				gotos += str(pos+2+(1 if return_from[jdx-1] else 0),"||")
+				gotos += str(pos+(1 if last_return else 2),"||")
 				# you may hate me, future me, but it works
 				
 				if split[pos] != "::/":
@@ -161,17 +169,28 @@ static func compile(text: String) -> PoolStringArray:
 				if return_from[jdx-1]:
 					split[pos] = str("/goto ",begin);
 				else:
-					split[pos] = "/goto "+str(idx+1)
+					split[pos] = "/goto "+str(idx+(0 if last_return else 1))
 				
 				jdx += 1;
 			
 			# this gives an out of bounds error, but everything *looks* fine so um, cool?
 			if idx < split.size():
 				split.remove(idx)
+			
 			split.insert(begin+1,gotos)
+			if last_return:
+				split.remove(begin+2);
+				
+			
 			idx = begin+2
 		idx += 1
 	
 	prints(OS.get_ticks_msec(),": compiling took:",OS.get_ticks_usec()-start, " usecs.");
+	
+	idx = 0;
+	
+	for line in split:
+		printt("%02d"%idx,line);
+		idx += 1;
 	
 	return split

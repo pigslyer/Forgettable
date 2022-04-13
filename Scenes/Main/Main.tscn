@@ -14,8 +14,7 @@
 script = ExtResource( 6 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-visible = false
-position = Vector2( 438, -217 )
+position = Vector2( 163, -214 )
 rotation = 0.454498
 
 [node name="Abandoned" parent="." instance=ExtResource( 2 )]
@@ -42,4 +41,5 @@ margin_top = -24.5
 margin_right = 300.0
 margin_bottom = 24.5
 custom_fonts/font = ExtResource( 8 )
+align = 1
 script = ExtResource( 9 )

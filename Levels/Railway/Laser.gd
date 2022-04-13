@@ -10,7 +10,7 @@ func data_save():
 
 func data_load(data):
 	set_physics_process(data);
-	if data:
+	if !data:
 		$Alarm.play();
 
 func tech_goggles(state: bool):

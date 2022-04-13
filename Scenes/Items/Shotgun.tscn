@@ -17,7 +17,7 @@
 [sub_resource type="CircleShape2D" id=1]
 radius = 300.0
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=67]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/path = NodePath("Pump:position")
@@ -140,7 +140,7 @@ tracks/9/keys = {
 "values": [ 0.0 ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=68]
 resource_name = "ReloadGetShells"
 length = 0.8
 tracks/0/type = "value"
@@ -242,7 +242,7 @@ tracks/7/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=69]
 resource_name = "ReloadLoadShell"
 length = 0.5
 tracks/0/type = "value"
@@ -358,7 +358,7 @@ tracks/8/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=70]
 resource_name = "ReloadPump"
 length = 0.7
 tracks/0/type = "value"
@@ -474,7 +474,7 @@ tracks/8/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=71]
 resource_name = "Shoot"
 length = 0.6
 tracks/0/type = "method"
@@ -585,6 +585,7 @@ item_tooltip = "A 12-gauge shotgun with a flashlight attached to the pump. It pa
 item_size = Vector2( 3, 2 )
 animation_type = 2
 override_icon = ExtResource( 13 )
+override_scale = Vector2( 0.7, 0.5 )
 ammo_type = "res://Scenes/Items/ShotgunShell.tscn"
 ammo_max = 8
 
@@ -649,11 +650,11 @@ smoothing = 30
 area_scale = 0.6
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." index="12"]
-anims/RESET = SubResource( 3 )
-anims/ReloadGetShells = SubResource( 4 )
-anims/ReloadLoadShell = SubResource( 5 )
-anims/ReloadPump = SubResource( 6 )
-anims/Shoot = SubResource( 2 )
+anims/RESET = SubResource( 67 )
+anims/ReloadGetShells = SubResource( 68 )
+anims/ReloadLoadShell = SubResource( 69 )
+anims/ReloadPump = SubResource( 70 )
+anims/Shoot = SubResource( 71 )
 
 [node name="CasingEject" type="Position2D" parent="." index="13"]
 visible = false

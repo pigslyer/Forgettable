@@ -11,10 +11,10 @@ func _ready():
 	
 	if Save.save_data.get("did_nasif",false):
 		ending = "res://Levels/Endings/ending_nasif.txt";
-		Save.ending = Save.ENDS.NASIF;
 		
 	elif (Save.save_data[Save.EXPLOSIVES_KEY] as Dictionary).size() == 4:
 		ending = "res://Levels/Endings/ending_bombs.txt";
+		Save.ending = Save.ENDS.NASIF;
 	
 	$DialoguePlayer.start(ending,false,self);
 	

@@ -1,3 +1,5 @@
+/speed other low
+/pitch other low
 /talking_to ???
 
 Oh, my - a visitor! And one with a fresh face at that! How kind of you to come to visit lonely old me. 
@@ -12,7 +14,7 @@ Correct. My, my, he even knows my name! You truly are a charming one. Caring for
 
 	::I don't know.
 	:In all honesty, I don't remember.
-	You don't remember? Oh but that is a tragic fate! A tabula rasa, that's what you are!
+	You don't remember? Oh, but that is a tragic fate! A tabula rasa, that's what you are!
 	But, as they say, ignorance is bliss!
 
 }
@@ -68,12 +70,14 @@ Oh, if only I didn't find myself in such turmoil!
 	}
 }
 Never mind. You hadn't said why you were here in the first place. Or is that something you're not ready to reveal? 
-:Ah, right. I'm looking for an old pipe? Earl lost it. Said you might know where it is. 
+:Ah, right. I'm looking for an old pipe. Earl lost it. Said you might know where it is. 
 /action reveal 
 ;...
 Do you mean this pipe? 
-:Maybe, yeah. Can I... have it? 
-Sure. Here you go. 
+:Oh boy...
+:Maybe, yeah. Can I... have it?
+Sure. Take it.
 :Huh. Didn't think it would be this easy. 
 
+/update Return Earl his pipe. 
 /action lore

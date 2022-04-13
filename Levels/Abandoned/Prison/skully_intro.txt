@@ -1,17 +1,13 @@
-:Huh? Where am I? 
-:Ah, back at the cell. 
-:For how long have I been trapped in here? 
-:Days? Months? Years, even? God knows. 
-:Ugh. I can barely lift my arms and legs. 
-:Where are the damn guards? 
-:I wish someone would bring me some food. 
-:I can't even remember when the last time that I got a proper meal was.  
+/action hide_tutorial
+:Huh? Where am I? Ah, back at the cell. 
+:Why am I here? My memory is hazy... For how long have I been trapped in here? Days? Months? Years, even? God knows. 
+:Ugh. I can barely lift my arms and legs. Where are the damn guards? 
 {
 	::I'm alone, so alone. 
 	:And cold, too. 
 	:Like... a fly on a window, desperately banging its head against the glass, but to no avail. 
 	::Fuck. I hate this place. 
-	:I hate it so fucking much. Damn, I wish I could- I wish I could blow it all up. 
+	:I hate it so fucking much. Damn, this place being torched, everyone inside screaming in horrific agony... That sounds so nice.
 	:Heh, all I gotta do now is break out. 
 }
 :If only I could- 
@@ -20,27 +16,28 @@
 /talking_to Skull
 Howdy, son!
 :Ah, it's you again. 
-Damn right it's me again! Who else d'you expect? 
-:... 
-Anyway, I think 'twas about time I introduced myself. 
+Damn right it's me again! Who else d'you expect? Anyway, I think 'twas about time I introduced myself. 
 /talking_to Earl
 The name's Earl, and oh boy, do I got a little job for ya. 
-Ya see, there's this... How should I call it... *friend* of mine, and well... 
-I got me a nice pipe a while ago, and she seems to like it a lot, 'cause she took it for herself. I know, I shoulda been more careful. But you'll get it back for me, won't ya son?
-:Why don't you just get it yourself? 
-It ain't right for a gentleman to bother a lady like that. 
-Besides, where's the fun in that? Might as well send ya instead and enjoy the show. 
-:Well, what's in it for me? 
-:You can't possibly expect me to do this for free. 
+Ya see, there's this... How should I call it... friend of mine, and well... 
+I got me a nice pipe a while ago, and she seems to like it a lot, 'cause she took it for herself. 
+You'll get it back for me, won't ya son?
+{
+	::No?
+	And why not?
+
+	::Why don't you just get it yourself? 
+	It ain't right for a gentleman to bother a lady like that. 
+	Besides, where's the fun in that? Might as well send ya instead and enjoy the show.
+
+} 
+:Well, what's in it for me? You can't possibly expect me to do that for free. 
 :Not to mention the fact that I'm still locked in this fucking cell. How am I supposed to get your pipe anyway? 
-Don't ya worry about a thing, son. 
-I'll get it open right away.
+Don't ya worry about a thing, son, I'll get it open right away.
 /action open_cell
 ;...
-Now, lemme explain it all for ya. No, don't try to interrupt me. 
-The halls are lined up with psychos just waiting to kill you.
-You'll need a weapon if you wanna deal with them, and a proper one at that. A gun would be best, I think. 
-They might be crazy but even they'll think twice if you point a gun at 'em. 
+Now, lemme explain it all for ya.
+You'll need a weapon if you wanna deal with the psychos outside, and a proper one at that. They might be crazy but even they'll think twice if you point a gun at 'em. 
 {
 	::They wouldn't dare face me either way.  
 	Sure thing, kiddo. 
@@ -67,12 +64,28 @@ He eats people, kiddo.
 }
 Oh, and did I mention how I'll help you escape the facility if you do this for me? 
 {
-	::Why would you help me with that? One pipe surely can't be worth all this trouble. 
-	Heh, I guess I just always wanted a minion in the outside world. 
-	Ya know, someone who would do my bidding. 
+	::Why would you help me with that? 
+	:One pipe surely can't be worth all this trouble. 
+	Heh, I guess I just always wanted a minion in the outside world... ya know, someone who would do my bidding. 
+
 	::Maybe this day isn't so bad after all. 
-	Heh, I reckon it's about to get even better. 
+	Heh, I reckon it's about to get even better.
 }
 Now get going, this pipe ain't gonna magically appear back in my mouth, son.
-/update Meet Fatty in Storage.
+{
+	::I think I have amnesia.
+	Eh, so what? What's it matter who you once were, when you're yourself now.
+	It shouldn't have any impact on you.
+	{
+		::Still curious...
+		Look, kid, drop it. I don't know either and don't particularly care.
+		:Fine.
+
+		::Alright.
+	}
+
+	::Yeah...
+}
+Cya, don't wanna be ya!
 /action save_reminder
+/update Meet Fatty in Storage.

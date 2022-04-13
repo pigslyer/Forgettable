@@ -34,10 +34,10 @@ func _hide_preview():
 	update();
 
 func add_item(item: ItemInventory):
-	var diff: int;
 	
 	# adding to existing
 	if item.stack > 1:
+		var diff: int;
 		
 		for added in items:
 			if added.path == item.path && added.count < item.stack:
@@ -196,11 +196,9 @@ func _draw():
 	draw_circle(Vector2(0,rect_size.y),LINE_WIDTH*EDGE_CIRCLE_PERCENT,DRAW_COLOR);
 	draw_circle(Vector2(rect_size.x,rect_size.y),LINE_WIDTH*EDGE_CIRCLE_PERCENT,DRAW_COLOR);
 	
-	
 	var tex_size: Vector2;
 	var offset: Vector2;
-	# i am so done with creative names
-	var values: Vector2;
+	var longest: Vector2;
 	
 	for item in items:
 		for x in range(item.pos.x,item.pos.x+item.size.x):
@@ -208,11 +206,19 @@ func _draw():
 				draw_rect(Rect2(Vector2(x,y)*step+Vector2(1,1),step-Vector2(2,2)),TAKEN_COLOR);
 		
 		tex_size = item.texture.get_size();
-		values = tex_size/((Vector2(step.y,step.x) if item.rotated else step)*item.get_size(false))
-		tex_size /= max(values.x,values.y);
+		longest = tex_size/(item.get_size(false)*step);
+		tex_size /= max(longest.x,longest.y);
+		tex_size *= Vector2(0.95,0.95);
 		offset = (step*item.get_size(false)-tex_size)/2;
 		
-		draw_texture_rect(item.texture,Rect2(item.pos*step+offset,tex_size),false,Color8(255,255,255),item.rotated);
+		draw_texture_rect(
+				item.texture,
+				Rect2(item.pos*step+offset,(item.size*step-offset*2).rotated(-PI/2 if item.rotated else 0).abs()),
+				false,
+				Color8(255,255,255),
+				item.rotated
+		);
+		
 		if item.stack > 1:
 			draw_string(get_theme_default_font(),(item.pos+item.size)*step+ITEM_NUM_OFF,str(item.count));
 	

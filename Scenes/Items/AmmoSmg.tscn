@@ -7,6 +7,6 @@
 texture = ExtResource( 2 )
 item_name = "Smg ammo"
 item_tooltip = "A hefty clip of SMG ammo."
-stack_size = 30
-item_size = Vector2( 2, 2 )
+stack_size = 15
+item_size = Vector2( 1, 2 )
 animation_type = 1

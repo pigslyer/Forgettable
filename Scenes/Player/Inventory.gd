@@ -101,6 +101,7 @@ func _on_Drop_pressed():
 	items.remove(items.find(selected));
 	if selected in hotbar.items:
 		hotbar.items[hotbar.items.find(selected)] = null;
+		hotbar.update_hotbars();
 	if Groups.get_player().equipped == selected: Groups.get_player().equip(null);
 	waffle.update_data();
 	Projectile.drop_item(selected,Groups.get_player().global_position);

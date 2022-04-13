@@ -7,18 +7,21 @@ export (bool) var disabled = false setget set_disabled;
 func data_save(): return [disabled,false];
 
 func data_load(data):
+	
 	set_disabled(data[0]);
 	
 	if data[1]:
 		queue_free();
 
 func set_disabled(state: bool):
+	disabled = state;
+	
 	set_deferred("monitoring",!state);
 	
 	if state:
 		$Beep.stop();
 	else:
-		$Beep.start();
+		$Beep.play();
 
 func _on_Mine_body_entered(_body):
 	$BlowUp.pre_proc();

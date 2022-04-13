@@ -1,5 +1,41 @@
-/talking_to Eugene
+/action update_name
+
+:Before I go...
 {
-	:::Hi, fuck you.
-	::That's all.
+	:::What's my reward gonna be?
+	Knowledge of your past.
+	Or the key to it, at least.
+
+	:::Your rebels?
+	Heh, yeah... some of my followers have started deserting for reasons I'd rather not go into.
+	Don't worry, they're dead to me.
+	{
+		::If you say so...
+
+		::So you haven't got anyone?
+		:Excluding this shmuck, obviously.
+
+		/talking_to Follower
+		Hey!
+
+		/action update_name
+		Oh no, I've still got some smart agents scouting around inside the Anomalous Materials area, people like you.
+		Most of the rebels are just grunts that I could mostly scare into submission. 
+		They aren't clever enough to think with their own heads.
+
+	} 
+
+	:::Who is this guy?
+	He's a follower I sent to scout out Werther. He's informed me that he does, in fact, have an ally.
+	Who was it again?
+
+	/talking_to Follower
+	A government spook. Apparently he was sent in on a rescue mission before Werther got to him.
+	
+	/action update_name
+	He's also started searching for explosives.
+	:Is that why you want me to get them? To keep them out of his hands?
+	Nah, I actually do need them for my own needs. But yes, I would rather he didn't blow up my realm.
+
+	::That's all, thanks.
 }

@@ -8,7 +8,7 @@ const MAX_AMMO = 7;
 var ammo = MAX_AMMO;
 
 func shoot():
-	if ammo > 0 && !is_reloading():
+	if ammo > 0 && $AnimationPlayer.current_animation != "Reload":
 		ammo -= 1;
 		if $AnimationPlayer.current_animation == "Shoot":
 			$AnimationPlayer.seek(0,true);
@@ -31,8 +31,8 @@ func throw_mag():
 	throw.throw($Hand/Magazine.texture,Vector2(-25,-80).rotated(global_rotation),preload("res://Assets/Sounds/gun_mag_drop.wav"));
 	
 
-func is_reloading() -> bool:
-	return $AnimationPlayer.current_animation == "Reload";
+func is_doin_stuff() -> bool:
+	return $AnimationPlayer.current_animation != "Bob";
 
 func expunge_shell():
 	var throw := preload("res://Scenes/Misc/Throwable.tscn").instance();

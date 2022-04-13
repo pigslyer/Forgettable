@@ -1,0 +1,13 @@
+/talking_to Amnesiac
+
+Knowledge of my past informs my future. I was sent here to sabotage and destroy... but I leave, having done neither.
+My goals unachieved, I look to the future. Is there any recourse but to fix my mistakes? 
+Are they even mine, or do they belong to another, one with a name?
+
+/talking_to Earl
+
+Kid, what in the unholy fuck are you on about? 
+Look, I've got a job for you, now either you mope down there or you get up and do something with yourself.
+
+/talking_to Follower
+As you command.

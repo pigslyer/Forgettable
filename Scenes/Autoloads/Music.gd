@@ -14,8 +14,10 @@ const MUSIC := {
 var _player := AudioStreamPlayer.new();
 
 var tween := Tween.new();
+var in_game := false;
 
 func music_in_game(state: bool):
+	in_game = state;
 	tween.interpolate_property(_player,"volume_db",null,INGAME_MUSIC if state else -5,2.4,Tween.TRANS_EXPO);
 	tween.start();
 
@@ -41,7 +43,7 @@ func play_music(stream: AudioStream, fade: bool = true):
 	
 	if stream != null && fade:
 		_player.play();
-		tween.interpolate_property(_player,"volume_db",SILENT_VOLUME,0,FADE_IN);
+		tween.interpolate_property(_player,"volume_db",SILENT_VOLUME,INGAME_MUSIC if in_game else -5,FADE_IN);
 		tween.start();
 	elif stream != null:
 		_player.play();

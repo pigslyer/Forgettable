@@ -186,15 +186,19 @@ func _unhandled_key_input(ev: InputEventKey):
 		$HUD/Theme/Pause.popup();
 	
 	if can_inventory && $HotbarDelay.is_stopped() && ev.pressed && !ev.echo && ev.physical_scancode >= KEY_1 && ev.physical_scancode < KEY_1+hotbar.SLOTS:
-		equip(hotbar.items[ev.physical_scancode-KEY_1]);
+		var item: ItemInventory = hotbar.items[ev.physical_scancode-KEY_1];
+		if item == null || item.equippable:
+			equip(item);
+		else:
+			equip_special(item.path);
 	
 	if OS.is_debug_build():
 		if ev.is_action_pressed("debug_fullbright"):
 			$CanvasModulate.visible = !$CanvasModulate.visible;
 
 
-func say_line(text: String):
-	$HUD/Theme/SayLine.say_line(text);
+func say_line(text: String, obj: Object = null):
+	$HUD/Theme/SayLine.say_line(text, obj);
 
 
 const DEATH_SCREAMS = ["res://Assets/LiamNoises/death2.wav"];
@@ -213,7 +217,9 @@ func set_health(new_val: int, loud: bool = true):
 		
 		$HUD/Theme/SaveReminder.displaying(false);
 		$HUD/Theme/SaveReminder/Timer.stop();
+		$Animated/PlayerWalk.playback_speed = 1;
 		$Animated/PlayerWalk.play("die");
+	
 	elif health-new_val > PAIN_DIFF && loud:
 		Music.play_sfx(load(PAIN_OOF[randi()%PAIN_OOF.size()]));
 		set_control(false);
@@ -289,6 +295,11 @@ func save_reminder(on: bool):
 
 func save_data():
 	
+	var hot: Array = [];
+	
+	for item in hotbar.items:
+		hot.append(null if item == null else item.pos);
+	
 	return [
 		health, 
 		global_position,
@@ -301,6 +312,7 @@ func save_data():
 		$HUD/Theme/Tutorial.text,
 		$HUD/Theme/Tutorial.vis,
 		tut_hides,
+		hot,
 	];
 
 func load_data(data):
@@ -322,27 +334,42 @@ func load_data(data):
 		equip(get_waffle().items[data[2]])
 	
 	if data[6]:
-		equip_special("res://Scenes/Items/TechGoggles.tscn");
+		equip_special("res://Scenes/Items/TechGoggles.tscn",false,false);
 	
 	$DialoguePlayer.one_timed = data[7];
 	$HUD/Theme/Tutorial.text = data[8];
 	$HUD/Theme/Tutorial.vis = data[9];
 	tut_hides = data[10];
 	
+	var idx := 0;
+	for item in data[11]:
+		if item != null:
+			hotbar.items[idx] = get_waffle().grid[item.x][item.y];
+		
+		idx += 1;
+	
+	hotbar.update_hotbars();
+	
 	# better too many than too few imo
 	get_tree().call_group(Groups.TECH_GOGGLES,"tech_goggles",has_goggles);
 
-func equip_special(path: String, dropping: bool = false):
+func equip_special(path: String, dropping: bool = false, loud: bool = true):
 	match path:
 		"res://Scenes/Items/TechGoggles.tscn":
-			has_goggles = !has_goggles && !dropping;
-			$Animated/Body/Head/TechGoggles.visible = has_goggles;
-			get_tree().call_group(Groups.TECH_GOGGLES,"tech_goggles",has_goggles);
-			say_line("I put on the goggles." if has_goggles else "I take off the goggles.");
+			if !(dropping && !has_goggles):
+				has_goggles = !has_goggles && !dropping;
+				$Animated/Body/Head/TechGoggles.visible = has_goggles;
+				get_tree().call_group(Groups.TECH_GOGGLES,"tech_goggles",has_goggles);
+				if loud:
+					say_line("I put on the goggles." if has_goggles else "I take off the goggles.",self);
 		"res://Scenes/Items/Pipe.tscn":
-			has_pipe = !has_pipe && !dropping;
-			$Animated/Body/Head/Pipe.visible = has_pipe;
-			say_line("I put the pipe in my mouth." if has_pipe else "I take the pipe out of my mouth.\nYuck!");
+			if !(dropping && !has_pipe):
+				has_pipe = !has_pipe && !dropping;
+				$Animated/Body/Head/Pipe.visible = has_pipe;
+				if loud:
+					say_line("I put the pipe in my mouth." if has_pipe else "I take the pipe out of my mouth.\nYuck!",self);
+	
+	check_hotbar();
 
 func special_equipped(path: String) -> bool:
 	match path:
@@ -369,3 +396,24 @@ func _input(ev: InputEvent):
 	for tut in tut_hides:
 		if ev.is_action_pressed(tut):
 			$HUD/Theme/Tutorial.hide();
+
+func check_hotbar():
+	
+	var item: ItemInventory;
+	for idx in hotbar.items.size():
+		item = hotbar.items[idx];
+		if item != null && !item in get_waffle().items:
+			var nfound := true;
+			
+			for item2 in get_waffle().items:
+				if item.path == item2.path:
+					hotbar.items[idx] = item.path;
+					nfound = false;
+					break;
+			
+			if nfound:
+				hotbar.items[idx] = null;
+	
+	hotbar.update_hotbars();
+	
+	pass;

@@ -1,14 +1,5 @@
 extends Enemy
 
-const DAMAGE_MIN = 4;
-const DAMAGE_MAX = 8;
-const AMMO = 8;
-
-var ammo = AMMO;
-
-const PROJECTILES = 8;
-const ANGLE = deg2rad(3);
-
 const TURN_MULT = 0.7;
 
 const MELEE_DAMAGE_MIN = 10;
@@ -28,7 +19,7 @@ func attacked():
 		Groups.get_player().health -= rand_range(MELEE_DAMAGE_MIN,MELEE_DAMAGE_MAX);
 
 func _physics_process(_delta):
-	if !dead && alerted && can_move && $Flinching.is_stopped() && !Groups.get_player().dead:
+	if !dead && alerted && can_move && $Flinching.is_stopped() && !Groups.get_player().dead && $Animation/Body/Hand/Shotgun.can_do_stuff:
 		
 		$PlayerWall.global_rotation = 0;
 		$PlayerWall.cast_to = Groups.get_player_pos()-global_position;
@@ -52,7 +43,7 @@ func _physics_process(_delta):
 					$Animation/AnimationPlayer.play("shotgun_idle");
 					
 					yield(get_tree().create_timer(0.6),"timeout");
-					_shoot();
+					$Animation/Body/Hand/Shotgun.use();
 					
 					yield(get_tree().create_timer(POST_FIRE_DELAY),"timeout");
 					can_move = true;
@@ -68,18 +59,3 @@ func _physics_process(_delta):
 				can_move = true;
 			else:
 				path = Groups.get_simple_path_player(global_position);
-
-func _shoot():
-	
-	$Gunshot.play();
-	
-	var angle = $Animation/Body/Hand/Shotgun/Firefrom.global_rotation-(ANGLE*PROJECTILES/2);
-	var proj;
-	
-	for i in PROJECTILES:
-		proj = preload("res://Scenes/Misc/ShotgunPellet.tscn").instance();
-		Projectile.add_child(proj);
-		proj.global_position = $Animation/Body/Hand/Shotgun/Firefrom.global_position;
-		proj.shoot(angle,0b10,DAMAGE_MIN,DAMAGE_MAX);
-		angle += ANGLE;
-	

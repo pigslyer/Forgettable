@@ -6,7 +6,7 @@
 [ext_resource path="res://Assets/Base/door_name.png" type="Texture" id=4]
 [ext_resource path="res://Assets/Base/door_hand_scanner.png" type="Texture" id=5]
 [ext_resource path="res://Scenes/Objects/Interactive.gd" type="Script" id=6]
-[ext_resource path="res://Assets/Base/door_keypad.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Base/door_keycard_reader.png" type="Texture" id=7]
 [ext_resource path="res://Assets/Base/door_correct.wav" type="AudioStream" id=8]
 [ext_resource path="res://Scenes/Objects/Flicker2.gd" type="Script" id=9]
 [ext_resource path="res://Assets/Base/light_smol.png" type="Texture" id=10]
@@ -88,7 +88,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2 ),
+"times": PoolRealArray( 0.7, 0.8 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
@@ -100,7 +100,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0.5, 0.6 ),
+"times": PoolRealArray( 0.7, 0.8 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
@@ -117,26 +117,24 @@ tracks/3/keys = {
 "update": 1,
 "values": [ true, false ]
 }
-tracks/4/type = "method"
-tracks/4/path = NodePath(".")
+tracks/4/type = "value"
+tracks/4/path = NodePath("DeathZone:monitoring")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "check_death_area"
-} ]
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
 }
 
 [sub_resource type="RectangleShape2D" id=9]
 extents = Vector2( 120, 80 )
 
 [sub_resource type="RectangleShape2D" id=10]
-extents = Vector2( 50, 20 )
+extents = Vector2( 43, 20 )
 
 [node name="Door" type="Node2D" groups=["Overrides_footstep", "SAVES"]]
 script = ExtResource( 3 )
@@ -195,7 +193,6 @@ occluder = SubResource( 5 )
 occluder = SubResource( 8 )
 
 [node name="SideTop" type="LightOccluder2D" parent="WhenClosed"]
-visible = false
 occluder = SubResource( 5 )
 
 [node name="OuterOpen" type="Sprite" parent="WhenClosed"]
@@ -203,15 +200,13 @@ position = Vector2( 39, 48 )
 rotation = -1.57079
 texture = ExtResource( 5 )
 
-[node name="Interactive" type="Control" parent="WhenClosed/OuterOpen"]
+[node name="Interactive" type="ReferenceRect" parent="WhenClosed/OuterOpen"]
 margin_left = -7.0
 margin_top = -7.0
 margin_right = 7.0
 margin_bottom = 7.0
+border_width = 2.0
 script = ExtResource( 6 )
-__meta__ = {
-"_edit_use_anchors_": true
-}
 message = "Open"
 
 [node name="Flicker" type="Light2D" parent="WhenClosed/OuterOpen"]
@@ -222,24 +217,29 @@ shadow_enabled = true
 script = ExtResource( 9 )
 
 [node name="OuterKeycard" type="Sprite" parent="WhenClosed"]
-position = Vector2( 39, -47 )
+position = Vector2( 39, -45 )
 rotation = -1.57079
 texture = ExtResource( 7 )
 
-[node name="Interactive" type="Control" parent="WhenClosed/OuterKeycard"]
-anchor_left = -1.78261
-anchor_top = -0.7
-anchor_right = -1.6087
-anchor_bottom = -0.7
+[node name="Interactive" type="ReferenceRect" parent="WhenClosed/OuterKeycard"]
+anchor_left = -1.55172
+anchor_top = -0.692308
+anchor_right = -1.17241
+anchor_bottom = -0.384615
 margin_left = 32.0
 margin_top = 7.0
 margin_right = 46.0
 margin_bottom = 21.0
+border_width = 2.0
 script = ExtResource( 6 )
-__meta__ = {
-"_edit_use_anchors_": true
-}
 message = "Lock"
+
+[node name="Flicker" type="Light2D" parent="WhenClosed/OuterKeycard"]
+position = Vector2( 3.99998, -4.00003 )
+enabled = false
+texture = ExtResource( 10 )
+texture_scale = 0.1
+color = Color( 0, 1, 0.25098, 1 )
 
 [node name="InnerOpen" type="Sprite" parent="WhenClosed"]
 position = Vector2( -39, 48 )
@@ -265,15 +265,16 @@ __meta__ = {
 message = "Open"
 
 [node name="InnerKeycard" type="Sprite" parent="WhenClosed"]
-position = Vector2( -39, -48 )
+position = Vector2( -39, -45 )
 rotation = 1.5708
 texture = ExtResource( 7 )
+flip_h = true
 
 [node name="Interactive" type="Control" parent="WhenClosed/InnerKeycard"]
-anchor_left = -1.78261
-anchor_top = -0.7
-anchor_right = -1.6087
-anchor_bottom = -0.7
+anchor_left = -1.55172
+anchor_top = -0.692308
+anchor_right = -1.17241
+anchor_bottom = -0.384615
 margin_left = 32.0
 margin_top = 7.0
 margin_right = 46.0
@@ -284,16 +285,25 @@ __meta__ = {
 }
 message = "Lock"
 
+[node name="Flicker2" type="Light2D" parent="WhenClosed/InnerKeycard"]
+position = Vector2( -5.00002, -3.99998 )
+rotation = -3.14159
+enabled = false
+texture = ExtResource( 10 )
+texture_scale = 0.1
+color = Color( 0, 1, 0.25098, 1 )
+
 [node name="Text" type="Sprite" parent="WhenClosed"]
 position = Vector2( 16, 0 )
 rotation = -1.57079
 texture = ExtResource( 4 )
 
-[node name="Interactive" type="Control" parent="WhenClosed/Text"]
+[node name="Interactive" type="ReferenceRect" parent="WhenClosed/Text"]
 margin_left = -15.0
 margin_top = -5.0
 margin_right = 15.0
 margin_bottom = 5.0
+border_width = 2.0
 script = ExtResource( 6 )
 message = "Read"
 
@@ -334,10 +344,10 @@ collision_mask = 6
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DeathZone"]
-visible = false
 position = Vector2( 0, 67 )
 shape = SubResource( 10 )
 
+[connection signal="toggled_lock" from="." to="." method="_on_Door_toggled_lock"]
 [connection signal="interacted" from="WhenClosed/OuterOpen/Interactive" to="." method="_on_open"]
 [connection signal="interacted" from="WhenClosed/OuterKeycard/Interactive" to="." method="_on_keycard"]
 [connection signal="interacted" from="WhenClosed/InnerOpen/Interactive" to="." method="_on_open"]

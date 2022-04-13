@@ -29,7 +29,7 @@ func _physics_process(delta):
 		# we collided with an enemy
 		if w_enemy:
 			var enemy = data.collider;
-			if enemy is Enemy:
+			if enemy is Enemy || enemy is Player:
 				enemy.health -= rand_range(damage_max,damage_max);
 		
 		set_physics_process(false);

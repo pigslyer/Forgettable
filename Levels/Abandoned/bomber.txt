@@ -1,0 +1,36 @@
+/talking_to Bomber
+
+You. You're Earl's helper, aren't you? I'm a fan of your work.
+:And you're Werther's.
+{
+    ::Can't say the feeling's mutual.
+    ::The feeling's mutual.
+}
+We both need to do something for our Masters. Are you willing to help?
+:You're asking if I want to blow this place up for you?
+Yeah.
+{
+    ::Count me in.
+    Alright, so... um, you should have some explosives, right?
+    {
+        ::Yeah.
+        Great!
+        ::I still need to grab them.
+        Alright, well, they should be in the Railway. I'll tell you the plan anyway and you can realize it later.
+    }
+    /action spawn
+    Right, so, you're gonna have to plant a bomb in every sector.
+    You should probably put one outside the corridor between the Prison and Testing Area here.
+    The next you should place somewhere in the Storage corridor intersection, then one at the front of the train in the Railway.
+    And finally a bomb on either of the two sides of the bombed out corridor in Medical.
+    {
+        ::Doable.
+        ::What have I gotten myself into?
+    }
+    /action to_info
+
+    ::Fuck no.
+    I have no choice then...
+    Draw!
+    /action aggro
+}

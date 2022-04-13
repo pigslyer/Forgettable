@@ -7,7 +7,6 @@ func recheck():
 		check_inter(item.get_parent());
 	
 func check_inter(inter):
-	assert(inter is Interactive);
 	
 	if !inter.is_visible_in_tree():
 		inter.cur_state = Interactive.STATE_UNAVAIL;

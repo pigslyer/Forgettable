@@ -1,9 +1,9 @@
 extends Gun
 
-const DAMAGE_MIN = 10;
-const DAMAGE_MAX = 13;
+const DAMAGE_MIN = 13;
+const DAMAGE_MAX = 18;
 
-const ANGLE = deg2rad(3);
+const ANGLE = deg2rad(2.3);
 const PROJECTILES = 8;
 
 var reloading: bool = false;

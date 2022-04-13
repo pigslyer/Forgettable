@@ -18,17 +18,15 @@ onready var starting_angle = global_rotation;
 onready var gun_ray: RayCast2D = $Animation/Body/Hand/Handgun/LaserSight/PlayerCheck;
 
 func _physics_process(delta: float):
-	
 	# if we're reloading we don't do jack diddly
-	if !Groups.get_player().dead && !$Animation/Body/Hand/Handgun.is_reloading() && $Flinching.is_stopped():
+	if !Groups.get_player().dead && !$Animation/Body/Hand/Handgun.is_doin_stuff() && $Flinching.is_stopped():
+		
 		
 		# shoot player
 		if gun_ray.get_collider() == Groups.get_player() && $NoShootTime.is_stopped():
 			$Animation/Body/Hand/Handgun.set_laser_energy(LASER_TARGETTING);
-			set_physics_process(false);
 			$Animation/Body/Hand/Handgun.shoot();
 			
-			return;
 		
 		# focus on player, conditionally unalert
 		elif alerted:

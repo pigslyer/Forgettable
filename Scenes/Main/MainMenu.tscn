@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=2]
+[gd_scene load_steps=70 format=2]
 
 [ext_resource path="res://Assets/UI/UITheme.tres" type="Theme" id=1]
 [ext_resource path="res://Assets/Base/Tileset.tres" type="TileSet" id=2]
@@ -45,6 +45,10 @@
 [ext_resource path="res://Assets/CampiArt/gun1911.png" type="Texture" id=43]
 [ext_resource path="res://Assets/Player/player_head.png" type="Texture" id=44]
 [ext_resource path="res://Scenes/Misc/Options.tscn" type="PackedScene" id=45]
+[ext_resource path="res://Assets/Sounds/body_falling.wav" type="AudioStream" id=46]
+[ext_resource path="res://Assets/Sounds/rain.wav" type="AudioStream" id=47]
+[ext_resource path="res://Scenes/Main/RainThunder.gd" type="Script" id=48]
+[ext_resource path="res://Assets/Base/testcone.png" type="Texture" id=49]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Cutscene1"
@@ -2114,7 +2118,13 @@ bus = "Vent"
 [node name="Dying" type="AudioStreamPlayer" parent="CanvasLayer/Theme"]
 stream = ExtResource( 39 )
 volume_db = 4.0
-pitch_scale = 1.23
+pitch_scale = 1.21
+bus = "SFX"
+
+[node name="Falling" type="AudioStreamPlayer" parent="CanvasLayer/Theme"]
+stream = ExtResource( 46 )
+volume_db = 6.0
+pitch_scale = 0.8
 bus = "SFX"
 
 [node name="Casing" type="AudioStreamPlayer2D" parent="CanvasLayer/Theme"]
@@ -2209,8 +2219,8 @@ margin_left = -160.0
 margin_top = -9.5
 margin_right = 160.0
 margin_bottom = 9.5
-text = "Press left mouse button to shoot
-yourself"
+text = "Press the left mouse button to
+make her shoot herself"
 align = 1
 
 [node name="Cutscene1" type="Timer" parent="CanvasLayer/Theme"]
@@ -2698,6 +2708,28 @@ rotation = -0.54069
 scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 43 )
 
+[node name="RainThunder" type="AudioStreamPlayer2D" parent="Scene"]
+position = Vector2( 63, 349 )
+stream = ExtResource( 47 )
+bus = "SFX"
+script = ExtResource( 48 )
+
+[node name="Timer" type="Timer" parent="Scene/RainThunder"]
+wait_time = 5.0
+one_shot = true
+
+[node name="Lightning" type="Light2D" parent="Scene/RainThunder"]
+position = Vector2( 75, -27 )
+enabled = false
+texture = ExtResource( 49 )
+texture_scale = 3.0
+shadow_enabled = true
+script = ExtResource( 20 )
+smoothing = 250
+
+[node name="Tween" type="Tween" parent="Scene/RainThunder"]
+
+[connection signal="fade_rain" from="CanvasLayer/Theme" to="Scene/RainThunder" method="fade_in"]
 [connection signal="pressed" from="CanvasLayer/Theme/VBoxContainer/Button4" to="CanvasLayer/Theme" method="_on_Button4_pressed"]
 [connection signal="pressed" from="CanvasLayer/Theme/VBoxContainer/Button" to="CanvasLayer/Theme" method="_on_Button_pressed"]
 [connection signal="pressed" from="CanvasLayer/Theme/VBoxContainer/Button2" to="CanvasLayer/Theme" method="_on_Button2_pressed"]
@@ -2706,3 +2738,5 @@ texture = ExtResource( 43 )
 [connection signal="pressed" from="CanvasLayer/Theme/VBoxContainer/Button3" to="CanvasLayer/Theme" method="_on_Button3_pressed"]
 [connection signal="timeout" from="CanvasLayer/Theme/Cutscene1" to="CanvasLayer/Theme" method="_on_Cutscene1_timeout"]
 [connection signal="timeout" from="CanvasLayer/Theme/Cutscene2" to="CanvasLayer/Theme" method="_on_Cutscene2_timeout"]
+[connection signal="finished" from="Scene/RainThunder" to="Scene/RainThunder" method="_on_RainThunder_finished"]
+[connection signal="timeout" from="Scene/RainThunder/Timer" to="Scene/RainThunder/Lightning" method="pre_proc"]

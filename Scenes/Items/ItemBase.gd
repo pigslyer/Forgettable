@@ -17,6 +17,7 @@ export (Vector2) var item_size = Vector2.ONE;
 export (Anim) var animation_type;
 
 export (Texture) var override_icon;
+export (Vector2) var override_scale = Vector2.ONE;
 # if false, equipping/unequipping sends a signal to player that
 # they interpret as they will
 export (bool) var equippable = true;

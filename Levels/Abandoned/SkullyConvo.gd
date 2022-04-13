@@ -30,7 +30,9 @@ func dial_action(id):
 		
 	elif id == "save_reminder":
 		Groups.get_player().save_reminder_start();
-
+	
+	elif id == "hide_tutorial":
+		Groups.get_player().tutorial_hide();
 
 # kinda doesn't belong here but it's a one time scripting thing so mnyeh
 func _on_DoorCellKitchen_toggled_open():

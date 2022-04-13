@@ -14,6 +14,7 @@ func _physics_process(_delta):
 
 func _on_Elevator_body_entered(body: Player):
 	body.set_control(false);
+	Save.detecting = 0;
 	
 	if $Door.open:
 		$Door._on_open(true);

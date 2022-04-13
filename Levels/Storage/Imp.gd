@@ -1,5 +1,7 @@
 extends Sprite
 
+const EXPLOSIVES_ITEM = "res://Scenes/Items/Explosive.tscn";
+
 func dial_action(id):
 	if id == "throw_key":
 		$AnimationPlayer.play("ThrowCard");
@@ -11,9 +13,9 @@ func dial_action(id):
 		$ActedConvo.start_dial(true);
 	
 	elif id == "has_explosives":
-		var c = Groups.get_player().get_waffle().count_item("");
-		if c > 0:
-			Groups.get_player().get_waffle().get_item("",c)
+		var c = Groups.get_player().get_waffle().count_item(EXPLOSIVES_ITEM);
+		if c == 4:
+			Groups.get_player().get_waffle().get_item(EXPLOSIVES_ITEM,c)
 		else:
 			Groups.get_player().get_dial_player().stop();
 	
@@ -28,3 +30,5 @@ func dial_action(id):
 	elif id == "update_name":
 		Groups.get_player().get_dial_player().reader.talking_to = "Fatty" if Save.save_data["fatty"] else "Vlad";
 	
+	elif id == "turn_to_player":
+		$Servant/Animation.look_at(Groups.get_player_pos());

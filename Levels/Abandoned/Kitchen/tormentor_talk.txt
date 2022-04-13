@@ -1,7 +1,7 @@
 /talking_to ???
-AGHHH! 
-GET OFF ME! NO STOP PLEASE! 
-HEEEEEEELP! CAN ANYONE HEAR ME? FOR THE LOVE OF GOD SOMEONE PLEASE HELP ME! 
+/speed other high
+AGHHH! GET OFF ME! NO, STOP PLEASE! 
+HEEEEEEELP! CAN ANYONE HEAR ME? FOR THE LOVE OF GOD SOMEONE, PLEASE HELP ME! 
 /talking_to Tormentor 
 You! Yes, you! Help, please! I'll give you anything, I swear! Just... Oh fuck, don't let it take me! 
 {

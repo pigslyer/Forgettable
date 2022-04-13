@@ -33,6 +33,16 @@ class TentacleFlicker extends Reference:
 		line = l;
 		points = l.points;
 		points_target.resize(points.size());
+		
+		for point in SMOOTHING:
+			queue.push_back(rand_range(-MAX_OFF,MAX_OFF));
+			last += queue[-1];
+		
+		for i in 20:
+			update();
+		
+		for i in points.size():
+			points[i] = points_target[i];
 	
 	func update():
 		

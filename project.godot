@@ -340,6 +340,7 @@ rotate={
 2d_physics/layer_9="Mine"
 2d_physics/layer_10="Explosives"
 2d_physics/layer_11="Bullet"
+2d_physics/layer_12="Noise"
 
 [physics]
 

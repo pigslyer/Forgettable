@@ -8,6 +8,7 @@ var screaming := true;
 func data_save(): return screaming;
 func data_load(data): 
 	screaming = data;
+	$EmergencyLight.set_enabled(screaming);
 
 func _ready():
 	yield(get_tree(),"idle_frame");

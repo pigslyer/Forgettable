@@ -6,13 +6,14 @@
 	I'm very lonely here, as you might have noticed. I was hoping he'd send someone to retrieve it so I could speak with them. Or maybe Earl himself'd come.
 	But of course that was wishful thinking. Those days are long behind us... 
 	:::So... How many people have you killed? 
-
+	
 	Hmm, let me see. I'd say a couple dozen. Why? 
 	:...
 	:Just wondering. 
 
 	:::About those accidents. Is it really so hard to just... Ya know, control yourself? 
-	:Oh, sure, what a grand idea! How did I not think of this myself? What's next? Are you going to tell me to just be happy? Brilliant! I'm feeling better already. 
+	
+	Oh, sure, what a grand idea! How did I not think of this myself? What's next? Are you going to tell me to just be happy? Brilliant! I'm feeling better already. 
 	Of course it's not that simple, you dunce. 
 	Do you think I want to be holed up here, all sad and lonely? I've tried stopping myself before. It's not as easy as it sounds. 
 	:Sorry.
@@ -21,4 +22,4 @@
 
 }
 
-:Leaving me already? Ah, I understand. Who could possibly stand to be in the presence of such a loveless creature? No matter. Come back again if you ever feel lonely. I'll just be waiting here. As always... 
+Leaving me already? Ah, I understand. Who could possibly stand to be in the presence of such a loveless creature? No matter. Come back again if you ever feel lonely. I'll just be waiting here. As always... 

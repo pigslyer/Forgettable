@@ -17,6 +17,7 @@ count = 4
 stack_size = 4
 item_size = Vector2( 2, 2 )
 animation_type = 2
+override_scale = Vector2( 0.5, 0.5 )
 
 [node name="Area2D" type="Area2D" parent="." index="0"]
 collision_layer = 0
@@ -25,3 +26,6 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" index="0"]
 shape = SubResource( 1 )
+
+[connection signal="area_entered" from="Area2D" to="." method="state"]
+[connection signal="area_exited" from="Area2D" to="." method="state"]

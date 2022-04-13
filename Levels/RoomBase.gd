@@ -101,13 +101,21 @@ func plant_explosive(where: Vector2) -> bool:
 func spawn_room(room: PackedScene, from: DoorTransition):
 	var spawned = room.instance();
 	get_parent().add_child(spawned);
-	var door: DoorTransition = spawned.find_door_transition(from.leads_to_id);
+	var door: DoorTransition = null;
+	
+	for node in get_tree().get_nodes_in_group(DoorTransition.GROUP):
+		if node.owner == spawned && node.my_id == from.leads_to_id:
+			door = node;
+			break;
+	
 	door.open_instantly();
 	spawned.position += from.global_position-door.global_position;
 	
 	from.connect("closed",self,"unload_room",[door]);
 	from.connect("closed",Groups,"set",["cur_room",spawned]);
 	door.connect("closed",spawned,"unload_room",[from]);
+	
+	
 	get_tree().call_group(Interactive.GROUP,"check_delete");
 
 func unload_room(other: DoorTransition):
@@ -125,6 +133,12 @@ func unload_room(other: DoorTransition):
 
 func save_data():
 	for saveable in get_tree().get_nodes_in_group(my_save_group):
+		
+		var path = str(get_path_to(saveable));
+		
+		if path.begins_with(".."):
+			path = path.substr(0,path.find("/",path.find("/")+1));
+		
 		Save.save_data[my_save_group][str(get_path_to(saveable))] = saveable.data_save();
 	
 	for dropped in get_tree().get_nodes_in_group(Groups.DROPPED_ITEM):
@@ -134,12 +148,6 @@ func save_data():
 				dropped.data_save(),
 				to_local(dropped.position),
 			]);
-
-func find_door_transition(id: int):
-	for node in get_tree().get_nodes_in_group(my_save_group):
-		if node is DoorTransition && node.my_id == id:
-			return node;
-	return null;
 
 # updates footsteps
 func _physics_process(_delta):
@@ -152,12 +160,12 @@ func _physics_process(_delta):
 	
 	for foot in get_tree().get_nodes_in_group(Groups.FOOTSTEP):
 		if (foot.global_position.distance_squared_to(player_pos) < NEAR_TO_PLAYER*NEAR_TO_PLAYER):
-			foot_local_pos = tiles.to_local(foot.global_position)
+			foot_local_pos = tiles.to_local(foot.global_position);
 			idx = 0;
 			playing = foot.playing;
 			
 			while idx < audio_override_rects.size():
-				if audio_override_rects[idx].has_point(foot_local_pos):
+				if audio_override_rects[idx].has_point(foot.global_position):
 					sample = audio_override_streams[idx];
 					break;
 				idx += 1;

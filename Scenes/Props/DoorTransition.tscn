@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Assets/Base/door_transition.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Objects/Interactive.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Assets/Base/door_hand_scanner.png" type="Texture" id=6]
 [ext_resource path="res://Assets/Base/door_closed.png" type="Texture" id=7]
 [ext_resource path="res://Assets/Base/door_name.png" type="Texture" id=8]
+[ext_resource path="res://Assets/Base/wall_fake.png" type="Texture" id=9]
 
 [sub_resource type="OccluderPolygon2D" id=2]
 polygon = PoolVector2Array( 30, 64, 34, 64, 34, -64, 30, -64 )
@@ -231,7 +232,10 @@ tracks/3/keys = {
 "values": [ false ]
 }
 
-[node name="DoorTransition" type="Node2D" groups=["Overrides_footstep", "SAVES"]]
+[sub_resource type="OccluderPolygon2D" id=7]
+polygon = PoolVector2Array( -2, 30, -2, -32, 2, -32, 34, -32, 34, -28, 2, -28, 2, 30 )
+
+[node name="DoorTransition" type="Node2D" groups=["DoorTransition", "Overrides_footstep"]]
 script = ExtResource( 4 )
 
 [node name="TopLeft" type="Position2D" parent="."]
@@ -248,13 +252,14 @@ z_index = -1
 texture = ExtResource( 7 )
 
 [node name="WhenClosed" type="Sprite" parent="."]
+z_index = 1000
 texture = ExtResource( 1 )
 __meta__ = {
 "_editor_description_": "transition door shouldn't have a keypad"
 }
 
 [node name="Scanner" type="Sprite" parent="WhenClosed"]
-position = Vector2( -19, 39 )
+position = Vector2( -20, -22 )
 rotation = 1.57079
 texture = ExtResource( 6 )
 
@@ -282,7 +287,7 @@ energy_max = 0.6
 occluder = SubResource( 2 )
 
 [node name="NamePlate" type="Sprite" parent="WhenClosed"]
-position = Vector2( -19, -18 )
+position = Vector2( 12, 0 )
 rotation = 1.57079
 texture = ExtResource( 8 )
 
@@ -312,6 +317,29 @@ shape = SubResource( 3 )
 anims/Open = SubResource( 4 )
 anims/OpenRight = SubResource( 6 )
 anims/RESET = SubResource( 5 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0, -96 )
+z_index = 1023
+z_as_relative = false
+texture = ExtResource( 9 )
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Sprite"]
+position = Vector2( -18, 0 )
+scale = Vector2( 1, -1 )
+occluder = SubResource( 7 )
+
+[node name="Sprite2" type="Sprite" parent="."]
+position = Vector2( 0, 96 )
+rotation = 3.14159
+z_index = 1023
+z_as_relative = false
+texture = ExtResource( 9 )
+
+[node name="LightOccluder2D2" type="LightOccluder2D" parent="Sprite2"]
+position = Vector2( 18, -1.99994 )
+rotation = -3.14159
+occluder = SubResource( 7 )
 
 [connection signal="interacted" from="WhenClosed/Scanner/Interactive" to="." method="_on_Interactive_interacted"]
 [connection signal="body_exited" from="DoorCloseArea" to="." method="_on_DoorCloseArea_body_exited"]

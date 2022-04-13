@@ -44,12 +44,15 @@ var detecting: bool = false setget set_detecting;
 onready var detection: Area2D = $Animation/Body/Head/PlayerDetection;
 
 func data_save():
-	return null if dead else [global_position,global_rotation];
+	return null if dead else [position,rotation,deaf];
 
 func data_load(data):
 	if data is Array:
-		global_position = data[0];
-		global_rotation = data[1];
+		position = data[0];
+		rotation = data[1];
+		deaf = data[2];
+	elif data == null:
+		queue_free();
 
 func _ready():
 	
@@ -70,8 +73,6 @@ func _ready():
 		if group.begins_with("Group:"):
 			my_groups.append(group);
 	
-	# so they each have a unique one
-	material = material.duplicate();
 	
 
 # animations run this when an attack animation finishes
@@ -143,6 +144,8 @@ func set_health(new_val: int, loud: bool = true):
 			);
 			
 			$Gibs.emitting = true;
+			material = preload("res://Scenes/Objects/dissolve.tres").duplicate();
+			
 			for step in STEPS:
 				material.set_shader_param("percent",float(step)/STEPS*2);
 				yield(get_tree().create_timer(DISSOLVE_SPEED/STEPS),"timeout");
@@ -168,6 +171,7 @@ func set_health(new_val: int, loud: bool = true):
 
 func set_alerted(state: bool, grouped: bool = false):
 	# can't hear through areas unless they can go through
+	
 	if state && Groups.get_simple_path_player(global_position).empty():
 		pass;
 	

@@ -1,0 +1,37 @@
+/talking_to Bomber
+
+:Before I go...
+{
+    :::Will you give me the keycode I need?
+    Yeah, once you've planted all of them I'll tell you the key to the vent through which you can get past the cave-in.
+    {
+        ::Will Werther be any trouble?
+        Of course not. With your help we'll blow up this whole floor and probably cause a good deal of destruction in the others.
+        Power outages, tremors, the works.
+        He'll be satisfied, disable the minefield and let you flee.
+        :Great.
+
+        ::Alright, thanks.
+    }
+    Just come back once you're done.
+
+    :::What were the bombsites?
+    You should plant one outside the corridor between the Prison and Testing Area here.
+    The next you should place somewhere in the Storage corridor intersection, then one at the front of the train in the Railway.
+    And finally a bomb on either of the two sides of the bombed out corridor in Medical.
+
+    :::You sound... off.
+    What do you mean?
+    {
+        ::You sounded more... intimidating.
+        :When others spoke of you, I mean.
+        
+        ::Nevermind.
+    }
+
+    :::What's your name?
+    My... name? I... Hm... I don't know.
+    I can't seem to remember it.
+
+    ::Thanks, that'll be all.
+}

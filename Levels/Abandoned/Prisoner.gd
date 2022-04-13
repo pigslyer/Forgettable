@@ -6,6 +6,8 @@ const TURN_SPEED = 1.7;
 var target_angle: float;
 var dir: int;
 
+var breath = true;
+
 func _ready():
 	set_physics_process(false);
 	if Save.save_data.get("tortured",false):
@@ -40,3 +42,10 @@ func _physics_process(delta):
 	if is_equal_approx($Head.rotation,target_angle):
 		set_physics_process(false);
 
+
+
+func _on_Breathing_finished():
+	yield(get_tree().create_timer(rand_range(1.5,2.5)),"timeout");
+	if breath:
+		$Breathing.pitch_scale = rand_range(0.85,0.95);
+		$Breathing.play();

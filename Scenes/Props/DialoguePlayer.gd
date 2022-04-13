@@ -24,10 +24,12 @@ onready var line: Label = $Theme/VSplitContainer/Line;
 
 func start(path: String, one_time: bool = true, actions: Node = null):
 	$Theme.release_focus();
+	Music.play_music(preload("res://Assets/Music/thingy.mp3"))
 	
 	if !stopped:
-		stop();
+		stop(true);
 		yield(get_tree(),"idle_frame");
+	
 	
 	if !(path in one_timed && one_time):
 		$Theme.popup();
@@ -43,8 +45,14 @@ func start(path: String, one_time: bool = true, actions: Node = null):
 		next(-1,true);
 
 
-func stop():
+func stop(set_follow: bool = false):
 	stopped = true;
+	
+	# without this the camera moves to the mouse cursor in 1 frame
+	if set_follow:
+		$Theme.set_block_signals(true);
+		$Theme.call_deferred("set_block_signals",false);
+	
 	$Theme.hide();
 	var data = reader.get_signal_connection_list("perform_action");
 	interpolating = false;
@@ -87,7 +95,12 @@ func next(next: int = -1, startup: bool = false):
 			if choice.strip_edges().empty():
 				continue;
 			label = Button.new();
-			label.text = choice;
+			label.shortcut_in_tooltip = false;
+			label.shortcut = ShortCut.new()
+			label.shortcut.shortcut = InputEventKey.new();
+			label.shortcut.shortcut.scancode = 49+idx;
+			
+			label.text = str(idx+1,": ",choice);
 			label.add_to_group(CHOICE_GROUP);
 			label.grow_horizontal = Control.GROW_DIRECTION_BOTH;
 			$Theme/Choices.add_child(label);

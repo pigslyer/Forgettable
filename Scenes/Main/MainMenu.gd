@@ -1,5 +1,7 @@
 extends Control
 
+signal fade_rain
+
 func _ready():
 	$VBoxContainer/Button4.disabled = Save.get_saves().empty();
 	if $VBoxContainer/Button4.disabled:
@@ -49,10 +51,12 @@ func _input(ev):
 	if ev.is_action_pressed("lmb") && not_shot:
 		not_shot = false;
 		$Shoot.play();
+		emit_signal("fade_rain");
 		yield(get_tree().create_timer(0.1),"timeout");
 		$Casing.play();
 		yield(get_tree().create_timer(0.3),"timeout");
 		$Dying.play();
+		$Falling.play();
 		yield(get_tree().create_timer(1.8),"timeout");
 		$Fade.blocking = false;
 		Music.play_music(preload("res://Assets/Music/MenuTheme.wav"))

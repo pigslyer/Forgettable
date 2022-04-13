@@ -1,0 +1,5 @@
+/talking_to Helpless
+
+Ahhhhh... Fuck, that hurts.
+/action die
+I'm finally free.

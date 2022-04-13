@@ -61,6 +61,10 @@ func _use():
 				if !enemy.deaf:
 					enemy.alerted = true;
 			
+			for enemy in $Noise.get_overlapping_areas():
+				if !enemy.deaf:
+					enemy.alerted = true;
+			
 			# EVERYONE who knew it was shot forgets that
 			if !$ResetKnows.is_stopped():
 				$ResetKnows.stop();

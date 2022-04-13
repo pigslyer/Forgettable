@@ -1,6 +1,9 @@
 /talking_to Earl
 
-:Here's your pipe, skull.
+:Huh?
+/action turn
+:Ah.
+:Well, you can at least thank me for the pipe.
 Thanks, pal. Now, onto the next step.
 The only way out of the facility is via the elevator past the Entrance Hall in Medical.
 However, there's one more monster down here you've yet to meet. Werther.
@@ -21,7 +24,7 @@ It'll probably take him a decade or two.
 
 He's set up mines in the entrance hall and I hear he's got a servant of his own somewhere.
 :How do we bypass those?
-/update Return to Imp.
+
 I propose you go back to Fatty and ask him for help with that.
 In the mean time, I have some leads of my own to investigate.
 {
@@ -44,3 +47,4 @@ In the mean time, I have some leads of my own to investigate.
     That I don't know. Fatty probably does though. Ask him.
 }
 /action start_info
+/update Return to Imp.

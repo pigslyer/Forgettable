@@ -6,7 +6,7 @@ signal finished_line;
 const TIME_PER_CHAR = 0.01;
 
 const PITCH_OFF = 0.1;
-const STAY_ON_SCREEN = 0.7;
+const STAY_ON_SCREEN = 1.5;
 
 # points at which interpolation stops and starts
 const STOPS = [

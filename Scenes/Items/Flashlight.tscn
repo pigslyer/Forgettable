@@ -18,6 +18,7 @@ item_tooltip = "An old flashlight, charged via hand-crank. I do not know the rea
 in this facility."
 item_size = Vector2( 2, 1 )
 animation_type = 1
+override_scale = Vector2( 0.5, 0.5 )
 
 [node name="Beam" type="Light2D" parent="." index="0"]
 enabled = false

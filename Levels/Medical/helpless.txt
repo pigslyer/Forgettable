@@ -1,0 +1,7 @@
+/talking_to Helpless
+
+Huh... oh. You.
+Please. There's no hope left for me.
+End my suffering.
+
+/action lore

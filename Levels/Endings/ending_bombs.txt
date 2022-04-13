@@ -1,0 +1,29 @@
+/talking_to Amensiac
+
+Finally. Soon, this place will be nothing but a bad dream to me, and a vast emptiness to everyone else.
+Pain is the only feeling that confirms existence. I've snuffed out their lives, rid them of their potential.
+This journey is unforgettable, to me anyway.
+You probably don't care though, do you?
+{
+    ::I do. It was an interesting journey.
+    If you say so.
+
+    ::Nah.
+    Thought not.
+}
+
+So, what do I have to do now, Earl?
+
+/talking_to Earl
+Heh, now it's time for you to repay me for all my people you killed.
+To start off with, there's a bitch named Nasif I want you to knock off.
+
+/talking_to Amnesiac
+She'll be deader than Elvis.
+
+{
+    ::Have fun kiddo.
+    ::Good luck.
+
+    Thank you.
+}

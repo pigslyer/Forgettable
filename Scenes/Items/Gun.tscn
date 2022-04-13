@@ -24,8 +24,11 @@ smoothing = 20
 
 [node name="Noise" type="Area2D" parent="." index="1"]
 collision_layer = 0
-collision_mask = 4
+collision_mask = 2052
 monitorable = false
+__meta__ = {
+"_editor_description_": "also triggers heard_noise in area's parent"
+}
 
 [node name="PointingGun" type="Area2D" parent="." index="2"]
 collision_layer = 0

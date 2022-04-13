@@ -417,6 +417,20 @@ tracks/17/keys = {
 "method": "play"
 } ]
 }
+tracks/18/type = "method"
+tracks/18/path = NodePath("../../../..")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/keys = {
+"times": PoolRealArray( 2.7 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ true ],
+"method": "set_physics_process"
+} ]
+}
 
 [sub_resource type="Animation" id=10]
 resource_name = "Shoot"
@@ -492,17 +506,31 @@ tracks/4/keys = {
 "method": "expunge_shell"
 } ]
 }
+tracks/5/type = "method"
+tracks/5/path = NodePath("../../../..")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.6 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ true ],
+"method": "set_physics_process"
+} ]
+}
 
 [node name="PistolGuy" instance=ExtResource( 5 )]
 material = SubResource( 2 )
 script = ExtResource( 6 )
 accel = 200.0
-drops = [ "item:Handgun.tscn:1", "item:Ammo1911.tscn:5" ]
+drops = [ "item:Ammo1911.tscn:3" ]
 
-[node name="Head" parent="Animation/Body" index="0"]
+[node name="Head" parent="Animation/Body" index="1"]
 z_index = 5
 
-[node name="Hand" parent="Animation/Body" index="3"]
+[node name="Hand" parent="Animation/Body" index="4"]
 visible = true
 
 [node name="Handgun" type="Sprite" parent="Animation/Body/Hand" index="0"]
@@ -555,6 +583,8 @@ anims/Bob = SubResource( 11 )
 anims/RESET = SubResource( 8 )
 anims/Reload = SubResource( 9 )
 anims/Shoot = SubResource( 10 )
+next/Reload = "Bob"
+next/Shoot = "Bob"
 
 [node name="Top" type="Sprite" parent="Animation/Body/Hand/Handgun" index="3"]
 texture = ExtResource( 9 )

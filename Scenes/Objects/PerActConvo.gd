@@ -29,6 +29,10 @@ func start_dial(to_info: bool = false):
 	state = clamp(state+(1 if to_info else 0),get_state()-2,get_state());
 	if !dials[state].empty():
 		Groups.get_player().start_dial(dials[state],state%2==0,get_node(actions) if actions != null else null);
+	elif !dials[state+1].empty() && state%2 == 0:
+		state += 1;
+		Groups.get_player().start_dial(dials[state],state%2==0,get_node(actions) if actions != null else null);
+		
 
 func get_state() -> int:
 	match Save.cur_state:

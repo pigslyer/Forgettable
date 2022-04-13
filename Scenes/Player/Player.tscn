@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=2]
+[gd_scene load_steps=71 format=2]
 
 [ext_resource path="res://Assets/Player/player_body.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Player/player_head.png" type="Texture" id=2]
@@ -186,7 +186,7 @@ tracks/11/keys = {
 "values": [ false ]
 }
 tracks/12/type = "value"
-tracks/12/path = NodePath("HUD/Theme/Health:modulate")
+tracks/12/path = NodePath("HUD/Theme/Vignette:modulate")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
@@ -195,10 +195,10 @@ tracks/12/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ) ]
+"values": [ Color( 1, 1, 1, 0 ) ]
 }
 tracks/13/type = "value"
-tracks/13/path = NodePath("HUD/Theme/Vignette:modulate")
+tracks/13/path = NodePath("HUD/Theme/YouDied/Panel:modulate")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/imported = false
@@ -210,7 +210,7 @@ tracks/13/keys = {
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
 tracks/14/type = "value"
-tracks/14/path = NodePath("HUD/Theme/YouDied/Panel:modulate")
+tracks/14/path = NodePath("PassiveLight:smoothing")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/imported = false
@@ -218,11 +218,11 @@ tracks/14/enabled = true
 tracks/14/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ) ]
+"update": 1,
+"values": [ 40 ]
 }
 tracks/15/type = "value"
-tracks/15/path = NodePath("PassiveLight:smoothing")
+tracks/15/path = NodePath("HUD/Theme/Hotbar:modulate")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/imported = false
@@ -230,28 +230,16 @@ tracks/15/enabled = true
 tracks/15/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 40 ]
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.313726 ) ]
 }
 tracks/16/type = "value"
-tracks/16/path = NodePath("HUD/Theme/Hotbar:modulate")
+tracks/16/path = NodePath("Animated/Body/ArmRight/Blood:modulate")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/imported = false
 tracks/16/enabled = true
 tracks/16/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0.313726 ) ]
-}
-tracks/17/type = "value"
-tracks/17/path = NodePath("Animated/Body/ArmRight/Blood:modulate")
-tracks/17/interp = 1
-tracks/17/loop_wrap = true
-tracks/17/imported = false
-tracks/17/enabled = true
-tracks/17/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
@@ -619,6 +607,48 @@ tracks/21/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0.313726 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/22/type = "method"
+tracks/22/path = NodePath("Animated/Body/Head/TechGoggles/Light4")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/keys = {
+"times": PoolRealArray( 0.6 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ false ],
+"method": "set_enabled"
+} ]
+}
+tracks/23/type = "method"
+tracks/23/path = NodePath("Animated/Body/Head/TechGoggles/Light5")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/keys = {
+"times": PoolRealArray( 0.6 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ false ],
+"method": "set_enabled"
+} ]
+}
+tracks/24/type = "method"
+tracks/24/path = NodePath("Animated/Body/Head/TechGoggles/Light6")
+tracks/24/interp = 1
+tracks/24/loop_wrap = true
+tracks/24/imported = false
+tracks/24/enabled = true
+tracks/24/keys = {
+"times": PoolRealArray( 0.6 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ false ],
+"method": "set_enabled"
+} ]
 }
 
 [sub_resource type="Animation" id=17]
@@ -1172,6 +1202,33 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( -3, 0 ) ]
 }
 
+[sub_resource type="Animation" id=46]
+resource_name = "HealthFadeIn"
+tracks/0/type = "value"
+tracks/0/path = NodePath("../HUD/Theme/Health:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.9 ),
+"transitions": PoolRealArray( 4.14106, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.627451 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../HUD/Theme/Hotbar:modulate")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.9 ),
+"transitions": PoolRealArray( 4.14106, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.313726 ) ]
+}
+
 [sub_resource type="Animation" id=26]
 length = 0.001
 tracks/0/type = "value"
@@ -1186,6 +1243,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Vector2( 0, 0 ) ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("../HUD/Theme/Health:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
 
 [sub_resource type="CircleShape2D" id=5]
 radius = 256.0
@@ -1196,7 +1265,7 @@ extents = Vector2( 44, 20 )
 [sub_resource type="Curve" id=34]
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.0989583, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.854167, 1 ), -0.022727, -0.022727, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=35]
+[sub_resource type="CurveTexture" id=47]
 curve = SubResource( 34 )
 
 [sub_resource type="ParticlesMaterial" id=36]
@@ -1209,7 +1278,7 @@ angular_velocity = 10.0
 orbit_velocity = 1.0
 orbit_velocity_random = 0.0
 scale = 0.1
-scale_curve = SubResource( 35 )
+scale_curve = SubResource( 47 )
 color = Color( 0.733333, 0.733333, 0.733333, 0.47451 )
 
 [sub_resource type="Gradient" id=38]
@@ -1341,9 +1410,11 @@ blend_times = [ "one_handed_idle", "one_handed_walk", 0.4, "one_handed_walk", "o
 script = ExtResource( 18 )
 
 [node name="HeadBob" type="AnimationPlayer" parent="Animated"]
-autoplay = "HeadBob"
+autoplay = "HealthFadeIn"
 anims/HeadBob = SubResource( 25 )
+anims/HealthFadeIn = SubResource( 46 )
 anims/RESET = SubResource( 26 )
+next/HealthFadeIn = "HeadBob"
 
 [node name="Body" type="Sprite" parent="Animated"]
 texture = ExtResource( 1 )
@@ -1590,6 +1661,7 @@ align = 2
 script = ExtResource( 32 )
 
 [node name="Health" type="ProgressBar" parent="HUD/Theme"]
+modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.05
 anchor_top = 0.1
 anchor_right = 0.3
@@ -2096,7 +2168,7 @@ __meta__ = {
 }
 
 [node name="SayLine" type="VBoxContainer" parent="HUD/Theme"]
-pause_mode = 1
+pause_mode = 2
 anchor_left = 0.1
 anchor_top = 0.1
 anchor_right = 0.9
@@ -2146,13 +2218,14 @@ margin_left = -574.0
 margin_top = 117.0
 margin_right = -252.0
 margin_bottom = 166.0
-text = "You haven't saved in a while."
+text = "You haven't saved in a while.
+(ESC)"
 align = 1
 script = ExtResource( 21 )
 
 [node name="Timer" type="Timer" parent="HUD/Theme/SaveReminder"]
 pause_mode = 1
-wait_time = 60.0
+wait_time = 300.0
 
 [node name="Tween" type="Tween" parent="HUD/Theme/SaveReminder"]
 
@@ -2236,10 +2309,10 @@ __meta__ = {
 [connection signal="pressed" from="HUD/Theme/YouDied/Panel/VBoxContainer/Load" to="HUD/Theme/YouDied" method="_on_Load_pressed"]
 [connection signal="pressed" from="HUD/Theme/YouDied/Panel/VBoxContainer/MainMenu" to="HUD/Theme/YouDied" method="_on_MainMenu_pressed"]
 [connection signal="about_to_show" from="HUD/Theme/Inventory" to="." method="follow_mouse" binds= [ false ]]
-[connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="override_selected"]
 [connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="update_equipped"]
-[connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="update_objective"]
+[connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="override_selected"]
 [connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="reset_text"]
+[connection signal="about_to_show" from="HUD/Theme/Inventory" to="HUD/Theme/Inventory" method="update_objective"]
 [connection signal="popup_hide" from="HUD/Theme/Inventory" to="." method="follow_mouse" binds= [ true ]]
 [connection signal="gui_input" from="HUD/Theme/Inventory/VSplitContainer/HSplitContainer/VSplitContainer/ItemWaffle" to="HUD/Theme/Inventory" method="_on_ItemWaffle_gui_input"]
 [connection signal="items_changed" from="HUD/Theme/Inventory/VSplitContainer/HSplitContainer/VSplitContainer/ItemWaffle" to="HUD/Theme/Inventory" method="select"]

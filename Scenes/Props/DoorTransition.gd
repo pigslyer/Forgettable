@@ -3,6 +3,8 @@ extends Node2D
 
 signal closed;
 
+const GROUP = "DoorTransition"
+
 enum{
 	CLOSED,
 	OPENING,
@@ -23,19 +25,13 @@ export (String) var leads_to_room;
 export (bool) var opens_left = true;
 onready var open_anim := "Open" if opens_left else "OpenRight";
 
-# literally just so we can get our room
-func data_save(): return null;
-func data_load(_data): pass;
-
 func _ready():
 	add_to_group(str(leads_to,":",leads_to_id));
 	$WhenClosed/NamePlate/Interactive.message = leads_to_room;
 
 func _on_Interactive_interacted():
-	if leads_to.empty():
-		Groups.say_line("Could you not. There's nothing there.");
 	
-	elif Save.can_save():
+	if Save.can_save():
 		state = OPENING;
 		
 		$WhenClosed/Scanner/Interactive.disable(true);
@@ -44,7 +40,7 @@ func _on_Interactive_interacted():
 		
 		var new_room: PackedScene = yield(loader,"finished_loading");
 		if state == OPENING:
-			Groups.get_my_room(self).spawn_room(new_room,self);
+			owner.spawn_room(new_room,self);
 			
 			state = OPEN;
 			$AnimationPlayer.play(open_anim);
@@ -88,6 +84,7 @@ class Loader extends Node:
 			if data.poll() == ERR_FILE_EOF:
 				emit_signal("finished_loading",data.get_resource());
 				queue_free();
+
 
 func get_foot_override():
 	return [

@@ -42,7 +42,7 @@ func _ready():
 	add_to_group(GROUP);
 
 func check_delete():
-	if get_signal_connection_list("interacated").empty() && dial_path in Groups.get_player().get_dial_player().one_timed:
+	if get_signal_connection_list("interacted").empty() && !dial_path.empty() && dial_path in Groups.get_player().get_dial_player().one_timed:
 		queue_free();
 
 func replace():
@@ -66,7 +66,7 @@ func disable(state: bool):
 		call_deferred("disable",state)
 		return
 	
-	area.monitorable = !state;
+	area.set_deferred("monitorable",!state);
 	clickable(STATE_UNAVAIL);
 	disabled = state;
 
