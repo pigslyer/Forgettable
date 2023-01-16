@@ -1,3 +1,3 @@
 # Forgettable
 
-2D survival-horror project made in Godot. Not finished as of yet.
+2D survival-horror project made in Godot. Finished as of a while ago, https://pigslyer.itch.io/pastunknown.
